@@ -49,6 +49,7 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
   const isWhatsApp = tipoGolpe.includes('WhatsApp');
   const isCartao = tipoGolpe.includes('Cartão');
   const isInvestimento = tipoGolpe.includes('Investimento');
+  const isRouboCelular = tipoGolpe.includes('Roubo') || tipoGolpe.includes('Furto');
   const textoAtivo = usarMelhorado && textoMelhorado ? textoMelhorado : textoDocumento;
 
   const handleMelhorarIA = async () => {
@@ -302,6 +303,51 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
         '⚠️ O prazo para contestar compras no cartão é de até 90 dias após a fatura.',
       ],
       links: [],
+    }] : []),
+    // ── Passo específico: Roubo/Furto de Celular ──
+    ...(isRouboCelular ? [{
+      id: 'celular',
+      titulo: 'Bloquear celular, chip e IMEI',
+      desc: 'Impeça que o ladrão use seu aparelho e acesse suas contas bancárias.',
+      prazo: 'AGORA',
+      detalhes: [
+        '📱 BLOQUEAR O CELULAR REMOTAMENTE:',
+        '',
+        '1. De outro telefone ou computador, acesse:',
+        '   → Android: google.com/android/find',
+        '   → iPhone: icloud.com/find',
+        '2. Faça login com a mesma conta do celular roubado',
+        '3. Clique em "Apagar dispositivo" — isso apaga TODOS os dados remotamente',
+        '',
+        '📞 BLOQUEAR O CHIP (SIM):',
+        '',
+        '1. Ligue para sua operadora de outro telefone:',
+        '   • Vivo: 1058',
+        '   • Claro: 1052',
+        '   • TIM: *144',
+        '   • Oi: *144',
+        '2. Peça o bloqueio do chip imediatamente',
+        '3. Solicite um novo chip com o mesmo número',
+        '',
+        '📋 BLOQUEAR O IMEI:',
+        '',
+        '1. O IMEI é o "CPF" do celular — com ele bloqueado, o aparelho vira um tijolo',
+        '2. Encontre o IMEI na caixa do celular, nota fiscal ou ligando *#06# de outro aparelho da mesma linha',
+        '3. Ligue na operadora e peça o bloqueio pelo IMEI',
+        '4. Informe o IMEI no B.O. também',
+        '',
+        '🏦 PROTEGER CONTAS BANCÁRIAS:',
+        '',
+        '1. De outro aparelho, entre no app de cada banco e troque a senha',
+        '2. Se não conseguir, ligue para o SAC de cada banco e peça o bloqueio temporário',
+        '3. Verifique se houve movimentação suspeita (transferências, Pix, compras)',
+        '',
+        '⚠️ Faça isso O MAIS RÁPIDO POSSÍVEL — cada minuto conta.',
+      ],
+      links: [
+        { label: 'Encontrar Dispositivo (Android)', href: 'https://www.google.com/android/find' },
+        { label: 'Buscar iPhone (Apple)', href: 'https://www.icloud.com/find' },
+      ],
     }] : []),
     {
       id: 'bacen',

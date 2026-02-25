@@ -26,10 +26,10 @@ const schema = z.object({
   email: z.string().email('E-mail inválido'),
   telefone: z.string().min(10, 'Telefone inválido'),
   endereco: z.string().optional(),
-  banco: z.string().min(2, 'Informe o banco'),
-  agencia: z.string().min(1, 'Informe a agência'),
-  conta: z.string().min(1, 'Informe a conta'),
-  valor: z.string().min(1, 'Informe o valor'),
+  banco: z.string().optional(),
+  agencia: z.string().optional(),
+  conta: z.string().optional(),
+  valor: z.string().optional(),
   dataOcorrencia: z.string().min(1, 'Informe a data'),
   chavePixDestinatario: z.string().optional(),
   tipoGolpe: z.string().min(1, 'Selecione o tipo de golpe'),
@@ -41,7 +41,104 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const BANCOS = ['Nubank', 'Itaú', 'Bradesco', 'Santander', 'Banco do Brasil', 'Caixa', 'Inter', 'C6 Bank', 'PicPay', 'Mercado Pago', 'Outro'];
-const TIPOS_GOLPE = ['Golpe via Pix', 'Clonagem de WhatsApp', 'Boleto Falso', 'App/Site Falso de Banco', 'Golpe por Telefone', 'Fraude em Cartão', 'Investimento Fraudulento', 'Outro'];
+
+const TIPOS_GOLPE = [
+  'Golpe via Pix',
+  'Clonagem de WhatsApp',
+  'Boleto Falso',
+  'App/Site Falso de Banco',
+  'Golpe por Telefone',
+  'Fraude em Cartão',
+  'Investimento Fraudulento',
+  'Roubo/Furto de Celular',
+  'Outro',
+];
+
+interface GolpeConfig {
+  showBanco: boolean;
+  showAgenciaConta: boolean;
+  showValor: boolean;
+  bancoLabel: string;
+  valorLabel: string;
+  infratorLabel: string;
+  infratorPlaceholder: string;
+  descPlaceholder: string;
+}
+
+const GOLPE_CONFIG: Record<string, GolpeConfig> = {
+  'Golpe via Pix': {
+    showBanco: true, showAgenciaConta: true, showValor: true,
+    bancoLabel: 'Banco da sua conta *',
+    valorLabel: 'Valor transferido (R$) *',
+    infratorLabel: 'Outros dados do golpista (opcional)',
+    infratorPlaceholder: 'Nome, telefone, redes sociais do golpista...',
+    descPlaceholder: 'Descreva como aconteceu: quem te contatou, o que disseram, como você fez o Pix...',
+  },
+  'Clonagem de WhatsApp': {
+    showBanco: false, showAgenciaConta: false, showValor: true,
+    bancoLabel: '',
+    valorLabel: 'Valor do prejuízo (R$)',
+    infratorLabel: 'Número do WhatsApp e dados do golpista',
+    infratorPlaceholder: '(11) 99999-9999, perfil usado, quem foi contactado...',
+    descPlaceholder: 'Como percebeu a clonagem, o que o golpista fez, quem foi contactado, valores pedidos...',
+  },
+  'Boleto Falso': {
+    showBanco: true, showAgenciaConta: true, showValor: true,
+    bancoLabel: 'Banco onde pagou o boleto *',
+    valorLabel: 'Valor do boleto (R$) *',
+    infratorLabel: 'Dados do boleto falso e empresa cobrada',
+    infratorPlaceholder: 'Banco emitente, linha digitável, empresa que pagava...',
+    descPlaceholder: 'Como recebeu o boleto, o que achava que estava pagando, como percebeu a fraude...',
+  },
+  'App/Site Falso de Banco': {
+    showBanco: true, showAgenciaConta: true, showValor: true,
+    bancoLabel: 'Banco da sua conta *',
+    valorLabel: 'Valor perdido (R$) *',
+    infratorLabel: 'URL ou nome do site/app falso',
+    infratorPlaceholder: 'www.exemplo.com, nome do app na loja...',
+    descPlaceholder: 'Como encontrou o site/app, o que pediu, que dados você colocou, quando percebeu...',
+  },
+  'Golpe por Telefone': {
+    showBanco: false, showAgenciaConta: false, showValor: true,
+    bancoLabel: '',
+    valorLabel: 'Valor do prejuízo (R$)',
+    infratorLabel: 'Número que ligou e empresa que fingiu ser',
+    infratorPlaceholder: '0800-123-4567, empresa que fingiu ser, o que pediram...',
+    descPlaceholder: 'Quem ligou, o que disseram, que dados pediu, o que você fez...',
+  },
+  'Fraude em Cartão': {
+    showBanco: true, showAgenciaConta: false, showValor: true,
+    bancoLabel: 'Banco do cartão *',
+    valorLabel: 'Valor total das compras fraudulentas (R$) *',
+    infratorLabel: 'Dados do cartão e transações não reconhecidas',
+    infratorPlaceholder: 'Final 1234, Visa, compras em loja X no valor de R$...',
+    descPlaceholder: 'Quando percebeu as compras, se o cartão estava com você, valores e lojas...',
+  },
+  'Investimento Fraudulento': {
+    showBanco: true, showAgenciaConta: true, showValor: true,
+    bancoLabel: 'Banco de onde saiu o dinheiro *',
+    valorLabel: 'Valor total investido (R$) *',
+    infratorLabel: 'Plataforma/site do investimento fraudulento',
+    infratorPlaceholder: 'Nome do site, perfil no Instagram, promessas feitas...',
+    descPlaceholder: 'Como conheceu a plataforma, o que prometeram, quanto investiu, quando parou de receber...',
+  },
+  'Roubo/Furto de Celular': {
+    showBanco: false, showAgenciaConta: false, showValor: false,
+    bancoLabel: '',
+    valorLabel: '',
+    infratorLabel: 'Dados do aparelho roubado',
+    infratorPlaceholder: 'Modelo do celular, IMEI (na caixa/nota fiscal), cor, operadora...',
+    descPlaceholder: 'Onde e quando aconteceu, como foi abordado, se acessaram seus apps bancários, prejuízo financeiro...',
+  },
+  'Outro': {
+    showBanco: true, showAgenciaConta: true, showValor: true,
+    bancoLabel: 'Banco *',
+    valorLabel: 'Valor do prejuízo (R$) *',
+    infratorLabel: 'Dados do infrator (opcional)',
+    infratorPlaceholder: 'Nome, conta bancária, telefone, redes sociais...',
+    descPlaceholder: 'Descreva cronologicamente como o golpe aconteceu...',
+  },
+};
 
 type Step = 'form' | 'preview';
 
@@ -81,7 +178,8 @@ export default function PacoteCompleto() {
   const dataOcorrencia = watch('dataOcorrencia');
   const tipoGolpe = watch('tipoGolpe');
   const isPix = tipoGolpe === 'Golpe via Pix';
-  const bankContact = BANK_CONTACTS[banco];
+  const config = tipoGolpe ? GOLPE_CONFIG[tipoGolpe] || GOLPE_CONFIG['Outro'] : null;
+  const bankContact = banco ? BANK_CONTACTS[banco] : undefined;
 
   const handleMelhorarDescricao = async () => {
     const descricao = getValues('descricao');
@@ -108,11 +206,14 @@ export default function PacoteCompleto() {
   };
 
   const onSubmit = (data: FormData) => {
-    const valorNum = parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0;
+    const valorNum = data.valor ? (parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0) : 0;
+    const bancoVal = data.banco || 'Não informado';
+    const agenciaVal = data.agencia || 'N/A';
+    const contaVal = data.conta || 'N/A';
 
     const med = gerarTextoMED({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
-      agencia: data.agencia, conta: data.conta, valorTransferido: valorNum,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+      agencia: agenciaVal, conta: contaVal, valorTransferido: valorNum,
       dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario || 'N/A',
       descricaoGolpe: data.descricao, numeroBo: data.numeroBo,
     });
@@ -127,8 +228,8 @@ export default function PacoteCompleto() {
     });
 
     const notificacao = gerarTextoNotificacaoBanco({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
-      agencia: data.agencia, conta: data.conta, dataOcorrencia: data.dataOcorrencia,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+      agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
       valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
       pedidos: [
         `Devolução integral de R$ ${valorNum.toFixed(2).replace('.', ',')} em até 5 dias úteis`,
@@ -141,13 +242,13 @@ export default function PacoteCompleto() {
     });
 
     const bacen = gerarTextoReclamacaoBACEN({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
-      agencia: data.agencia, conta: data.conta, dataOcorrencia: data.dataOcorrencia,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+      agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
       valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
     });
 
     const procon = gerarTextoReclamacaoProcon({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
       dataOcorrencia: data.dataOcorrencia, valorPrejuizo: valorNum,
       tipoFraude: data.tipoGolpe, descricao: data.descricao,
     });
@@ -184,9 +285,10 @@ export default function PacoteCompleto() {
         <div className="card border-orange-500/20">
           <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
             <Zap className="w-5 h-5 text-orange-400" />
-            Kit Completo de Recuperação — 5 documentos
+            Kit Completo de Recuperação
           </h2>
 
+          {/* ── Seus dados ── */}
           <div className="space-y-4 mb-6">
             <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Seus dados</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -217,69 +319,82 @@ export default function PacoteCompleto() {
             </div>
           </div>
 
+          {/* ── Tipo de golpe (determina o restante) ── */}
           <div className="space-y-4 mb-6">
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados bancários</h3>
-            <div>
-              <label className="label">Banco *</label>
-              <select {...register('banco')} className="select">
-                <option value="">Selecione o banco...</option>
-                {BANCOS.map((b) => <option key={b} value={b}>{b}</option>)}
-              </select>
-              {errors.banco && <p className="text-red-400 text-xs mt-1">{errors.banco.message}</p>}
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="label">Agência *</label>
-                <input {...register('agencia')} className="input" placeholder="0000" />
-              </div>
-              <div>
-                <label className="label">Conta *</label>
-                <input {...register('conta')} className="input" placeholder="00000-0" />
-              </div>
-            </div>
-
-            {bankContact && (
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
-                <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
-                  Contato oficial — {banco}
-                </p>
-                <div className="flex items-start gap-2 text-sm">
-                  <Phone className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
-                  <span className="text-white/70">SAC: <span className="text-white font-mono">{bankContact.sac}</span></span>
-                </div>
-                <div className="flex items-start gap-2 text-sm">
-                  <Mail className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
-                  <span className="text-white/70">Ouvidoria: <span className="text-white">{bankContact.ouvidoria}</span></span>
-                </div>
-                <div className="flex items-start gap-2 text-sm">
-                  <FileText className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
-                  <span className="text-white/60 text-xs">{bankContact.instrucaoMED}</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-4 mb-6">
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados da fraude</h3>
+            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">O que aconteceu?</h3>
             <div>
               <label className="label">Tipo de golpe *</label>
               <select {...register('tipoGolpe')} className="select">
-                <option value="">Selecione o tipo de golpe...</option>
+                <option value="">Selecione o que aconteceu...</option>
                 {TIPOS_GOLPE.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
               {errors.tipoGolpe && <p className="text-red-400 text-xs mt-1">{errors.tipoGolpe.message}</p>}
             </div>
+          </div>
 
-            {tipoGolpe && (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* ── Campos dinâmicos (só aparecem após selecionar tipo) ── */}
+          {config && (
+            <>
+              {/* Dados bancários (condicional) */}
+              {config.showBanco && (
+                <div className="space-y-4 mb-6">
+                  <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados bancários</h3>
                   <div>
-                    <label className="label">Valor perdido (R$) *</label>
-                    <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
-                    {errors.valor && <p className="text-red-400 text-xs mt-1">{errors.valor.message}</p>}
+                    <label className="label">{config.bancoLabel}</label>
+                    <select {...register('banco')} className="select">
+                      <option value="">Selecione o banco...</option>
+                      {BANCOS.map((b) => <option key={b} value={b}>{b}</option>)}
+                    </select>
                   </div>
+
+                  {config.showAgenciaConta && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="label">Agência *</label>
+                        <input {...register('agencia')} className="input" placeholder="0000" />
+                      </div>
+                      <div>
+                        <label className="label">Conta *</label>
+                        <input {...register('conta')} className="input" placeholder="00000-0" />
+                      </div>
+                    </div>
+                  )}
+
+                  {bankContact && (
+                    <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
+                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
+                        Contato oficial — {banco}
+                      </p>
+                      <div className="flex items-start gap-2 text-sm">
+                        <Phone className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
+                        <span className="text-white/70">SAC: <span className="text-white font-mono">{bankContact.sac}</span></span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm">
+                        <Mail className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
+                        <span className="text-white/70">Ouvidoria: <span className="text-white">{bankContact.ouvidoria}</span></span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm">
+                        <FileText className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
+                        <span className="text-white/60 text-xs">{bankContact.instrucaoMED}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Detalhes da ocorrência */}
+              <div className="space-y-4 mb-6">
+                <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Detalhes da ocorrência</h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {config.showValor && (
+                    <div>
+                      <label className="label">{config.valorLabel}</label>
+                      <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
+                    </div>
+                  )}
                   <div>
-                    <label className="label">Data do golpe *</label>
+                    <label className="label">Data da ocorrência *</label>
                     <input {...register('dataOcorrencia')} type="date" className="input" />
                     {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
                   </div>
@@ -293,40 +408,15 @@ export default function PacoteCompleto() {
                 )}
 
                 <div>
-                  <label className="label">
-                    {isPix ? 'Outros dados do golpista (opcional)' :
-                     tipoGolpe === 'Clonagem de WhatsApp' ? 'Número do WhatsApp e dados do golpista' :
-                     tipoGolpe === 'Fraude em Cartão' ? 'Dados do cartão e transações não reconhecidas' :
-                     tipoGolpe === 'Boleto Falso' ? 'Dados do boleto falso e empresa cobrada' :
-                     tipoGolpe === 'App/Site Falso de Banco' ? 'URL ou nome do site/app falso' :
-                     tipoGolpe === 'Investimento Fraudulento' ? 'Plataforma/site do investimento fraudulento' :
-                     tipoGolpe === 'Golpe por Telefone' ? 'Número que ligou e empresa que fingiu ser' :
-                     'Dados do infrator (opcional)'}
-                  </label>
+                  <label className="label">{config.infratorLabel}</label>
                   <textarea {...register('dadosInfrator')} rows={2} className="input resize-none"
-                    placeholder={
-                      isPix ? 'Nome, telefone, redes sociais do golpista...' :
-                      tipoGolpe === 'Clonagem de WhatsApp' ? '(11) 99999-9999, perfil usado, quem foi contactado...' :
-                      tipoGolpe === 'Fraude em Cartão' ? 'Final 1234, Visa, compras não reconhecidas...' :
-                      tipoGolpe === 'Boleto Falso' ? 'Banco emitente, linha digitável, empresa que pagava...' :
-                      tipoGolpe === 'App/Site Falso de Banco' ? 'www.exemplo.com, nome do app...' :
-                      tipoGolpe === 'Investimento Fraudulento' ? 'Nome do site, perfil no Instagram, promessas feitas...' :
-                      tipoGolpe === 'Golpe por Telefone' ? '0800-123-4567, empresa que fingiu ser, o que pediram...' :
-                      'Nome, conta bancária, telefone, redes sociais...'
-                    } />
+                    placeholder={config.infratorPlaceholder} />
                 </div>
 
                 <div>
-                  <label className="label">Descrição detalhada do golpe *</label>
+                  <label className="label">Descrição detalhada *</label>
                   <textarea {...register('descricao')} rows={5} className="input resize-none"
-                    placeholder={
-                      isPix ? 'Descreva como aconteceu: quem te contatou, o que disseram, como você fez o Pix...' :
-                      tipoGolpe === 'Clonagem de WhatsApp' ? 'Como percebeu a clonagem, o que o golpista fez, quem foi contactado, valores pedidos...' :
-                      tipoGolpe === 'Fraude em Cartão' ? 'Quando percebeu as compras, se o cartão estava com você, valores e lojas...' :
-                      tipoGolpe === 'Boleto Falso' ? 'Como recebeu o boleto, o que achava que estava pagando, como percebeu a fraude...' :
-                      tipoGolpe === 'Investimento Fraudulento' ? 'Como conheceu a plataforma, o que prometeram, quanto investiu, quando parou de receber...' :
-                      'Descreva cronologicamente como o golpe aconteceu...'
-                    } />
+                    placeholder={config.descPlaceholder} />
                   {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-white/30">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
@@ -349,15 +439,17 @@ export default function PacoteCompleto() {
                   <label className="label">Número do BO (se já registrou)</label>
                   <input {...register('numeroBo')} className="input" placeholder="Opcional" />
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
 
-        <button type="submit" className="btn-primary w-full justify-center py-4 text-base">
-          <Zap className="w-5 h-5" />
-          Gerar 5 documentos — prévia gratuita
-        </button>
+        {config && (
+          <button type="submit" className="btn-primary w-full justify-center py-4 text-base">
+            <Zap className="w-5 h-5" />
+            Gerar documentos — prévia gratuita
+          </button>
+        )}
       </form>
     );
   }
@@ -371,7 +463,7 @@ export default function PacoteCompleto() {
         <div className="alert-success">
           <CheckCircle className="w-5 h-5 shrink-0" />
           <div>
-            <strong className="block">5 documentos gerados com sucesso!</strong>
+            <strong className="block">Documentos gerados com sucesso!</strong>
             <p className="text-sm mt-1">Prévia abaixo. Desbloqueie todos os PDFs por R$47.</p>
           </div>
         </div>
@@ -409,7 +501,7 @@ export default function PacoteCompleto() {
 
         <EmailCapture tipo={docs.data.tipoGolpe} dataOcorrencia={docs.data.dataOcorrencia} />
 
-        {BANK_CONTACTS[docs.data.banco] && (
+        {docs.data.banco && BANK_CONTACTS[docs.data.banco] && (
           <div className="card border-blue-500/20">
             <p className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">
               Como entregar os documentos — {docs.data.banco}
@@ -437,7 +529,7 @@ export default function PacoteCompleto() {
           <div className="card border-orange-500/20 text-center">
             <h3 className="font-bold text-white text-xl mb-2">Kit Completo de Recuperação — R$47</h3>
             <p className="text-white/60 text-sm mb-6">
-              5 documentos prontos + guia passo a passo + melhoria de texto com IA.
+              Documentos prontos + guia passo a passo + melhoria de texto com IA.
             </p>
             <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-sm mx-auto">
               {[
