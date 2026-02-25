@@ -50,30 +50,32 @@ export default function FerramentasPage() {
           {/* ── PASSO 1: Diagnóstico ─────────────────────────────────── */}
           <Link
             href="/ferramentas/diagnostico"
-            className="card group hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row items-start sm:items-center gap-5 border-emerald-500/30 bg-emerald-500/5 hover:border-emerald-500/50"
+            className="card block group hover:-translate-y-0.5 transition-all duration-200 border-emerald-500/30 bg-emerald-500/5 hover:border-emerald-500/50"
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-              <Search className="w-7 h-7 text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
-                <span className="text-[0.65rem] font-bold text-emerald-400 uppercase tracking-wider">Passo 1</span>
-                <span className="badge badge-green">Gratuito — 30 segundos</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                <Search className="w-7 h-7 text-white" />
               </div>
-              <h2 className="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">
-                Diagnóstico do seu caso
-              </h2>
-              <p className="text-white/50 text-sm leading-relaxed">
-                Descubra sua chance de recuperação, quais documentos precisa e os prazos que não pode perder.
-              </p>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                  <span className="text-[0.65rem] font-bold text-emerald-400 uppercase tracking-wider">Passo 1</span>
+                  <span className="badge badge-green">Gratuito — 30 segundos</span>
+                </div>
+                <h2 className="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">
+                  Diagnóstico do seu caso
+                </h2>
+                <p className="text-white/50 text-sm leading-relaxed">
+                  Descubra sua chance de recuperação, quais documentos precisa e os prazos que não pode perder.
+                </p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-emerald-400/50 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all shrink-0 hidden sm:block" />
             </div>
-            <ArrowRight className="w-5 h-5 text-emerald-400/50 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all shrink-0 hidden sm:block" />
           </Link>
 
           {/* ── PASSO 2: Kit Completo ─────────────────────────────────── */}
           <Link
             href="/ferramentas/pacote-completo"
-            className="card group hover:-translate-y-0.5 transition-all duration-200 border-ember-500/40 bg-ember-500/5 hover:border-ember-500/60"
+            className="card block group hover:-translate-y-0.5 transition-all duration-200 border-ember-500/40 bg-ember-500/5 hover:border-ember-500/60"
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform bg-gradient-to-br from-ember-500 to-ember-700 shadow-ember-glow">
