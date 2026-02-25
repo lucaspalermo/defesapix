@@ -45,7 +45,10 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
   const [melhorando, setMelhorando] = useState(false);
   const [usarMelhorado, setUsarMelhorado] = useState(false);
 
-  const isPix = tipoGolpe.includes('Pix') || tipoGolpe.includes('Celular');
+  const isPix = tipoGolpe.includes('Pix');
+  const isWhatsApp = tipoGolpe.includes('WhatsApp');
+  const isCartao = tipoGolpe.includes('Cartão');
+  const isInvestimento = tipoGolpe.includes('Investimento');
   const textoAtivo = usarMelhorado && textoMelhorado ? textoMelhorado : textoDocumento;
 
   const handleMelhorarIA = async () => {
@@ -203,6 +206,7 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
       ],
       links: [],
     },
+    // ── Passo específico: MED (somente Pix) ──
     ...(isPix ? [{
       id: 'med',
       titulo: 'Pedir o MED no banco (prazo máximo: 72 horas)',
@@ -230,12 +234,74 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
         '• O prazo é de 72 horas a partir da transferência',
         '• Se o banco negar, registre reclamação no Banco Central (próximo passo)',
         '• O banco é OBRIGADO a aceitar o pedido dentro do prazo',
+      ],
+      links: [],
+    }] : []),
+    // ── Passo específico: WhatsApp ──
+    ...(isWhatsApp ? [{
+      id: 'whatsapp',
+      titulo: 'Proteger seu WhatsApp e avisar seus contatos',
+      desc: 'Recupere o acesso e avise as pessoas que podem ter sido enganadas.',
+      prazo: 'AGORA',
+      detalhes: [
+        '📱 RECUPERAR O ACESSO:',
         '',
-        '📄 Se quiser um documento formal para enviar ao banco, gere a Contestação MED:',
+        '1. Desinstale e reinstale o WhatsApp no seu celular',
+        '2. Abra o WhatsApp e coloque seu número de telefone',
+        '3. Você vai receber um código por SMS — digite esse código',
+        '4. Se pedir, digite o PIN de verificação em duas etapas',
+        '5. O golpista será desconectado automaticamente',
+        '',
+        '🔒 ATIVAR PROTEÇÃO (para não acontecer de novo):',
+        '',
+        '1. Abra WhatsApp → Configurações → Conta → Verificação em duas etapas',
+        '2. Crie um PIN de 6 dígitos (diferente de senhas que já usa)',
+        '3. Adicione um e-mail de recuperação',
+        '',
+        '📢 AVISAR SEUS CONTATOS:',
+        '',
+        '1. Publique um story/status no WhatsApp avisando que foi clonado',
+        '2. Peça para as pessoas NÃO fazerem transferências se receberem mensagens pedindo dinheiro',
+        '3. Avise especialmente as pessoas que o golpista já contatou',
+        '',
+        '⚠️ Se o golpista pediu dinheiro para seus contatos e eles transferiram, oriente-os a também registrar B.O. e acionar o MED (se foi Pix).',
       ],
       links: [
-        { label: 'Gerar Contestação MED (documento formal)', href: '/ferramentas/gerador-contestacao-med' },
+        { label: 'Suporte WhatsApp — Conta roubada', href: 'https://faq.whatsapp.com/1131652977717250/' },
       ],
+    }] : []),
+    // ── Passo específico: Cartão ──
+    ...(isCartao ? [{
+      id: 'cartao',
+      titulo: 'Bloquear cartão e solicitar estorno (chargeback)',
+      desc: 'Bloqueie o cartão imediatamente e peça o estorno das compras fraudulentas.',
+      prazo: 'AGORA',
+      detalhes: [
+        '🔒 BLOQUEAR O CARTÃO:',
+        '',
+        '1. Abra o app do banco → Cartões → Bloquear cartão',
+        '2. Selecione o cartão que foi fraudado e confirme o bloqueio',
+        '3. Se não conseguir pelo app, ligue para o SAC do banco (números no passo anterior)',
+        '',
+        '💳 PEDIR ESTORNO (CHARGEBACK):',
+        '',
+        '1. No app do banco, vá na fatura do cartão',
+        '2. Encontre as compras que você NÃO reconhece',
+        '3. Toque em cada compra e selecione "Não reconheço" ou "Contestar"',
+        '4. Se não tiver essa opção no app, ligue para o SAC e fale:',
+        '',
+        `"Preciso contestar compras não reconhecidas no meu cartão. Meu nome é ${nomeVitima}. Solicito o estorno (chargeback) conforme o artigo 14 do CDC."`,
+        '',
+        '5. ANOTE o número de protocolo da contestação',
+        '',
+        '📋 PEDIR NOVO CARTÃO:',
+        '',
+        '1. Depois de bloquear, solicite um novo cartão com número diferente',
+        '2. O banco não pode cobrar taxa pelo novo cartão neste caso',
+        '',
+        '⚠️ O prazo para contestar compras no cartão é de até 90 dias após a fatura.',
+      ],
+      links: [],
     }] : []),
     {
       id: 'bacen',
@@ -294,6 +360,33 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
         { label: 'Consumidor.gov.br (funciona para todos os estados)', href: 'https://consumidor.gov.br' },
       ],
     },
+    // ── Passo específico: CVM (investimento fraudulento) ──
+    ...(isInvestimento ? [{
+      id: 'cvm',
+      titulo: 'Denunciar na CVM (investimento fraudulento)',
+      desc: 'A Comissão de Valores Mobiliários investiga fraudes em investimentos.',
+      prazo: '7 DIAS',
+      detalhes: [
+        '📊 POR QUE DENUNCIAR NA CVM:',
+        'A CVM regula o mercado de investimentos no Brasil. Se alguém ofereceu investimento fraudulento, a CVM pode investigar e até bloquear a empresa.',
+        '',
+        '📱 COMO FAZER:',
+        '',
+        '1. Acesse o site da CVM (link abaixo)',
+        '2. Clique em "Denúncias e Reclamações"',
+        '3. Preencha o formulário com:',
+        '   → Nome da empresa/pessoa que ofereceu o investimento',
+        '   → Como foi o contato (WhatsApp, Instagram, site)',
+        '   → Valores investidos e promessas feitas',
+        '   → Links, prints e comprovantes que tiver',
+        '4. Envie a denúncia',
+        '',
+        '💡 Guarde os prints de tudo: conversas, sites, comprovantes de transferência, promessas de rentabilidade.',
+      ],
+      links: [
+        { label: 'CVM — Denúncias e Reclamações', href: 'https://www.gov.br/cvm/pt-br/canais_atendimento/reclamacoes' },
+      ],
+    }] : []),
     {
       id: 'senhas',
       titulo: 'Trocar todas as senhas e proteger suas contas',
@@ -467,7 +560,7 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
                       <div className="bg-white/[0.03] rounded-xl p-4 space-y-1.5">
                         {step.detalhes.map((linha, j) => {
                           if (!linha) return <div key={j} className="h-2" />;
-                          const isTitle = linha.startsWith('📱') || linha.startsWith('📞') || linha.startsWith('⏰') || linha.startsWith('🏛️') || linha.startsWith('🏢') || linha.startsWith('🔒') || linha.startsWith('📋') || linha.startsWith('📄');
+                          const isTitle = linha.startsWith('📱') || linha.startsWith('📞') || linha.startsWith('⏰') || linha.startsWith('🏛️') || linha.startsWith('🏢') || linha.startsWith('🔒') || linha.startsWith('📋') || linha.startsWith('📄') || linha.startsWith('💳') || linha.startsWith('📢') || linha.startsWith('📊');
                           const isWarning = linha.startsWith('⚠️');
                           const isTip = linha.startsWith('💡');
                           const isQuote = linha.startsWith('"') && linha.endsWith('"');
@@ -516,18 +609,6 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
           })}
         </div>
       </div>
-
-      {/* ── Upsell se só comprou BO e foi Pix ── */}
-      {tipoDocumento === 'bo' && isPix && (
-        <div className="card border-orange-500/20 bg-orange-500/5 text-center">
-          <h3 className="font-bold text-white mb-2">Precisa da Contestação MED e Notificação Bancária?</h3>
-          <p className="text-white/60 text-sm mb-4">O Pacote Emergência gera os 3 documentos prontos com seus dados. Economize tempo.</p>
-          <Link href="/ferramentas/pacote-completo" className="btn-primary justify-center">
-            <Phone className="w-4 h-4" />
-            Ver Pacote Emergência — R$47
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
-  Zap, CheckCircle, FileText, Shield, Bell, Lock, Phone, Mail, ExternalLink, Loader2, Scale, Building2,
+  Zap, CheckCircle, FileText, Shield, Bell, Lock, Phone, Mail, ExternalLink, Loader2, Scale, Building2, Sparkles,
 } from 'lucide-react';
 import {
   gerarTextoMED, gerarTextoBO, gerarTextoNotificacaoBanco,
@@ -31,7 +31,7 @@ const schema = z.object({
   conta: z.string().min(1, 'Informe a conta'),
   valor: z.string().min(1, 'Informe o valor'),
   dataOcorrencia: z.string().min(1, 'Informe a data'),
-  chavePixDestinatario: z.string().min(1, 'Informe a chave Pix'),
+  chavePixDestinatario: z.string().optional(),
   tipoGolpe: z.string().min(1, 'Selecione o tipo de golpe'),
   descricao: z.string().min(80, 'Descreva com mais detalhes (mín. 80 caracteres)'),
   numeroBo: z.string().optional(),
@@ -61,8 +61,8 @@ export default function PacoteCompleto() {
   const [paid, setPaid] = useState(false);
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
-
   const [valorDisplay, setValorDisplay] = useState('');
+  const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -79,7 +79,33 @@ export default function PacoteCompleto() {
 
   const banco = watch('banco');
   const dataOcorrencia = watch('dataOcorrencia');
+  const tipoGolpe = watch('tipoGolpe');
+  const isPix = tipoGolpe === 'Golpe via Pix';
   const bankContact = BANK_CONTACTS[banco];
+
+  const handleMelhorarDescricao = async () => {
+    const descricao = getValues('descricao');
+    if (!descricao || descricao.length < 30) {
+      toast.error('Escreva pelo menos 30 caracteres antes de aprimorar.');
+      return;
+    }
+    setMelhorandoDescricao(true);
+    try {
+      const res = await fetch('/api/melhorar-texto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto: descricao, tipo: 'descricao' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Erro ao melhorar texto');
+      setValue('descricao', data.textoMelhorado, { shouldValidate: true });
+      toast.success('Descrição aprimorada com IA!');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao aprimorar');
+    } finally {
+      setMelhorandoDescricao(false);
+    }
+  };
 
   const onSubmit = (data: FormData) => {
     const valorNum = parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0;
@@ -87,7 +113,7 @@ export default function PacoteCompleto() {
     const med = gerarTextoMED({
       nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
       agencia: data.agencia, conta: data.conta, valorTransferido: valorNum,
-      dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario,
+      dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario || 'N/A',
       descricaoGolpe: data.descricao, numeroBo: data.numeroBo,
     });
 
@@ -153,7 +179,7 @@ export default function PacoteCompleto() {
   if (step === 'form') {
     return (
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
+        {isPix && dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
 
         <div className="card border-orange-500/20">
           <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
@@ -235,47 +261,96 @@ export default function PacoteCompleto() {
 
           <div className="space-y-4 mb-6">
             <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados da fraude</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="label">Valor transferido (R$) *</label>
-                <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
-                {errors.valor && <p className="text-red-400 text-xs mt-1">{errors.valor.message}</p>}
-              </div>
-              <div>
-                <label className="label">Data do golpe *</label>
-                <input {...register('dataOcorrencia')} type="date" className="input" />
-                {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
-              </div>
-            </div>
-            <div>
-              <label className="label">Chave Pix do destinatário (golpista) *</label>
-              <input {...register('chavePixDestinatario')} className="input" placeholder="CPF, e-mail, telefone ou chave aleatória" />
-              {errors.chavePixDestinatario && <p className="text-red-400 text-xs mt-1">{errors.chavePixDestinatario.message}</p>}
-            </div>
             <div>
               <label className="label">Tipo de golpe *</label>
               <select {...register('tipoGolpe')} className="select">
-                <option value="">Selecione...</option>
+                <option value="">Selecione o tipo de golpe...</option>
                 {TIPOS_GOLPE.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
               {errors.tipoGolpe && <p className="text-red-400 text-xs mt-1">{errors.tipoGolpe.message}</p>}
             </div>
-            <div>
-              <label className="label">Descrição detalhada do golpe *</label>
-              <textarea {...register('descricao')} rows={5} className="input resize-none"
-                placeholder="Descreva cronologicamente como o golpe aconteceu..." />
-              {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
-              <p className="text-xs text-white/30 mt-1">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
-            </div>
-            <div>
-              <label className="label">Dados do infrator (opcional)</label>
-              <textarea {...register('dadosInfrator')} rows={2} className="input resize-none"
-                placeholder="Nome usado, conta bancária, telefone, redes sociais..." />
-            </div>
-            <div>
-              <label className="label">Número do BO (se já registrou)</label>
-              <input {...register('numeroBo')} className="input" placeholder="Opcional" />
-            </div>
+
+            {tipoGolpe && (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label">Valor perdido (R$) *</label>
+                    <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
+                    {errors.valor && <p className="text-red-400 text-xs mt-1">{errors.valor.message}</p>}
+                  </div>
+                  <div>
+                    <label className="label">Data do golpe *</label>
+                    <input {...register('dataOcorrencia')} type="date" className="input" />
+                    {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
+                  </div>
+                </div>
+
+                {isPix && (
+                  <div>
+                    <label className="label">Chave Pix do golpista *</label>
+                    <input {...register('chavePixDestinatario')} className="input" placeholder="CPF, e-mail, telefone ou chave aleatória" />
+                  </div>
+                )}
+
+                <div>
+                  <label className="label">
+                    {isPix ? 'Outros dados do golpista (opcional)' :
+                     tipoGolpe === 'Clonagem de WhatsApp' ? 'Número do WhatsApp e dados do golpista' :
+                     tipoGolpe === 'Fraude em Cartão' ? 'Dados do cartão e transações não reconhecidas' :
+                     tipoGolpe === 'Boleto Falso' ? 'Dados do boleto falso e empresa cobrada' :
+                     tipoGolpe === 'App/Site Falso de Banco' ? 'URL ou nome do site/app falso' :
+                     tipoGolpe === 'Investimento Fraudulento' ? 'Plataforma/site do investimento fraudulento' :
+                     tipoGolpe === 'Golpe por Telefone' ? 'Número que ligou e empresa que fingiu ser' :
+                     'Dados do infrator (opcional)'}
+                  </label>
+                  <textarea {...register('dadosInfrator')} rows={2} className="input resize-none"
+                    placeholder={
+                      isPix ? 'Nome, telefone, redes sociais do golpista...' :
+                      tipoGolpe === 'Clonagem de WhatsApp' ? '(11) 99999-9999, perfil usado, quem foi contactado...' :
+                      tipoGolpe === 'Fraude em Cartão' ? 'Final 1234, Visa, compras não reconhecidas...' :
+                      tipoGolpe === 'Boleto Falso' ? 'Banco emitente, linha digitável, empresa que pagava...' :
+                      tipoGolpe === 'App/Site Falso de Banco' ? 'www.exemplo.com, nome do app...' :
+                      tipoGolpe === 'Investimento Fraudulento' ? 'Nome do site, perfil no Instagram, promessas feitas...' :
+                      tipoGolpe === 'Golpe por Telefone' ? '0800-123-4567, empresa que fingiu ser, o que pediram...' :
+                      'Nome, conta bancária, telefone, redes sociais...'
+                    } />
+                </div>
+
+                <div>
+                  <label className="label">Descrição detalhada do golpe *</label>
+                  <textarea {...register('descricao')} rows={5} className="input resize-none"
+                    placeholder={
+                      isPix ? 'Descreva como aconteceu: quem te contatou, o que disseram, como você fez o Pix...' :
+                      tipoGolpe === 'Clonagem de WhatsApp' ? 'Como percebeu a clonagem, o que o golpista fez, quem foi contactado, valores pedidos...' :
+                      tipoGolpe === 'Fraude em Cartão' ? 'Quando percebeu as compras, se o cartão estava com você, valores e lojas...' :
+                      tipoGolpe === 'Boleto Falso' ? 'Como recebeu o boleto, o que achava que estava pagando, como percebeu a fraude...' :
+                      tipoGolpe === 'Investimento Fraudulento' ? 'Como conheceu a plataforma, o que prometeram, quanto investiu, quando parou de receber...' :
+                      'Descreva cronologicamente como o golpe aconteceu...'
+                    } />
+                  {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs text-white/30">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
+                    <button
+                      type="button"
+                      onClick={handleMelhorarDescricao}
+                      disabled={melhorandoDescricao}
+                      className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 transition-colors"
+                    >
+                      {melhorandoDescricao ? (
+                        <><Loader2 className="w-3 h-3 animate-spin" /> Aprimorando...</>
+                      ) : (
+                        <><Sparkles className="w-3 h-3" /> Aprimorar com IA</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label">Número do BO (se já registrou)</label>
+                  <input {...register('numeroBo')} className="input" placeholder="Opcional" />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -301,12 +376,12 @@ export default function PacoteCompleto() {
           </div>
         </div>
 
-        {docs.data.dataOcorrencia && <CountdownMED dataOcorrencia={docs.data.dataOcorrencia} />}
+        {docs.data.tipoGolpe === 'Golpe via Pix' && docs.data.dataOcorrencia && <CountdownMED dataOcorrencia={docs.data.dataOcorrencia} />}
 
         {/* Document previews */}
         {([
-          { key: 'med', label: 'Contestação MED', icon: Shield, color: 'text-red-400', text: docs.med },
           { key: 'bo', label: 'Boletim de Ocorrência', icon: FileText, color: 'text-blue-400', text: docs.bo },
+          { key: 'med', label: 'Contestação MED', icon: Shield, color: 'text-red-400', text: docs.med },
           { key: 'notificacao', label: 'Notificação Bancária', icon: Bell, color: 'text-green-400', text: docs.notificacao },
           { key: 'bacen', label: 'Reclamação BACEN', icon: Scale, color: 'text-amber-400', text: docs.bacen },
           { key: 'procon', label: 'Reclamação Procon', icon: Building2, color: 'text-purple-400', text: docs.procon },

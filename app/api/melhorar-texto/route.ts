@@ -16,6 +16,22 @@ Regras:
 - O resultado deve estar pronto para protocolar em banco, delegacia ou juizado
 - Retorne APENAS o texto melhorado, sem explicações ou comentários`;
 
+const DESCRICAO_SYSTEM_PROMPT = `Você é um assistente especializado em ajudar vítimas de fraudes digitais no Brasil a escrever uma descrição clara e completa do golpe sofrido. Esta descrição será usada para gerar documentos jurídicos (B.O., contestação MED, notificação bancária, reclamação BACEN e Procon).
+
+Sua tarefa:
+1. ORGANIZAR cronologicamente os eventos relatados pela vítima
+2. DETALHAR informações importantes: datas, horários, valores, meios de contato, nomes/perfis usados pelo golpista
+3. ESCLARECER o tipo de fraude e como o golpista agiu passo a passo
+4. COMPLETAR com perguntas relevantes entre [colchetes] se faltarem dados críticos (ex: [informe o horário exato])
+5. MELHORAR a clareza e objetividade do texto
+
+Regras:
+- Use português brasileiro claro e objetivo
+- Mantenha o relato em primeira pessoa
+- NÃO adicione fundamentação legal (isso será feito nos documentos)
+- Mantenha TODOS os fatos relatados pela vítima — não invente dados
+- Retorne APENAS a descrição melhorada, sem explicações`;
+
 export async function POST(req: NextRequest) {
   try {
     if (!process.env.ANTHROPIC_API_KEY) {
@@ -26,6 +42,8 @@ export async function POST(req: NextRequest) {
     if (!texto || typeof texto !== 'string') {
       return NextResponse.json({ error: 'Texto não fornecido' }, { status: 400 });
     }
+
+    const isDescricao = tipo === 'descricao';
 
     const tipoLabel = tipo === 'bo' ? 'Boletim de Ocorrência'
       : tipo === 'med' ? 'Contestação MED (Mecanismo Especial de Devolução)'
@@ -38,9 +56,14 @@ export async function POST(req: NextRequest) {
     const message = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 4000,
-      system: SYSTEM_PROMPT,
+      system: isDescricao ? DESCRICAO_SYSTEM_PROMPT : SYSTEM_PROMPT,
       messages: [
-        { role: 'user', content: `Aprimore o seguinte ${tipoLabel}:\n\n${texto}` },
+        {
+          role: 'user',
+          content: isDescricao
+            ? `Melhore esta descrição de golpe/fraude para que fique clara, detalhada e cronológica:\n\n${texto}`
+            : `Aprimore o seguinte ${tipoLabel}:\n\n${texto}`,
+        },
       ],
     });
 
