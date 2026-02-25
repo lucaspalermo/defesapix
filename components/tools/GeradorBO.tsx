@@ -90,11 +90,11 @@ export default function GeradorBO() {
   const handlePagamento = async (produto: 'BO_INDIVIDUAL' | 'PACOTE_EMERGENCIA') => {
     setPaying(true);
     try {
-      const { nomeVitima, emailVitima } = getValues();
+      const { nomeVitima, emailVitima, cpfVitima } = getValues();
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto, nome: nomeVitima, email: emailVitima }),
+        body: JSON.stringify({ produto, nome: nomeVitima, email: emailVitima, cpf: cpfVitima.replace(/\D/g, '') }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');

@@ -81,11 +81,11 @@ export default function NotificacaoBanco() {
   const handlePagamento = async () => {
     setPaying(true);
     try {
-      const { nomeVitima } = getValues();
+      const { nomeVitima, cpfVitima } = getValues();
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'NOTIFICACAO_BANCO', nome: nomeVitima }),
+        body: JSON.stringify({ produto: 'NOTIFICACAO_BANCO', nome: nomeVitima, cpf: cpfVitima.replace(/\D/g, '') }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');

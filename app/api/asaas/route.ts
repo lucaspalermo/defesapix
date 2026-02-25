@@ -15,20 +15,26 @@ import {
 
 export async function POST(req: NextRequest) {
   try {
-    const { produto, nome, email } = await req.json() as {
+    const { produto, nome, email, cpf } = await req.json() as {
       produto: ProdutoAsaas;
       nome?: string;
       email?: string;
+      cpf?: string;
     };
 
     if (!produto || !(produto in ASAAS_PRODUTOS)) {
       return NextResponse.json({ error: 'Produto inválido' }, { status: 400 });
     }
 
+    if (!cpf) {
+      return NextResponse.json({ error: 'CPF é obrigatório para pagamento via PIX' }, { status: 400 });
+    }
+
     // 1. Criar cliente no Asaas
     const cliente = await criarCliente(
       nome  || 'Cliente',
       email || `cliente-${Date.now()}@defesapix.com.br`,
+      cpf,
     );
 
     // 2. Criar cobrança PIX

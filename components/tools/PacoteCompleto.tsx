@@ -122,11 +122,11 @@ export default function PacoteCompleto() {
   const handlePagamento = async () => {
     setPaying(true);
     try {
-      const { nome, email } = getValues();
+      const { nome, email, cpf } = getValues();
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'PACOTE_EMERGENCIA', nome, email }),
+        body: JSON.stringify({ produto: 'PACOTE_EMERGENCIA', nome, email, cpf: cpf.replace(/\D/g, '') }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');

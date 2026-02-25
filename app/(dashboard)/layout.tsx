@@ -7,10 +7,10 @@ import { prisma } from '@/lib/prisma';
 import { SignOutButton } from '@/components/layout/Header';
 
 const NAV = [
-  { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard'  },
-  { icon: FolderOpen,      label: 'Meus Casos', href: '/meus-casos' },
-  { icon: FileText,        label: 'Documentos', href: '/documentos' },
-  { icon: Settings,        label: 'Admin',      href: '/admin'      },
+  { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard',  adminOnly: false },
+  { icon: FolderOpen,      label: 'Meus Casos', href: '/meus-casos', adminOnly: false },
+  { icon: FileText,        label: 'Documentos', href: '/documentos', adminOnly: false },
+  { icon: Settings,        label: 'Admin',      href: '/admin',      adminOnly: true  },
 ];
 
 const PLAN_LABELS: Record<string, string> = {
@@ -28,11 +28,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const user = await prisma.user.findUnique({
     where: { id: (session.user as any).id },
-    select: { name: true, plan: true },
+    select: { name: true, plan: true, role: true },
   });
 
   const userName = user?.name || session.user.name || 'Usuário';
   const userPlan = PLAN_LABELS[user?.plan ?? 'FREE'] ?? 'Plano Gratuito';
+  const isAdmin = user?.role === 'ADMIN';
+  const filteredNav = NAV.filter((item) => !item.adminOnly || isAdmin);
   return (
     <div className="min-h-screen bg-navy-900 flex">
       {/* Sidebar */}
@@ -50,7 +52,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
-          {NAV.map((item) => {
+          {filteredNav.map((item) => {
             const Icon = item.icon;
             return (
               <Link

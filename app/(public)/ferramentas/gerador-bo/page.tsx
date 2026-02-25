@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Modelo de Boletim de Ocorrência para Golpe Digital | Central de Defesa Digital',
   description:
     'Gere o modelo completo do Boletim de Ocorrência para crimes digitais. Estelionato digital, golpe Pix, WhatsApp, boleto falso. Conforme o Código Penal e Lei 14.155/2021.',
+  alternates: { canonical: 'https://defesapix.com.br/ferramentas/gerador-bo' },
 };
 
 export default function GeradorBOPage() {

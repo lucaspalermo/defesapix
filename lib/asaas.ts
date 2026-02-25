@@ -73,12 +73,13 @@ export interface AsaasPixQrCode {
 
 /**
  * Cria ou encontra cliente no Asaas.
- * CPF é opcional — permite cobrança sem dados fiscais.
+ * CPF é obrigatório em produção para cobranças PIX.
  */
-export async function criarCliente(nome: string, email: string): Promise<AsaasCustomer> {
+export async function criarCliente(nome: string, email: string, cpf?: string): Promise<AsaasCustomer> {
   return asaasRequest<AsaasCustomer>('/customers', 'POST', {
-    name:  nome || 'Cliente',
-    email: email || `cliente-${Date.now()}@defesapix.com.br`,
+    name:     nome || 'Cliente',
+    email:    email || `cliente-${Date.now()}@defesapix.com.br`,
+    cpfCnpj:  cpf || undefined,
   });
 }
 

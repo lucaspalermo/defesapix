@@ -10,6 +10,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // Admin routes: only ADMIN role can access
+  if (req.nextUrl.pathname.startsWith('/admin') && token.role !== 'ADMIN') {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
+
   return NextResponse.next();
 }
 
