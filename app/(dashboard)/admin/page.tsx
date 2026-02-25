@@ -40,6 +40,7 @@ const EVENT_LABELS: Record<string, { label: string; color: string; icon: string 
   pagamento_confirmado: { label: 'Pagamento confirmado', color: 'text-green-400', icon: '✅' },
   venda_confirmada: { label: 'Venda confirmada (webhook)', color: 'text-green-400', icon: '💰' },
   cta_clicado: { label: 'CTA clicado', color: 'text-blue-400', icon: '👆' },
+  page_view: { label: 'Visita', color: 'text-white/40', icon: '👁' },
 };
 
 export default async function AdminPage() {
@@ -72,6 +73,9 @@ export default async function AdminPage() {
     diagnosticosMes,
     pagamentosIniciadosHoje,
     pagamentosConfirmadosHoje,
+    // Page views
+    pageViewsHoje,
+    pageViewsSemana,
     // Unique visitors (unique IPs today)
     visitantesHoje,
     // Recent events
@@ -100,6 +104,9 @@ export default async function AdminPage() {
     prisma.evento.count({ where: { tipo: 'diagnostico_completo', createdAt: { gte: startOfMonth } } }),
     prisma.evento.count({ where: { tipo: 'pagamento_iniciado', createdAt: { gte: startOfToday } } }),
     prisma.evento.count({ where: { tipo: 'pagamento_confirmado', createdAt: { gte: startOfToday } } }),
+    // Page views
+    prisma.evento.count({ where: { tipo: 'page_view', createdAt: { gte: startOfToday } } }),
+    prisma.evento.count({ where: { tipo: 'page_view', createdAt: { gte: startOfWeek } } }),
     // Unique visitors
     prisma.evento.findMany({
       where: { createdAt: { gte: startOfToday }, ip: { not: null } },
@@ -176,7 +183,7 @@ export default async function AdminPage() {
             <p className="text-xs text-white/40 font-semibold">Visitantes Hoje</p>
           </div>
           <p className="font-black text-2xl text-white">{visitantesCount}</p>
-          <p className="text-xs text-white/30 mt-1">IPs únicos</p>
+          <p className="text-xs text-white/30 mt-1">{pageViewsHoje} views · 7d: {pageViewsSemana}</p>
         </div>
 
         <div className="card border-amber-500/20">
