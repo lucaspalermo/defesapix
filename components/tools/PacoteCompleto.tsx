@@ -16,6 +16,7 @@ import CountdownMED from './CountdownMED';
 import PaymentModal from '@/components/tools/PaymentModal';
 import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
+import { track } from '@/lib/track';
 
 interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
 
@@ -298,6 +299,7 @@ export default function PacoteCompleto() {
   const onSubmit = async (data: FormData) => {
     const newDocs = gerarDocs(data);
     setDocs(newDocs);
+    track('pagamento_iniciado', { golpe: data.tipoGolpe, docs: newDocs.docList.length });
     await startPayment(data);
   };
 

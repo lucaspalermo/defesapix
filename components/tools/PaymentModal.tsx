@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { CheckCircle, Copy, Clock, X, Loader2, AlertTriangle, QrCode } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { track } from '@/lib/track';
 
 interface Props {
   paymentId: string;
@@ -47,6 +48,7 @@ export default function PaymentModal({
       if (data.pago && !calledOnPaid.current) {
         calledOnPaid.current = true;
         setPaidState('paid');
+        track('pagamento_confirmado', { produto, valor });
         setTimeout(onPaid, 1800);
       }
     } catch { /* ignora erros de rede durante polling */ }

@@ -250,6 +250,22 @@ model NewsletterSubscriber {
   @@map("newsletter_subscribers")
 }
 
+// ─── ANALYTICS (Event Tracking) ──────────────────────────────────────────────
+
+model Evento {
+  id        String   @id @default(cuid())
+  tipo      String   // diagnostico_completo, cta_clicado, pagamento_iniciado, etc.
+  pagina    String?  // URL da página
+  dados     String?  @db.Text // JSON com dados extras
+  ip        String?
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([tipo, createdAt])
+  @@index([createdAt])
+  @@map("eventos")
+}
+
 // ─── ENUMS ───────────────────────────────────────────────────────────────────
 
 enum Plan {

@@ -6,6 +6,7 @@ import {
   CheckCircle, Zap, Lock, ChevronRight,
 } from 'lucide-react';
 import Link from 'next/link';
+import { track } from '@/lib/track';
 
 /* ── Config por tipo de golpe ───────────────────────────────────────────── */
 interface GolpeDiag {
@@ -151,7 +152,9 @@ export default function DiagnosticoGratuito() {
 
   const handleDiagnosticar = () => {
     if (!tipo || !tempo) return;
-    setResult(calcular(tipo, valor, tempo));
+    const res = calcular(tipo, valor, tempo);
+    setResult(res);
+    track('diagnostico_completo', { golpe: res.golpe.label, prob: res.prob, valor: res.valorNum });
   };
 
   const handleSalvarEmail = async () => {
