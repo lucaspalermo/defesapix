@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { TrendingUp, FileText, Shield, CheckSquare, Bell, ArrowRight, Lock, Zap, Package } from 'lucide-react';
+import { TrendingUp, FileText, Shield, CheckSquare, Bell, ArrowRight, Lock, Zap, Package, Search } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
@@ -11,6 +11,16 @@ export const metadata: Metadata = {
 };
 
 const TOOLS = [
+  {
+    icon: Search,
+    titulo: 'Diagnóstico Gratuito — Caí num golpe, e agora?',
+    desc: 'Descubra em 30 segundos sua chance de recuperação, quais documentos precisa e os prazos que não pode perder.',
+    href: '/ferramentas/diagnostico',
+    tag: 'Gratuito — Comece aqui',
+    tagColor: 'badge-green',
+    destaque: true,
+    sub: 'Análise personalizada do seu caso',
+  },
   {
     icon: Zap,
     titulo: 'Kit Completo de Recuperação — 5 Documentos',
