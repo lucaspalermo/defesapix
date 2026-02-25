@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Zap, Shield, FileText, Bell, Clock } from 'lucide-react';
 import PacoteCompleto from '@/components/tools/PacoteCompleto';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
   title: 'Pacote Emergência — 3 Documentos Jurídicos em 15 minutos | Central de Defesa Digital',
@@ -18,6 +20,8 @@ const BENEFICIOS = [
 export default function PacoteCompletoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Pacote Completo' }]} />
+      <ProductSchema name="Pacote Emergência — 3 Documentos Completos" description="B.O., Contestação MED e Notificação Bancária em um pacote com desconto." price={47} url="/ferramentas/pacote-completo" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl">
           {/* Urgency badge */}

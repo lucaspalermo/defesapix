@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Heart, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe do Amor (Romance Scam): O Que Fazer? | Central de Defesa Digital',
@@ -18,6 +20,19 @@ const faqItems = [
 export default function GolpeRomancePage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Romance' }]} />
+      <HowToSchema
+        name="Golpe do Amor (Romance Scam): O que fazer após ser vítima"
+        description="Passo a passo para documentar, denunciar e proteger sua identidade após golpe afetivo digital."
+        totalTime="PT24H"
+        steps={[
+          { name: 'Pare todo contato imediatamente', text: 'Bloqueie e denuncie o perfil. Não responda mais nenhuma mensagem, mesmo que pareça urgente.' },
+          { name: 'Salve TODAS as evidências', text: 'Prints de conversas, transferências, perfil, fotos recebidas. Não delete nada — é prova judicial.' },
+          { name: 'Acione o MED se foi via Pix', text: 'Se a transferência foi recente (menos de 72h), acione o MED pelo seu banco imediatamente.', url: '/ferramentas/gerador-contestacao-med' },
+          { name: 'Registre o BO com detalhes', text: 'Inclua todos os dados do golpista: nome usado, perfis, número de conta, valores e datas.', url: '/ferramentas/gerador-bo' },
+          { name: 'Denuncie nas plataformas', text: 'Reporte o perfil no Instagram, Facebook, Tinder, WhatsApp. Isso ajuda a proteger outras vítimas.' },
+        ]}
+      />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-2 text-sm text-white/50 mb-6">

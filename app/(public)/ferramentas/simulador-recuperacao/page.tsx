@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SimuladorRecuperacao from '@/components/tools/SimuladorRecuperacao';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Simulador de Recuperação de Pix e Golpe Digital | Central de Defesa Digital',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function SimuladorPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Simulador de Recuperação' }]} />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <span className="badge-green mb-4">Ferramenta Gratuita</span>

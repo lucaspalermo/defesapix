@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Scale, MapPin, Phone, CheckCircle, Star, ArrowRight, Users } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Parceiros Jurídicos Especializados em Golpes Digitais | Central de Defesa Digital',
@@ -63,6 +64,7 @@ const PARCEIROS = [
 export default function ParceirosPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Parceiros Jurídicos' }]} />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-5xl text-center">
           <span className="badge-green mb-4">Rede Jurídica</span>

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, CheckCircle, FileText, Phone, Shield } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025 | Central de Defesa Digital',
@@ -43,6 +45,20 @@ export default function GolpeWhatsAppPage() {
 
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe WhatsApp' }]} />
+      <HowToSchema
+        name="WhatsApp Clonado: O que fazer para recuperar e se proteger"
+        description="Passo a passo para recuperar WhatsApp clonado, registrar BO e proteger seus contatos contra golpes."
+        totalTime="PT24H"
+        steps={[
+          { name: 'Recupere o número imediatamente', text: 'Abra o WhatsApp, insira seu número e solicite novo código. O golpista perde o acesso automaticamente.' },
+          { name: 'Avise seus contatos', text: 'Poste um story ou envie mensagem em grupo avisando sobre a clonagem. Peça para ninguém enviar dinheiro.' },
+          { name: 'Registre Boletim de Ocorrência', text: 'O BO protege você de responsabilidades pelas dívidas criadas pelos golpistas com seu número.', url: '/ferramentas/gerador-bo' },
+          { name: 'Notifique a ANATEL', text: 'Registre reclamação no site da ANATEL sobre o uso indevido do seu número telefônico.' },
+          { name: 'Denuncie ao WhatsApp (Meta)', text: 'No app: Configurações > Ajuda > Fale conosco. Relate a clonagem para bloquear o número fraudulento.' },
+          { name: 'Ative verificação em duas etapas', text: 'Configurações > Conta > Verificação em duas etapas. Isso impede nova clonagem.' },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section className="bg-hero-gradient py-16 bg-grid-pattern">

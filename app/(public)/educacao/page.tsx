@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, Shield, AlertTriangle, CheckCircle, ExternalLink, Video, FileText } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Educação Digital — Como se Proteger de Golpes Online | Central de Defesa Digital',
@@ -40,6 +41,7 @@ const RECURSOS_EXTERNOS = [
 export default function EducacaoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Educação' }]} />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-5xl text-center">
           <span className="badge-green mb-4">Educação Digital</span>

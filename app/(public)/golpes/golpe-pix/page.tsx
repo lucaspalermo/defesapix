@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, Clock, CheckCircle, FileText, ArrowRight, Shield, Phone, ExternalLink } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe via Pix: O Que Fazer? Guia Completo 2025 | Central de Defesa Digital',
@@ -117,6 +119,20 @@ export default function GolpePixPage() {
 
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Pix' }]} />
+      <HowToSchema
+        name="Golpe Pix: O que fazer para recuperar seu dinheiro"
+        description="Passo a passo completo para recuperar dinheiro após golpe via Pix usando o MED, B.O. e notificação bancária."
+        totalTime="PT48H"
+        steps={[
+          { name: 'Ligue para o SAC do seu banco', text: 'Relate o golpe e solicite o acionamento do MED (Mecanismo Especial de Devolução). Anote o protocolo.' },
+          { name: 'Gere a Contestação MED', text: 'Use a ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.', url: '/ferramentas/gerador-contestacao-med' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'O BO é fundamental para todos os processos. Pode ser feito online em qualquer estado.', url: '/ferramentas/gerador-bo' },
+          { name: 'Notifique o banco formalmente', text: 'Envie notificação formal por escrito gerando protocolo de responsabilidade legal.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Registre no Banco Central', text: 'Acesse o portal Meu BC e registre reclamação formal para acelerar a análise.' },
+          { name: 'Registre no Procon', text: 'Registre reclamação no Procon do seu estado para gerar protocolo adicional de pressão.' },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
 

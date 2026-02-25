@@ -5,6 +5,8 @@ import {
   Lock, Wifi, CreditCard, Key, Clock, ExternalLink, Scale,
 } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Celular Roubado: O Que Fazer Agora? Guia de Emergência | Central de Defesa Digital',
@@ -154,6 +156,21 @@ export default function RouboCelularPage() {
 
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Roubo de Celular' }]} />
+      <HowToSchema
+        name="Celular Roubado: O que fazer nos primeiros minutos"
+        description="Protocolo de emergência para bloquear SIM, banco, IMEI e proteger suas contas após roubo ou furto de celular."
+        totalTime="PT4H"
+        steps={[
+          { name: 'Ligue para sua operadora e bloqueie o SIM', text: 'O criminoso pode usar seu chip para confirmar transações bancárias via SMS. Esse é o passo mais urgente de todos.' },
+          { name: 'Bloqueie seu banco pelo app em outro dispositivo', text: 'Se tiver acesso em outro celular ou computador, entre no app do banco e bloqueie cartões, Pix e transferências.' },
+          { name: 'Troque a senha do Google ou Apple ID', text: 'O acesso à conta principal do sistema operacional dá ao ladrão acesso a e-mails, autenticadores e backups de senhas.' },
+          { name: 'Bloqueie o IMEI via Anatel', text: 'O bloqueio do IMEI impede que o aparelho funcione em qualquer operadora no Brasil, tornando-o inútil para revenda.' },
+          { name: 'Altere senhas de apps financeiros e e-mail principal', text: 'Priorize: WhatsApp Web, Instagram/Facebook, e-mail, e-wallets (PayPal, Mercado Pago).' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'O BO por roubo ou furto é necessário para o bloqueio do IMEI e para qualquer contestação bancária subsequente.', url: '/ferramentas/gerador-bo' },
+          { name: 'Verifique transações não autorizadas', text: 'Se o criminoso realizou transações com seu celular antes do bloqueio, acione o MED para Pix e solicite contestação bancária.', url: '/ferramentas/gerador-contestacao-med' },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── Hero ─────────────────────────────────────────────── */}

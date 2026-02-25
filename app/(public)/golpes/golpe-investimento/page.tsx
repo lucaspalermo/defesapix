@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, CheckCircle, FileText, ExternalLink } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe de Investimento e Criptomoedas: O Que Fazer? | Central de Defesa Digital',
@@ -18,6 +20,18 @@ const faqItems = [
 export default function GolpeInvestimentoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Investimento' }]} />
+      <HowToSchema
+        name="Golpe de Investimento: O que fazer para denunciar e recuperar valores"
+        description="Passo a passo para denunciar golpe de investimento ou criptomoeda fraudulenta à Polícia Federal, CVM e Banco Central."
+        totalTime="PT72H"
+        steps={[
+          { name: 'Registre BO na Polícia Federal', text: 'Golpes de investimento são crimes federais. Registre BO na PF imediatamente com todos os comprovantes.', url: '/ferramentas/gerador-bo' },
+          { name: 'Denuncie à CVM', text: 'Denuncie à Comissão de Valores Mobiliários para investigação e bloqueio de ativos dos responsáveis.' },
+          { name: 'Registre no Banco Central', text: 'Se houve movimentação financeira, registre reclamação formal no Banco Central.' },
+          { name: 'Denuncie ao COAF', text: 'Registre denúncia no Conselho de Controle de Atividades Financeiras para casos de lavagem de dinheiro.' },
+        ]}
+      />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-2 text-sm text-white/50 mb-6">

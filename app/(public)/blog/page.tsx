@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Clock, ArrowRight, Tag } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Blog — Segurança Digital e Recuperação de Golpes | Central de Defesa Digital',
@@ -80,6 +81,7 @@ export default function BlogPage() {
 
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Blog' }]} />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-5xl text-center">
           <span className="badge-green mb-4">Conteúdo Educativo</span>

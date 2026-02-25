@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, FileText, CheckCircle, Shield } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Boleto Falso: O Que Fazer? Guia Completo | Central de Defesa Digital',
@@ -18,6 +20,18 @@ const faqItems = [
 export default function GolpeBoletoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Boleto' }]} />
+      <HowToSchema
+        name="Boleto Falso: O que fazer para contestar e recuperar o valor"
+        description="Passo a passo para contestar pagamento de boleto falso ou adulterado junto ao banco e órgãos competentes."
+        totalTime="PT48H"
+        steps={[
+          { name: 'Ligue para o banco imediatamente', text: 'Relate o pagamento de boleto falso e solicite cancelamento ou contestação. Anote o protocolo.' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com o número do boleto, valor e dados do beneficiário fraudulento.', url: '/ferramentas/gerador-bo' },
+          { name: 'Notifique o banco formalmente', text: 'Gere a notificação extrajudicial ao seu banco citando o CDC e pedindo devolução formal.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Registre no Banco Central', text: 'Reclamação formal no BACEN sobre falha do sistema bancário que permitiu o boleto adulterado.' },
+        ]}
+      />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-2 text-sm text-white/50 mb-6">

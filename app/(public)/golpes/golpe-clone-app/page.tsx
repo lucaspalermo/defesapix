@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, FileText, CheckCircle, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'App ou Site Falso de Banco: O Que Fazer? | Central de Defesa Digital',
@@ -18,6 +20,19 @@ const faqItems = [
 export default function GolpeCloneAppPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Clone de App' }]} />
+      <HowToSchema
+        name="App ou Site Falso de Banco: O que fazer para proteger sua conta"
+        description="Passo a passo de emergência para proteger sua conta bancária após acessar app ou site falso de banco."
+        totalTime="PT24H"
+        steps={[
+          { name: 'Bloqueie todos os cartões', text: 'Ligue para o banco ou use o app oficial (se não comprometido) e bloqueie todos os cartões imediatamente.' },
+          { name: 'Troque todas as senhas', text: 'Senha do app, senha do internet banking, senha do cartão. Faça isso de outro dispositivo se possível.' },
+          { name: 'Acione o MED se houver Pix perdido', text: 'Se houve transferência Pix fraudulenta, acione o MED pelo SAC do banco imediatamente.', url: '/ferramentas/gerador-contestacao-med' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente o acidente com detalhes: URL do site falso, prints, valor perdido.', url: '/ferramentas/gerador-bo' },
+          { name: 'Denuncie à empresa responsável', text: 'Reporte o app falso à App Store/Google Play e o site à SaferNet Brasil.' },
+        ]}
+      />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-2 text-sm text-white/50 mb-6">

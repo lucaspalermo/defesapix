@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import GeradorBO from '@/components/tools/GeradorBO';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
   title: 'Modelo de Boletim de Ocorrência para Golpe Digital | Central de Defesa Digital',
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 export default function GeradorBOPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Gerador de B.O.' }]} />
+      <ProductSchema name="Modelo de Boletim de Ocorrência para Golpe Digital" description="Gere o modelo completo do B.O. para crimes digitais com tipificação penal e fundamentos legais." price={19} url="/ferramentas/gerador-bo" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <span className="badge-green mb-4">Gratuito</span>

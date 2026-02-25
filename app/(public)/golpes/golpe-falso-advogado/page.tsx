@@ -5,6 +5,8 @@ import {
   X, ExternalLink, Phone, Scale, UserX,
 } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe do Falso Advogado: Como Identificar e se Defender | Central de Defesa Digital',
@@ -129,6 +131,20 @@ export default function GolpeFalsoAdvogadoPage() {
 
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Falso Advogado' }]} />
+      <HowToSchema
+        name="Golpe do Falso Advogado: Como identificar e agir"
+        description="Passo a passo para verificar registro na OAB, denunciar falso advogado e recuperar valores pagos em honorários fraudulentos."
+        totalTime="PT168H"
+        steps={[
+          { name: 'Não faça mais nenhum pagamento', text: 'Se reconheceu o golpe antes de pagar, ótimo. Se já pagou, pare imediatamente qualquer transferência adicional.' },
+          { name: 'Verifique a inscrição na OAB', text: 'Todo advogado registrado no Brasil tem inscrição na OAB. Acesse cna.oab.org.br e busque pelo nome ou número de OAB.' },
+          { name: 'Registre Boletim de Ocorrência', text: 'Registre BO por estelionato (Art. 171 do CP). Inclua todos os dados: nome do suposto advogado, número de OAB, contas usadas, conversas.', url: '/ferramentas/gerador-bo' },
+          { name: 'Notifique o banco e acione o MED', text: 'Se o pagamento foi via Pix, o MED pode bloquear os valores ainda na conta do golpista. Aja dentro de 72 horas.', url: '/ferramentas/pacote-completo' },
+          { name: 'Denuncie à OAB da sua seccional', text: 'Se o golpista usou um número de OAB de outra pessoa, a OAB pode investigar e alertar outros potenciais vítimas.' },
+          { name: 'Denuncie ao PROCON e ao BACEN', text: 'O PROCON recebe reclamações contra serviços não prestados. O BACEN recebe denúncias sobre transações fraudulentas via Pix.' },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── Hero ─────────────────────────────────────────────── */}

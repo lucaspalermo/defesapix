@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import NotificacaoBanco from '@/components/tools/NotificacaoBanco';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
   title: 'Gerador de Notificação Formal ao Banco — Golpe Digital | Central de Defesa Digital',
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 export default function NotificacaoBancoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Notificação Bancária' }]} />
+      <ProductSchema name="Notificação Formal ao Banco" description="Gere a notificação extrajudicial oficial ao banco baseada no CDC e Resolução BACEN." price={29} url="/ferramentas/notificacao-banco" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <h1 className="text-4xl font-bold text-white mb-4">

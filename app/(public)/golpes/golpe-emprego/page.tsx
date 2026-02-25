@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Briefcase, FileText, CheckCircle, ExternalLink } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe de Emprego Falso: O Que Fazer? | Central de Defesa Digital',
@@ -18,6 +20,18 @@ const faqItems = [
 export default function GolpeEmpregoPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Emprego' }]} />
+      <HowToSchema
+        name="Golpe de Emprego Falso: O que fazer para denunciar e recuperar taxas"
+        description="Passo a passo para denunciar vaga de emprego falsa e recuperar taxas pagas indevidamente."
+        totalTime="PT72H"
+        steps={[
+          { name: 'Registre Boletim de Ocorrência', text: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', url: '/ferramentas/gerador-bo' },
+          { name: 'Denuncie ao Ministério do Trabalho (MTE)', text: 'Denuncie vagas falsas e cobrança ilegal de candidatos ao emprego no portal do MTE.' },
+          { name: 'Registre reclamação no Procon', text: 'Relação de consumo indevida — cobrança abusiva de taxas de candidatura é ilegal.' },
+          { name: 'Denuncie à Polícia Federal', text: 'Se a empresa falsa atua em vários estados ou há suspeita de organização criminosa.' },
+        ]}
+      />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-2 text-sm text-white/50 mb-6">

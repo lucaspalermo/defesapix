@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import GeradorMED from '@/components/tools/GeradorMED';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
   title: 'Gerador de Contestação MED — Mecanismo Especial de Devolução Pix | Central de Defesa Digital',
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 export default function GeradorMEDPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Contestação MED' }]} />
+      <ProductSchema name="Contestação MED — Mecanismo Especial de Devolução" description="Gere o documento oficial de contestação MED para recuperar dinheiro de golpe via Pix." price={29} url="/ferramentas/gerador-contestacao-med" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="alert-danger mb-6 max-w-2xl mx-auto">

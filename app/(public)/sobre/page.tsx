@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Shield, Target, Heart, Users, CheckCircle, Mail, ArrowRight } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Sobre Nós | Central de Defesa Digital',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function SobrePage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Sobre' }]} />
       <section className="bg-hero-gradient py-20 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <div className="w-16 h-16 rounded-2xl bg-green-gradient flex items-center justify-center mx-auto mb-6 shadow-green-glow">

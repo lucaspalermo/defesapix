@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ChecklistTool from '@/components/tools/ChecklistTool';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Checklist de Ação para Vítimas de Golpe Digital | Central de Defesa Digital',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function ChecklistPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Checklist' }]} />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <span className="badge-green mb-4">Gratuito</span>

@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     { url: BASE_URL, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/ferramentas`, priority: 0.9, changeFrequency: 'weekly' as const },
+    { url: `${BASE_URL}/golpes`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-pix`, priority: 0.9, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-whatsapp`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-boleto`, priority: 0.85, changeFrequency: 'monthly' as const },
@@ -13,15 +14,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/golpes/golpe-emprego`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-investimento`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-clone-app`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-falso-advogado`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/roubo-celular`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/simulador-recuperacao`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/gerador-contestacao-med`, priority: 0.9, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/gerador-bo`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/notificacao-banco`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/checklist`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/pacote-completo`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/blog`, priority: 0.7, changeFrequency: 'daily' as const },
     { url: `${BASE_URL}/educacao`, priority: 0.7, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/parceiros`, priority: 0.6, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/sobre`, priority: 0.5, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/termos`, priority: 0.3, changeFrequency: 'yearly' as const },
+    { url: `${BASE_URL}/privacidade`, priority: 0.3, changeFrequency: 'yearly' as const },
+    { url: `${BASE_URL}/lgpd`, priority: 0.3, changeFrequency: 'yearly' as const },
+    { url: `${BASE_URL}/cookies`, priority: 0.3, changeFrequency: 'yearly' as const },
   ];
 
   // Blog articles

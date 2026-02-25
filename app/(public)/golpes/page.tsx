@@ -4,6 +4,7 @@ import {
   Zap, Smartphone, FileText, Heart, Briefcase, BarChart3,
   Globe, PhoneOff, Scale, ArrowRight, Shield, AlertTriangle,
 } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Tipos de Golpe Digital: Guias Completos | Central de Defesa Digital',
@@ -113,6 +114,7 @@ const urgMap = {
 export default function GolpesIndexPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Tipos de Golpe' }]} />
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="bg-hero-gradient py-14 bg-grid-pattern">
         <div className="container max-w-5xl">

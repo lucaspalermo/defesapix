@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TrendingUp, FileText, Shield, CheckSquare, Bell, ArrowRight, Lock, Zap, Package } from 'lucide-react';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
   title: 'Ferramentas Jurídicas para Vítimas de Golpe Digital | Central de Defesa Digital',
@@ -75,6 +76,7 @@ const TOOLS = [
 export default function FerramentasPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: 'Ferramentas' }]} />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <span className="badge-green mb-4">Ferramentas Jurídicas</span>
