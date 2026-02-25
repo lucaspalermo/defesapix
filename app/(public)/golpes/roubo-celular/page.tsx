@@ -76,16 +76,16 @@ const STEPS = [
     n: '6', tempo: 'PRIMEIRAS 2H', cor: 'blue',
     title: 'Registre o Boletim de Ocorrência',
     desc: 'O BO por roubo ou furto de celular é necessário para o bloqueio do IMEI e para qualquer contestação bancária subsequente. Pode ser feito online.',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO gratuito →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
     icon: FileText,
   },
   {
     n: '7', tempo: 'PRIMEIRAS 4H', cor: 'blue',
     title: 'Verifique transações não autorizadas',
     desc: 'Se o criminoso realizou transações com seu celular antes do bloqueio, acione o MED (para Pix) e/ou solicite contestação bancária imediatamente.',
-    link: '/ferramentas/gerador-contestacao-med',
-    linkText: 'Acionar MED para Pix fraudulentos →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
     icon: Lock,
   },
 ];
@@ -167,8 +167,8 @@ export default function RouboCelularPage() {
           { name: 'Troque a senha do Google ou Apple ID', text: 'O acesso à conta principal do sistema operacional dá ao ladrão acesso a e-mails, autenticadores e backups de senhas.' },
           { name: 'Bloqueie o IMEI via Anatel', text: 'O bloqueio do IMEI impede que o aparelho funcione em qualquer operadora no Brasil, tornando-o inútil para revenda.' },
           { name: 'Altere senhas de apps financeiros e e-mail principal', text: 'Priorize: WhatsApp Web, Instagram/Facebook, e-mail, e-wallets (PayPal, Mercado Pago).' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'O BO por roubo ou furto é necessário para o bloqueio do IMEI e para qualquer contestação bancária subsequente.', url: '/ferramentas/gerador-bo' },
-          { name: 'Verifique transações não autorizadas', text: 'Se o criminoso realizou transações com seu celular antes do bloqueio, acione o MED para Pix e solicite contestação bancária.', url: '/ferramentas/gerador-contestacao-med' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'O BO por roubo ou furto é necessário para o bloqueio do IMEI e para qualquer contestação bancária subsequente.', url: '/ferramentas/pacote-completo' },
+          { name: 'Verifique transações não autorizadas', text: 'Se o criminoso realizou transações com seu celular antes do bloqueio, acione o MED para Pix e solicite contestação bancária.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -212,9 +212,9 @@ export default function RouboCelularPage() {
               <Phone className="w-5 h-5" />
               Ver números das operadoras
             </Link>
-            <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+            <Link href="/ferramentas/pacote-completo" className="btn-secondary">
               <FileText className="w-5 h-5" />
-              Registrar BO de roubo
+              Kit Completo — R$47
             </Link>
           </div>
         </div>
@@ -429,7 +429,7 @@ export default function RouboCelularPage() {
                   corBorder: 'border-green-500/30 bg-green-500/5',
                   badgeCls: 'badge-green',
                   desc: 'Acionado via SAC do banco. O Banco Central bloqueia o valor na conta do destinatário e inicia a devolução. Mais eficaz quando acionado em até 72 horas do Pix fraudulento.',
-                  cta: { texto: 'Gerar Contestação MED', href: '/ferramentas/gerador-contestacao-med' },
+                  cta: { texto: 'Kit Completo — R$47', href: '/ferramentas/pacote-completo' },
                 },
                 {
                   num: '2',
@@ -439,7 +439,7 @@ export default function RouboCelularPage() {
                   corBorder: 'border-amber-500/30 bg-amber-500/5',
                   badgeCls: 'badge-yellow',
                   desc: 'O banco tem responsabilidade objetiva por transações realizadas via fraude. Formalize via notificação extrajudicial com o BO anexo. O banco tem 30 dias para responder.',
-                  cta: { texto: 'Gerar Notificação ao Banco', href: '/ferramentas/notificacao-banco' },
+                  cta: { texto: 'Kit Completo — R$47', href: '/ferramentas/pacote-completo' },
                 },
                 {
                   num: '3',
@@ -498,9 +498,9 @@ export default function RouboCelularPage() {
                 <FileText className="w-4 h-4" />
                 Pacote Emergência — 3 documentos
               </Link>
-              <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+              <Link href="/ferramentas/pacote-completo" className="btn-secondary">
                 <Shield className="w-4 h-4" />
-                Gerar BO de roubo (grátis)
+                Kit Completo — R$47
               </Link>
             </div>
           </div>

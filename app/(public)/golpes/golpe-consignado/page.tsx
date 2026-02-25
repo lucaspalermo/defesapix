@@ -34,8 +34,8 @@ const STEPS = [
     desc: 'Documente a fraude. Informe que houve contratação de empréstimo consignado sem sua autorização.',
     icon: Shield,
     cor: 'orange',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '3', urgencia: '48H',
@@ -43,8 +43,8 @@ const STEPS = [
     desc: 'Envie notificação extrajudicial exigindo cancelamento do contrato e devolução dos valores descontados.',
     icon: FileText,
     cor: 'yellow',
-    link: '/ferramentas/notificacao-banco',
-    linkText: 'Gerar notificação →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '4', urgencia: '72H',
@@ -109,8 +109,8 @@ export default function GolpeConsignadoPage() {
         totalTime="PT72H"
         steps={[
           { name: 'Ligue para o banco', text: 'Solicite cancelamento imediato e peça cópia do contrato e protocolo de atendimento.' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude informando que não autorizou a contratação.', url: '/ferramentas/gerador-bo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação exigindo cancelamento e devolução dos valores descontados.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude informando que não autorizou a contratação.', url: '/ferramentas/pacote-completo' },
+          { name: 'Notifique o banco formalmente', text: 'Envie notificação exigindo cancelamento e devolução dos valores descontados.', url: '/ferramentas/pacote-completo' },
           { name: 'Registre no INSS e BACEN', text: 'Reclame no Meu INSS (aposentados) e no Banco Central para pressão regulatória.' },
           { name: 'Procure o Procon ou advogado', text: 'Se o banco não resolver em 10 dias, acione Procon ou Juizado Especial para indenização.' },
         ]}
@@ -140,13 +140,13 @@ export default function GolpeConsignadoPage() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/notificacao-banco" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
-              Notificar o banco
+              Kit Completo — R$47
             </Link>
-            <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+            <Link href="/ferramentas/pacote-completo" className="btn-secondary">
               <Shield className="w-5 h-5" />
-              Gerar modelo de B.O.
+              Kit Completo — R$47
             </Link>
           </div>
         </div>
@@ -239,13 +239,13 @@ export default function GolpeConsignadoPage() {
               Gere a notificação formal ao banco e o B.O. com todos os fundamentos legais.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/notificacao-banco" className="btn-primary">
+              <Link href="/ferramentas/pacote-completo" className="btn-primary">
                 <FileText className="w-4 h-4" />
-                Notificar o banco
+                Kit Completo — R$47
               </Link>
-              <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+              <Link href="/ferramentas/pacote-completo" className="btn-secondary">
                 <Shield className="w-4 h-4" />
-                Gerar modelo de B.O.
+                Kit Completo — R$47
               </Link>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function GolpeConsignadoPage() {
             {[
               { titulo: 'Golpe via Pix', href: '/golpes/golpe-pix', emoji: '⚡' },
               { titulo: 'Golpe do Cartão', href: '/golpes/golpe-cartao', emoji: '💳' },
-              { titulo: 'Notificação ao Banco', href: '/ferramentas/notificacao-banco', emoji: '📄' },
+              { titulo: 'Notificação ao Banco', href: '/ferramentas/pacote-completo', emoji: '📄' },
             ].map((item) => (
               <Link key={item.href} href={item.href} className="card hover:border-green-500/30 transition-all group">
                 <span className="text-2xl mb-2 block">{item.emoji}</span>

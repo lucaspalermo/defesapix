@@ -41,8 +41,8 @@ const STEPS = [
     desc: 'O B.O. é essencial para a contestação formal junto ao banco e para qualquer ação judicial posterior.',
     icon: Shield,
     cor: 'orange',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '4', urgencia: '48H',
@@ -50,8 +50,8 @@ const STEPS = [
     desc: 'Envie notificação extrajudicial documentando as transações fraudulentas e exigindo o estorno com base no CDC.',
     icon: FileText,
     cor: 'yellow',
-    link: '/ferramentas/notificacao-banco',
-    linkText: 'Gerar notificação →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
 ];
 
@@ -110,8 +110,8 @@ export default function GolpeCartaoPage() {
         steps={[
           { name: 'Bloqueie o cartão pelo app', text: 'Bloqueie imediatamente pelo app do banco para impedir novas transações fraudulentas.' },
           { name: 'Ligue para a central e conteste', text: 'Informe as transações não reconhecidas e solicite o chargeback. Anote o protocolo.' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com todos os detalhes das transações não reconhecidas.', url: '/ferramentas/gerador-bo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação extrajudicial exigindo estorno com base no CDC.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com todos os detalhes das transações não reconhecidas.', url: '/ferramentas/pacote-completo' },
+          { name: 'Notifique o banco formalmente', text: 'Envie notificação extrajudicial exigindo estorno com base no CDC.', url: '/ferramentas/pacote-completo' },
           { name: 'Solicite novo cartão', text: 'Peça um cartão novo com número diferente para garantir que os dados antigos não sejam reutilizados.' },
         ]}
       />
@@ -148,9 +148,9 @@ export default function GolpeCartaoPage() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
-              Gerar modelo de B.O.
+              Kit Completo — R$47
             </Link>
             <Link href="/ferramentas/checklist" className="btn-secondary">
               <CheckCircle className="w-5 h-5" />
@@ -245,11 +245,11 @@ export default function GolpeCartaoPage() {
               Gere o B.O. e a notificação formal ao banco com fundamentação legal completa.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/gerador-bo" className="btn-primary">
+              <Link href="/ferramentas/pacote-completo" className="btn-primary">
                 <FileText className="w-4 h-4" />
-                Gerar modelo de B.O.
+                Kit Completo — R$47
               </Link>
-              <Link href="/ferramentas/notificacao-banco" className="btn-secondary">
+              <Link href="/ferramentas/pacote-completo" className="btn-secondary">
                 Notificação ao banco
               </Link>
             </div>
@@ -268,7 +268,7 @@ export default function GolpeCartaoPage() {
             {[
               { titulo: 'Golpe via Pix', href: '/golpes/golpe-pix', emoji: '⚡' },
               { titulo: 'App / Site Falso (Phishing)', href: '/golpes/golpe-phishing', emoji: '🎣' },
-              { titulo: 'Notificação ao Banco', href: '/ferramentas/notificacao-banco', emoji: '📄' },
+              { titulo: 'Notificação ao Banco', href: '/ferramentas/pacote-completo', emoji: '📄' },
             ].map((item) => (
               <Link key={item.href} href={item.href} className="card hover:border-green-500/30 transition-all group">
                 <span className="text-2xl mb-2 block">{item.emoji}</span>

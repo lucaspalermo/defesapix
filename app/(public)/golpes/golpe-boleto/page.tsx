@@ -38,8 +38,8 @@ export default function GolpeBoletoPage() {
         totalTime="PT48H"
         steps={[
           { name: 'Ligue para o banco imediatamente', text: 'Relate o pagamento de boleto falso e solicite cancelamento ou contestação. Anote o protocolo.' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com o número do boleto, valor e dados do beneficiário fraudulento.', url: '/ferramentas/gerador-bo' },
-          { name: 'Notifique o banco formalmente', text: 'Gere a notificação extrajudicial ao seu banco citando o CDC e pedindo devolução formal.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com o número do boleto, valor e dados do beneficiário fraudulento.', url: '/ferramentas/pacote-completo' },
+          { name: 'Notifique o banco formalmente', text: 'Gere a notificação extrajudicial ao seu banco citando o CDC e pedindo devolução formal.', url: '/ferramentas/pacote-completo' },
           { name: 'Registre no Banco Central', text: 'Reclamação formal no BACEN sobre falha do sistema bancário que permitiu o boleto adulterado.' },
         ]}
       />
@@ -59,8 +59,8 @@ export default function GolpeBoletoPage() {
             e quais são as chances de recuperar o valor.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/notificacao-banco" className="btn-primary"><FileText className="w-5 h-5" />Notificar banco</Link>
-            <Link href="/ferramentas/gerador-bo" className="btn-secondary"><CheckCircle className="w-5 h-5" />Gerar BO</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary"><FileText className="w-5 h-5" />Kit Completo — R$47</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-secondary"><CheckCircle className="w-5 h-5" />Kit Completo — R$47</Link>
           </div>
         </div>
       </section>
@@ -98,9 +98,9 @@ export default function GolpeBoletoPage() {
           <div className="card border-green-500/30 bg-green-500/5 text-center">
             <h3 className="font-heading font-bold text-white text-xl mb-3">Gere a notificação formal ao banco</h3>
             <p className="text-white/70 mb-6">Documento baseado no CDC que gera protocolo e responsabilidade legal.</p>
-            <Link href="/ferramentas/notificacao-banco" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <Shield className="w-4 h-4" />
-              Gerar notificação
+              Kit Completo — R$47
             </Link>
           </div>
         </div>

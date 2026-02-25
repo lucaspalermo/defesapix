@@ -53,7 +53,7 @@ export default function GolpeWhatsAppPage() {
         steps={[
           { name: 'Recupere o número imediatamente', text: 'Abra o WhatsApp, insira seu número e solicite novo código. O golpista perde o acesso automaticamente.' },
           { name: 'Avise seus contatos', text: 'Poste um story ou envie mensagem em grupo avisando sobre a clonagem. Peça para ninguém enviar dinheiro.' },
-          { name: 'Registre Boletim de Ocorrência', text: 'O BO protege você de responsabilidades pelas dívidas criadas pelos golpistas com seu número.', url: '/ferramentas/gerador-bo' },
+          { name: 'Registre Boletim de Ocorrência', text: 'O BO protege você de responsabilidades pelas dívidas criadas pelos golpistas com seu número.', url: '/ferramentas/pacote-completo' },
           { name: 'Notifique a ANATEL', text: 'Registre reclamação no site da ANATEL sobre o uso indevido do seu número telefônico.' },
           { name: 'Denuncie ao WhatsApp (Meta)', text: 'No app: Configurações > Ajuda > Fale conosco. Relate a clonagem para bloquear o número fraudulento.' },
           { name: 'Ative verificação em duas etapas', text: 'Configurações > Conta > Verificação em duas etapas. Isso impede nova clonagem.' },
@@ -88,9 +88,9 @@ export default function GolpeWhatsAppPage() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
-              Gerar BO agora
+              Kit Completo — R$47
             </Link>
             <Link href="/ferramentas/checklist" className="btn-secondary">
               <CheckCircle className="w-5 h-5" />
@@ -152,9 +152,9 @@ export default function GolpeWhatsAppPage() {
           <div className="card border-green-500/30 bg-green-500/5 text-center">
             <h3 className="font-bold text-white text-xl mb-3">Gere o BO completo em 2 minutos</h3>
             <p className="text-white/70 mb-6">Modelo profissional com tipificação correta para crime de estelionato digital.</p>
-            <Link href="/ferramentas/gerador-bo" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <Shield className="w-4 h-4" />
-              Gerar Boletim de Ocorrência
+              Kit Completo — R$47
             </Link>
           </div>
         </div>

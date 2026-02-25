@@ -37,11 +37,11 @@ const NAV_LINKS = [
     label: 'Ferramentas',
     href: '/ferramentas',
     children: [
-      { label: 'Simulador de Recuperação', href: '/ferramentas/simulador-recuperacao', desc: 'Calcule sua probabilidade de recuperar' },
-      { label: 'Contestação MED', href: '/ferramentas/gerador-contestacao-med', desc: 'Acione o Mecanismo Especial de Devolução' },
-      { label: 'Boletim de Ocorrência', href: '/ferramentas/gerador-bo', desc: 'Gere o BO completo e correto' },
-      { label: 'Notificação ao Banco', href: '/ferramentas/notificacao-banco', desc: 'Notifique formalmente sua instituição' },
-      { label: 'Checklist de Ação', href: '/ferramentas/checklist', desc: 'Passo a passo personalizado do seu caso' },
+      { label: 'Diagnóstico Gratuito', href: '/ferramentas/diagnostico', desc: 'Descubra sua chance de recuperação em 30s' },
+      { label: 'Kit Completo — R$47', href: '/ferramentas/pacote-completo', desc: 'Todos os documentos + guia passo a passo' },
+      { label: 'Contestação MED', href: '/ferramentas/gerador-contestacao-med', desc: 'Bloqueio cautelar de valores via Pix' },
+      { label: 'Boletim de Ocorrência', href: '/ferramentas/gerador-bo', desc: 'Modelo profissional para delegacia' },
+      { label: 'Notificação Bancária', href: '/ferramentas/notificacao-banco', desc: 'Notificação formal com base no CDC' },
     ],
   },
   { label: 'Blog', href: '/blog' },
@@ -74,11 +74,11 @@ export default function Header() {
             <span className="font-bold text-white">Você tem 72 horas</span> para acionar o MED.
           </span>
           <Link
-            href="/ferramentas/gerador-contestacao-med"
+            href="/ferramentas/pacote-completo"
             className="hidden sm:inline-flex items-center gap-1 text-[0.7rem] font-bold text-red-950 bg-red-400 hover:bg-red-300 px-3 py-1 rounded-full transition-colors shrink-0"
           >
             <Zap className="w-3 h-3" />
-            Acionar agora
+            Agir agora — R$47
           </Link>
         </div>
       </div>

@@ -51,15 +51,15 @@ const STEPS = [
     n: '3', urgencia: 'PRIMEIRAS 24H', cor: 'orange',
     title: 'Registre Boletim de Ocorrência',
     desc: 'Registre BO por estelionato (Art. 171 do Código Penal). Inclua todos os dados: nome do suposto advogado, número de OAB apresentado, contas bancárias usadas, conversas de WhatsApp.',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO (gratuito) →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     n: '4', urgencia: 'PRIMEIRAS 48H', cor: 'orange',
     title: 'Notifique o banco e acione o MED (se foi Pix)',
     desc: 'Se o pagamento foi via Pix, o MED pode bloquear os valores ainda na conta do golpista. Aja dentro de 72 horas da transação para melhor resultado.',
     link: '/ferramentas/pacote-completo',
-    linkText: 'Gerar contestação MED + BO + Notificação →',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     n: '5', urgencia: 'PRIMEIROS 5 DIAS', cor: 'blue',
@@ -139,7 +139,7 @@ export default function GolpeFalsoAdvogadoPage() {
         steps={[
           { name: 'Não faça mais nenhum pagamento', text: 'Se reconheceu o golpe antes de pagar, ótimo. Se já pagou, pare imediatamente qualquer transferência adicional.' },
           { name: 'Verifique a inscrição na OAB', text: 'Todo advogado registrado no Brasil tem inscrição na OAB. Acesse cna.oab.org.br e busque pelo nome ou número de OAB.' },
-          { name: 'Registre Boletim de Ocorrência', text: 'Registre BO por estelionato (Art. 171 do CP). Inclua todos os dados: nome do suposto advogado, número de OAB, contas usadas, conversas.', url: '/ferramentas/gerador-bo' },
+          { name: 'Registre Boletim de Ocorrência', text: 'Registre BO por estelionato (Art. 171 do CP). Inclua todos os dados: nome do suposto advogado, número de OAB, contas usadas, conversas.', url: '/ferramentas/pacote-completo' },
           { name: 'Notifique o banco e acione o MED', text: 'Se o pagamento foi via Pix, o MED pode bloquear os valores ainda na conta do golpista. Aja dentro de 72 horas.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie à OAB da sua seccional', text: 'Se o golpista usou um número de OAB de outra pessoa, a OAB pode investigar e alertar outros potenciais vítimas.' },
           { name: 'Denuncie ao PROCON e ao BACEN', text: 'O PROCON recebe reclamações contra serviços não prestados. O BACEN recebe denúncias sobre transações fraudulentas via Pix.' },
@@ -187,9 +187,9 @@ export default function GolpeFalsoAdvogadoPage() {
               Verificar advogado na OAB agora
               <ExternalLink className="w-4 h-4" />
             </a>
-            <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+            <Link href="/ferramentas/pacote-completo" className="btn-secondary">
               <FileText className="w-5 h-5" />
-              Gerar BO (grátis)
+              Kit Completo — R$47
             </Link>
           </div>
         </div>
@@ -351,9 +351,9 @@ export default function GolpeFalsoAdvogadoPage() {
                 <FileText className="w-4 h-4" />
                 Pacote Emergência — 3 documentos
               </Link>
-              <Link href="/ferramentas/gerador-bo" className="btn-secondary">
+              <Link href="/ferramentas/pacote-completo" className="btn-secondary">
                 <Shield className="w-4 h-4" />
-                Gerar só o BO (grátis)
+                Kit Completo — R$47
               </Link>
             </div>
           </div>

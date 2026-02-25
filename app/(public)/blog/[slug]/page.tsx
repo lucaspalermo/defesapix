@@ -1228,9 +1228,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
             <div className="flex flex-wrap gap-3">
               <Link href="/golpes/golpe-pix" className="text-sm text-green-400 hover:text-green-300 transition-colors">Golpe Pix →</Link>
               <Link href="/golpes/golpe-whatsapp" className="text-sm text-green-400 hover:text-green-300 transition-colors">Golpe WhatsApp →</Link>
-              <Link href="/ferramentas/gerador-contestacao-med" className="text-sm text-green-400 hover:text-green-300 transition-colors">Gerar MED →</Link>
-              <Link href="/ferramentas/gerador-bo" className="text-sm text-green-400 hover:text-green-300 transition-colors">Gerar B.O. →</Link>
-              <Link href="/ferramentas/notificacao-banco" className="text-sm text-green-400 hover:text-green-300 transition-colors">Notificar Banco →</Link>
+              <Link href="/ferramentas/gerador-contestacao-med" className="text-sm text-green-400 hover:text-green-300 transition-colors">Contestação MED</Link>
+              <Link href="/ferramentas/gerador-bo" className="text-sm text-green-400 hover:text-green-300 transition-colors">Boletim de Ocorrência</Link>
+              <Link href="/ferramentas/notificacao-banco" className="text-sm text-green-400 hover:text-green-300 transition-colors">Notificação Bancária</Link>
               <Link href="/golpes" className="text-sm text-white/50 hover:text-white transition-colors">Ver todos os golpes →</Link>
               <Link href="/blog" className="text-sm text-white/50 hover:text-white transition-colors">Ver todos os artigos →</Link>
             </div>

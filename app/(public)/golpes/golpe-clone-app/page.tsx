@@ -39,8 +39,8 @@ export default function GolpeCloneAppPage() {
         steps={[
           { name: 'Bloqueie todos os cartões', text: 'Ligue para o banco ou use o app oficial (se não comprometido) e bloqueie todos os cartões imediatamente.' },
           { name: 'Troque todas as senhas', text: 'Senha do app, senha do internet banking, senha do cartão. Faça isso de outro dispositivo se possível.' },
-          { name: 'Acione o MED se houver Pix perdido', text: 'Se houve transferência Pix fraudulenta, acione o MED pelo SAC do banco imediatamente.', url: '/ferramentas/gerador-contestacao-med' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente o acidente com detalhes: URL do site falso, prints, valor perdido.', url: '/ferramentas/gerador-bo' },
+          { name: 'Acione o MED se houver Pix perdido', text: 'Se houve transferência Pix fraudulenta, acione o MED pelo SAC do banco imediatamente.', url: '/ferramentas/pacote-completo' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'Documente o acidente com detalhes: URL do site falso, prints, valor perdido.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie à empresa responsável', text: 'Reporte o app falso à App Store/Google Play e o site à SaferNet Brasil.' },
         ]}
       />
@@ -66,8 +66,8 @@ export default function GolpeCloneAppPage() {
             Aja imediatamente para limitar os danos.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-contestacao-med" className="btn-primary"><FileText className="w-5 h-5" />Gerar MED urgente</Link>
-            <Link href="/ferramentas/gerador-bo" className="btn-secondary"><CheckCircle className="w-5 h-5" />Gerar BO</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary"><FileText className="w-5 h-5" />Kit Completo — R$47</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-secondary"><CheckCircle className="w-5 h-5" />Kit Completo — R$47</Link>
           </div>
         </div>
       </section>
@@ -109,8 +109,8 @@ export default function GolpeCloneAppPage() {
             <h3 className="font-heading font-bold text-white text-xl mb-3">Proteja-se agora</h3>
             <p className="text-white/70 mb-6">Gere o MED e o BO para os documentos mais críticos do seu caso.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/gerador-contestacao-med" className="btn-primary text-sm">Gerar MED</Link>
-              <Link href="/ferramentas/gerador-bo" className="btn-secondary text-sm">Gerar BO</Link>
+              <Link href="/ferramentas/pacote-completo" className="btn-primary text-sm">Kit Completo — R$47</Link>
+              <Link href="/ferramentas/pacote-completo" className="btn-secondary text-sm">Kit Completo — R$47</Link>
             </div>
           </div>
         </div>

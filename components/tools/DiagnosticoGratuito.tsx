@@ -160,7 +160,7 @@ export default function DiagnosticoGratuito() {
       await fetch('/api/email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, tipo: 'diagnostico', golpe: result?.golpe.label }),
+        body: JSON.stringify({ email, nome: 'Visitante', tipo: result?.golpe.label ?? 'Golpe digital' }),
       });
     } catch { /* silent */ }
     setEmailSalvo(true);

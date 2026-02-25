@@ -12,11 +12,11 @@ const FOOTER_LINKS = {
     { label: 'App / Site Falso',          href: '/golpes/golpe-clone-app' },
   ],
   Ferramentas: [
-    { label: 'Simulador de Recuperação', href: '/ferramentas/simulador-recuperacao' },
+    { label: 'Diagnóstico Gratuito',    href: '/ferramentas/diagnostico' },
+    { label: 'Kit Completo — R$47',     href: '/ferramentas/pacote-completo' },
     { label: 'Contestação MED (Pix)',    href: '/ferramentas/gerador-contestacao-med' },
     { label: 'Boletim de Ocorrência',    href: '/ferramentas/gerador-bo' },
     { label: 'Notificação Bancária',     href: '/ferramentas/notificacao-banco' },
-    { label: 'Checklist de Ação',        href: '/ferramentas/checklist' },
   ],
   Empresa: [
     { label: 'Sobre Nós',          href: '/sobre' },

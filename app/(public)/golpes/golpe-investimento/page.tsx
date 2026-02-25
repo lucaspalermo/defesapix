@@ -37,7 +37,7 @@ export default function GolpeInvestimentoPage() {
         description="Passo a passo para denunciar golpe de investimento ou criptomoeda fraudulenta à Polícia Federal, CVM e Banco Central."
         totalTime="PT72H"
         steps={[
-          { name: 'Registre BO na Polícia Federal', text: 'Golpes de investimento são crimes federais. Registre BO na PF imediatamente com todos os comprovantes.', url: '/ferramentas/gerador-bo' },
+          { name: 'Registre BO na Polícia Federal', text: 'Golpes de investimento são crimes federais. Registre BO na PF imediatamente com todos os comprovantes.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie à CVM', text: 'Denuncie à Comissão de Valores Mobiliários para investigação e bloqueio de ativos dos responsáveis.' },
           { name: 'Registre no Banco Central', text: 'Se houve movimentação financeira, registre reclamação formal no Banco Central.' },
           { name: 'Denuncie ao COAF', text: 'Registre denúncia no Conselho de Controle de Atividades Financeiras para casos de lavagem de dinheiro.' },
@@ -59,7 +59,7 @@ export default function GolpeInvestimentoPage() {
             Saiba como denunciar e recuperar valores com os órgãos certos.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary"><FileText className="w-5 h-5" />Gerar BO</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary"><FileText className="w-5 h-5" />Kit Completo — R$47</Link>
             <Link href="/parceiros" className="btn-secondary"><CheckCircle className="w-5 h-5" />Consultar advogado</Link>
           </div>
         </div>

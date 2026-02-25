@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/golpes/golpe-cartao`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-phishing`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/golpes/golpe-consignado`, priority: 0.8, changeFrequency: 'monthly' as const },
-    { url: `${BASE_URL}/ferramentas/simulador-recuperacao`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/diagnostico`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/ferramentas/gerador-contestacao-med`, priority: 0.9, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/gerador-bo`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/notificacao-banco`, priority: 0.8, changeFrequency: 'monthly' as const },

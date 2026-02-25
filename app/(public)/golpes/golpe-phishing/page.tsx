@@ -48,8 +48,8 @@ const STEPS = [
     desc: 'Documente o golpe com prints do e-mail/SMS falso, URL do site e quaisquer dados que foram expostos.',
     icon: FileText,
     cor: 'yellow',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
 ];
 
@@ -109,7 +109,7 @@ export default function GolpePhishingPage() {
           { name: 'Não clique em mais nada', text: 'Feche a página falsa imediatamente. Não insira nenhum dado adicional.' },
           { name: 'Troque suas senhas', text: 'Altere a senha do banco, e-mail e redes sociais. Ative autenticação em dois fatores.' },
           { name: 'Ligue para o banco', text: 'Informe o ocorrido e solicite monitoramento da conta e bloqueio de transações suspeitas.' },
-          { name: 'Registre o B.O.', text: 'Documente o golpe com prints do e-mail/SMS falso e URL do site.', url: '/ferramentas/gerador-bo' },
+          { name: 'Registre o B.O.', text: 'Documente o golpe com prints do e-mail/SMS falso e URL do site.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie o site falso', text: 'Denuncie em SaferNet, Google Safe Browsing e diretamente ao banco imitado.' },
         ]}
       />
@@ -146,9 +146,9 @@ export default function GolpePhishingPage() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
-              Gerar modelo de B.O.
+              Kit Completo — R$47
             </Link>
             <Link href="/ferramentas/checklist" className="btn-secondary">
               <CheckCircle className="w-5 h-5" />
@@ -258,9 +258,9 @@ export default function GolpePhishingPage() {
               Gere o B.O. e a notificação ao banco com referências legais automaticamente incluídas.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/gerador-bo" className="btn-primary">
+              <Link href="/ferramentas/pacote-completo" className="btn-primary">
                 <FileText className="w-4 h-4" />
-                Gerar modelo de B.O.
+                Kit Completo — R$47
               </Link>
               <Link href="/ferramentas/checklist" className="btn-secondary">
                 <CheckCircle className="w-4 h-4" />

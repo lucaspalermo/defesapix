@@ -39,8 +39,8 @@ export default function GolpeRomancePage() {
         steps={[
           { name: 'Pare todo contato imediatamente', text: 'Bloqueie e denuncie o perfil. Não responda mais nenhuma mensagem, mesmo que pareça urgente.' },
           { name: 'Salve TODAS as evidências', text: 'Prints de conversas, transferências, perfil, fotos recebidas. Não delete nada — é prova judicial.' },
-          { name: 'Acione o MED se foi via Pix', text: 'Se a transferência foi recente (menos de 72h), acione o MED pelo seu banco imediatamente.', url: '/ferramentas/gerador-contestacao-med' },
-          { name: 'Registre o BO com detalhes', text: 'Inclua todos os dados do golpista: nome usado, perfis, número de conta, valores e datas.', url: '/ferramentas/gerador-bo' },
+          { name: 'Acione o MED se foi via Pix', text: 'Se a transferência foi recente (menos de 72h), acione o MED pelo seu banco imediatamente.', url: '/ferramentas/pacote-completo' },
+          { name: 'Registre o BO com detalhes', text: 'Inclua todos os dados do golpista: nome usado, perfis, número de conta, valores e datas.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie nas plataformas', text: 'Reporte o perfil no Instagram, Facebook, Tinder, WhatsApp. Isso ajuda a proteger outras vítimas.' },
         ]}
       />
@@ -60,7 +60,7 @@ export default function GolpeRomancePage() {
             Veja como documentar, denunciar e se proteger.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary"><FileText className="w-5 h-5" />Gerar BO</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary"><FileText className="w-5 h-5" />Kit Completo — R$47</Link>
             <Link href="/parceiros" className="btn-secondary"><CheckCircle className="w-5 h-5" />Consultar advogado</Link>
           </div>
         </div>

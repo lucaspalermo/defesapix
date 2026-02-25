@@ -35,8 +35,8 @@ const STEPS = [
     desc: 'Use nossa ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.',
     icon: FileText,
     cor: 'orange',
-    link: '/ferramentas/gerador-contestacao-med',
-    linkText: 'Gerar contestação MED →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '3', urgencia: 'PRIMEIRAS 4H',
@@ -44,8 +44,8 @@ const STEPS = [
     desc: 'O BO é fundamental para todos os processos subsequentes. Pode ser feito online em qualquer estado.',
     icon: Shield,
     cor: 'orange',
-    link: '/ferramentas/gerador-bo',
-    linkText: 'Gerar modelo de BO →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '4', urgencia: '24H',
@@ -53,8 +53,8 @@ const STEPS = [
     desc: 'Além do SAC, envie notificação formal por escrito gerando protocolo de responsabilidade legal.',
     icon: FileText,
     cor: 'yellow',
-    link: '/ferramentas/notificacao-banco',
-    linkText: 'Gerar notificação →',
+    link: '/ferramentas/pacote-completo',
+    linkText: 'Kit Completo — R$47 →',
   },
   {
     step: '5', urgencia: '48H',
@@ -126,9 +126,9 @@ export default function GolpePixPage() {
         totalTime="PT48H"
         steps={[
           { name: 'Ligue para o SAC do seu banco', text: 'Relate o golpe e solicite o acionamento do MED (Mecanismo Especial de Devolução). Anote o protocolo.' },
-          { name: 'Gere a Contestação MED', text: 'Use a ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.', url: '/ferramentas/gerador-contestacao-med' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'O BO é fundamental para todos os processos. Pode ser feito online em qualquer estado.', url: '/ferramentas/gerador-bo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação formal por escrito gerando protocolo de responsabilidade legal.', url: '/ferramentas/notificacao-banco' },
+          { name: 'Gere a Contestação MED', text: 'Use a ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.', url: '/ferramentas/pacote-completo' },
+          { name: 'Registre o Boletim de Ocorrência', text: 'O BO é fundamental para todos os processos. Pode ser feito online em qualquer estado.', url: '/ferramentas/pacote-completo' },
+          { name: 'Notifique o banco formalmente', text: 'Envie notificação formal por escrito gerando protocolo de responsabilidade legal.', url: '/ferramentas/pacote-completo' },
           { name: 'Registre no Banco Central', text: 'Acesse o portal Meu BC e registre reclamação formal para acelerar a análise.' },
           { name: 'Registre no Procon', text: 'Registre reclamação no Procon do seu estado para gerar protocolo adicional de pressão.' },
         ]}
@@ -167,9 +167,9 @@ export default function GolpePixPage() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-contestacao-med" className="btn-primary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
-              Gerar Contestação MED agora
+              Kit Completo — R$47
             </Link>
             <Link href="/ferramentas/checklist" className="btn-secondary">
               <CheckCircle className="w-5 h-5" />
@@ -188,7 +188,7 @@ export default function GolpePixPage() {
               <h2 className="font-bold text-white">O MED tem prazo de 72 horas para maior eficácia</h2>
               <p className="text-sm text-white/70">Mecanismo Especial de Devolução do Banco Central — Resolução BCB nº 93/2021</p>
             </div>
-            <Link href="/ferramentas/gerador-contestacao-med" className="btn-danger shrink-0">
+            <Link href="/ferramentas/pacote-completo" className="btn-danger shrink-0">
               Acionar MED agora
               <ArrowRight className="w-4 h-4" />
             </Link>
@@ -341,9 +341,9 @@ export default function GolpePixPage() {
               Gere todos os documentos necessários em minutos. Contestação MED, BO e notificação bancária.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/gerador-contestacao-med" className="btn-primary">
+              <Link href="/ferramentas/pacote-completo" className="btn-primary">
                 <FileText className="w-4 h-4" />
-                Gerar Contestação MED
+                Kit Completo — R$47
               </Link>
               <Link href="/ferramentas/checklist" className="btn-secondary">
                 <CheckCircle className="w-4 h-4" />
@@ -365,7 +365,7 @@ export default function GolpePixPage() {
             {[
               { titulo: 'Clonagem de WhatsApp', href: '/golpes/golpe-whatsapp', emoji: '📱' },
               { titulo: 'App/Site Falso de Banco', href: '/golpes/golpe-clone-app', emoji: '🏦' },
-              { titulo: 'Ferramenta: Gerador de MED', href: '/ferramentas/gerador-contestacao-med', emoji: '⚡' },
+              { titulo: 'Ferramenta: Gerador de MED', href: '/ferramentas/pacote-completo', emoji: '⚡' },
             ].map((item) => (
               <Link key={item.href} href={item.href} className="card hover:border-green-500/30 transition-all group">
                 <span className="text-2xl mb-2 block">{item.emoji}</span>

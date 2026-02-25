@@ -37,7 +37,7 @@ export default function GolpeEmpregoPage() {
         description="Passo a passo para denunciar vaga de emprego falsa e recuperar taxas pagas indevidamente."
         totalTime="PT72H"
         steps={[
-          { name: 'Registre Boletim de Ocorrência', text: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', url: '/ferramentas/gerador-bo' },
+          { name: 'Registre Boletim de Ocorrência', text: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', url: '/ferramentas/pacote-completo' },
           { name: 'Denuncie ao Ministério do Trabalho (MTE)', text: 'Denuncie vagas falsas e cobrança ilegal de candidatos ao emprego no portal do MTE.' },
           { name: 'Registre reclamação no Procon', text: 'Relação de consumo indevida — cobrança abusiva de taxas de candidatura é ilegal.' },
           { name: 'Denuncie à Polícia Federal', text: 'Se a empresa falsa atua em vários estados ou há suspeita de organização criminosa.' },
@@ -59,7 +59,7 @@ export default function GolpeEmpregoPage() {
             Saiba como denunciar e recuperar os valores.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/ferramentas/gerador-bo" className="btn-primary"><FileText className="w-5 h-5" />Gerar BO</Link>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary"><FileText className="w-5 h-5" />Kit Completo — R$47</Link>
             <Link href="/ferramentas/checklist" className="btn-secondary"><CheckCircle className="w-5 h-5" />Ver checklist</Link>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function GolpeEmpregoPage() {
             <h2 className="font-heading font-bold text-2xl text-white mb-6">Onde denunciar</h2>
             <div className="space-y-3">
               {[
-                { org: 'Polícia Civil (BO)',           desc: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', href: '/ferramentas/gerador-bo', interno: true,  badge: 'red'    },
+                { org: 'Polícia Civil (BO)',           desc: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', href: '/ferramentas/pacote-completo', interno: true,  badge: 'red'    },
                 { org: 'Ministério do Trabalho (MTE)', desc: 'Denuncie vagas falsas e cobrança ilegal de candidatos ao emprego.', href: 'https://www.gov.br/trabalho-e-previdencia', interno: false, badge: 'ember'  },
                 { org: 'Procon',                       desc: 'Relação de consumo indevida — cobrança abusiva de taxas de candidatura.', href: 'https://www.procon.sp.gov.br', interno: false, badge: 'gold'   },
                 { org: 'Polícia Federal',               desc: 'Se a empresa falsa atua em vários estados ou suspeita de organização criminosa.', href: 'https://www.gov.br/pf', interno: false, badge: 'blue'   },
