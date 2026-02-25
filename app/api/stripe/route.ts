@@ -65,8 +65,7 @@ export async function PUT(req: NextRequest) {
 
     await prisma.payment.create({
       data: {
-        stripeSessionId: session.id,
-        stripePaymentId: session.payment_intent as string,
+        gatewayId: session.id,
         amount: (session.amount_total ?? 0) / 100,
         status: 'PAID',
         produto: produto as any,
