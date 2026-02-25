@@ -77,7 +77,7 @@ NEXTAUTH_SECRET=           # Gerado com: openssl rand -base64 32
 STRIPE_SECRET_KEY=         # Dashboard Stripe
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=     # Criado no Stripe Dashboard
-NEXT_PUBLIC_APP_URL=       # URL do app (ex: https://centraldefesadigital.com.br)
+NEXT_PUBLIC_APP_URL=       # URL do app (ex: https://defesapix.com.br)
 ```
 
 ## Deploy

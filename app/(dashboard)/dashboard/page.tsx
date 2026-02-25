@@ -1,37 +1,90 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
 import { FolderOpen, FileText, TrendingUp, CheckSquare, Plus, ArrowRight, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
   title: 'Dashboard | Central de Defesa Digital',
   robots: { index: false },
 };
 
-// Mock data — in production, fetch from Prisma
-const MOCK_CASOS = [
-  {
-    id: 'caso_1',
-    tipoGolpe: 'Golpe via Pix',
-    valorPerdido: 4800,
-    dataOcorrencia: '2025-01-10',
-    status: 'EM_ANDAMENTO',
-    score: 68,
-    acoesPendentes: 2,
-  },
-];
+const TIPO_GOLPE_LABELS: Record<string, string> = {
+  PIX: 'Golpe via Pix',
+  WHATSAPP: 'Clonagem WhatsApp',
+  BOLETO: 'Boleto Falso',
+  ROMANCE: 'Golpe do Amor',
+  EMPREGO: 'Emprego Falso',
+  INVESTIMENTO: 'Investimento Fraudulento',
+  CLONE_APP: 'App / Site Falso',
+  PHISHING: 'Phishing',
+  CARTAO: 'Golpe do Cartão',
+  CONSIGNADO: 'Golpe do Consignado',
+  OUTRO: 'Outro',
+};
 
-const MOCK_DOCUMENTOS = [
-  { id: 'doc_1', tipo: 'Contestação MED', createdAt: '2025-01-10', pago: true },
-  { id: 'doc_2', tipo: 'Boletim de Ocorrência', createdAt: '2025-01-10', pago: false },
-];
+const TIPO_DOC_LABELS: Record<string, string> = {
+  CONTESTACAO_MED: 'Contestação MED',
+  BOLETIM_OCORRENCIA: 'Boletim de Ocorrência',
+  NOTIFICACAO_BANCO: 'Notificação ao Banco',
+  QUEIXA_BACEN: 'Queixa Bacen',
+  NOTIFICACAO_PROCON: 'Notificação Procon',
+  PETICAO_JUDICIAL: 'Petição Judicial',
+  CHECKLIST: 'Checklist',
+};
 
-export default function DashboardPage() {
-  const valorTotalEmRisco = MOCK_CASOS.reduce((sum, c) => sum + c.valorPerdido, 0);
+export default async function DashboardPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  const userId = (session.user as any).id as string;
+
+  const [casos, documentos] = await Promise.all([
+    prisma.caso.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        acoes: {
+          where: { completado: false },
+          select: { id: true },
+        },
+      },
+    }),
+    prisma.documento.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    }),
+  ]);
+
+  const casosWithPending = casos.map((caso) => ({
+    id: caso.id,
+    tipoGolpe: TIPO_GOLPE_LABELS[caso.tipoGolpe] ?? caso.tipoGolpe,
+    valorPerdido: Number(caso.valorPerdido),
+    dataOcorrencia: caso.dataOcorrencia,
+    status: caso.status,
+    score: caso.score,
+    acoesPendentes: caso.acoes.length,
+  }));
+
+  const docsFormatted = documentos.map((doc) => ({
+    id: doc.id,
+    tipo: TIPO_DOC_LABELS[doc.tipo] ?? doc.tipo,
+    createdAt: doc.createdAt,
+    pago: doc.pago,
+  }));
+
+  const valorTotalEmRisco = casosWithPending.reduce((sum, c) => sum + c.valorPerdido, 0);
+  const userName = session.user.name || 'Usuário';
 
   return (
     <div className="p-6 md:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-1">Bom dia, Usuário! 👋</h1>
+        <h1 className="text-2xl font-bold text-white mb-1">Bom dia, {userName}! 👋</h1>
         <p className="text-white/50 text-sm">
           Acompanhe o andamento dos seus casos e documentos.
         </p>
@@ -40,10 +93,10 @@ export default function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Casos abertos', value: MOCK_CASOS.length, icon: FolderOpen, color: 'text-blue-400' },
-          { label: 'Documentos gerados', value: MOCK_DOCUMENTOS.length, icon: FileText, color: 'text-green-400' },
+          { label: 'Casos abertos', value: casosWithPending.length, icon: FolderOpen, color: 'text-blue-400' },
+          { label: 'Documentos gerados', value: docsFormatted.length, icon: FileText, color: 'text-green-400' },
           { label: 'Valor em disputa', value: `R$${(valorTotalEmRisco / 1000).toFixed(1)}k`, icon: TrendingUp, color: 'text-yellow-400' },
-          { label: 'Ações pendentes', value: MOCK_CASOS.reduce((s, c) => s + c.acoesPendentes, 0), icon: CheckSquare, color: 'text-red-400' },
+          { label: 'Ações pendentes', value: casosWithPending.reduce((s, c) => s + c.acoesPendentes, 0), icon: CheckSquare, color: 'text-red-400' },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
@@ -59,13 +112,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Alert: Pending actions */}
-      {MOCK_CASOS.some((c) => c.acoesPendentes > 0) && (
+      {casosWithPending.some((c) => c.acoesPendentes > 0) && (
         <div className="alert-warning mb-6">
           <AlertTriangle className="w-5 h-5 shrink-0" />
           <div>
             <strong className="block text-sm">Ações urgentes pendentes</strong>
             <p className="text-sm mt-1">
-              Você tem {MOCK_CASOS.reduce((s, c) => s + c.acoesPendentes, 0)} ação(ões) pendente(s) que podem impactar suas chances de recuperação.
+              Você tem {casosWithPending.reduce((s, c) => s + c.acoesPendentes, 0)} ação(ões) pendente(s) que podem impactar suas chances de recuperação.
             </p>
           </div>
         </div>
@@ -81,7 +134,7 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          {MOCK_CASOS.length === 0 ? (
+          {casosWithPending.length === 0 ? (
             <div className="card border-dashed border-white/20 text-center py-10">
               <FolderOpen className="w-10 h-10 text-white/20 mx-auto mb-3" />
               <p className="text-white/50 text-sm mb-4">Nenhum caso registrado ainda.</p>
@@ -92,7 +145,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {MOCK_CASOS.map((caso) => (
+              {casosWithPending.map((caso) => (
                 <div key={caso.id} className="card">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
@@ -139,7 +192,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="space-y-3">
-            {MOCK_DOCUMENTOS.map((doc) => (
+            {docsFormatted.map((doc) => (
               <div key={doc.id} className="card flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center shrink-0">
                   <FileText className="w-5 h-5 text-green-400" />

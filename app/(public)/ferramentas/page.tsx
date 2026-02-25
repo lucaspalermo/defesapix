@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Ferramentas Jurídicas para Vítimas de Golpe Digital | Central de Defesa Digital',
   description:
     'Simulador de recuperação, contestação MED, Boletim de Ocorrência, notificação bancária e checklist personalizado. Comece grátis, PDF em minutos.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/ferramentas' },
+  alternates: { canonical: 'https://defesapix.com.br/ferramentas' },
 };
 
 const TOOLS = [

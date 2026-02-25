@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     'golpe honorários antecipados',
     'falso advogado o que fazer',
   ],
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-falso-advogado' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-falso-advogado' },
 };
 
 const ALERTAS = [

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Pacote Emergência — 3 Documentos Jurídicos em 15 minutos | Central de Defesa Digital',
   description:
     'Gere de uma só vez: Contestação MED, Boletim de Ocorrência e Notificação Bancária. Preencha uma vez, baixe 3 PDFs prontos para protocolo. R$47 — sem mensalidade.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/ferramentas/pacote-completo' },
+  alternates: { canonical: 'https://defesapix.com.br/ferramentas/pacote-completo' },
 };
 
 const BENEFICIOS = [

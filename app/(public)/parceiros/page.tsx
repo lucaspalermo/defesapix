@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Parceiros Jurídicos Especializados em Golpes Digitais | Central de Defesa Digital',
   description:
     'Rede de advogados e escritórios especializados em crimes digitais e recuperação financeira. Consulta gratuita de 30 minutos para casos acima de R$5.000.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/parceiros' },
+  alternates: { canonical: 'https://defesapix.com.br/parceiros' },
 };
 
 const PARCEIROS = [

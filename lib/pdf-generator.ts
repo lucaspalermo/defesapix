@@ -40,7 +40,7 @@ export async function baixarPDF(
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 165);
-    doc.text('centraldefesadigital.com.br', mL, 22);
+    doc.text('defesapix.com.br', mL, 22);
 
     // Document title (right side)
     doc.setFont('helvetica', 'bold');
@@ -245,7 +245,7 @@ Data: ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Documento gerado pela Central de Defesa Digital
-www.centraldefesadigital.com.br
+www.defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();
 }
@@ -305,7 +305,7 @@ Data: ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Documento gerado pela Central de Defesa Digital
-www.centraldefesadigital.com.br
+www.defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();
 }
@@ -367,7 +367,7 @@ ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Documento gerado pela Central de Defesa Digital
-www.centraldefesadigital.com.br | contato@centraldefesadigital.com.br
+www.defesapix.com.br | contato@defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();
 }

@@ -6,7 +6,7 @@ import FAQSection from '@/components/home/FAQSection';
 export const metadata: Metadata = {
   title: 'App ou Site Falso de Banco: O Que Fazer? | Central de Defesa Digital',
   description: 'Acessou um aplicativo ou site falso do banco? Saiba o que fazer imediatamente para proteger sua conta e recuperar valores perdidos.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-clone-app' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-clone-app' },
 };
 
 const faqItems = [

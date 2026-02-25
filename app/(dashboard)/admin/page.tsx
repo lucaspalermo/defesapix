@@ -107,7 +107,7 @@ export default function AdminPage() {
             { item: 'NEXTAUTH_SECRET gerado e configurado',       done: false },
             { item: 'SMTP_PASS configurado (Resend API key)',      done: false },
             { item: 'Deploy feito na Vercel',                     done: false },
-            { item: 'Domínio centraldefesadigital.com.br apontado para Vercel', done: false },
+            { item: 'Domínio defesapix.com.br apontado para Vercel', done: false },
           ].map(({ item, done }) => (
             <div key={item} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/[0.02]">
               <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center ${

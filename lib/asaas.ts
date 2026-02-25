@@ -78,7 +78,7 @@ export interface AsaasPixQrCode {
 export async function criarCliente(nome: string, email: string): Promise<AsaasCustomer> {
   return asaasRequest<AsaasCustomer>('/customers', 'POST', {
     name:  nome || 'Cliente',
-    email: email || `cliente-${Date.now()}@centraldefesadigital.com.br`,
+    email: email || `cliente-${Date.now()}@defesapix.com.br`,
   });
 }
 

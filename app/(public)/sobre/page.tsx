@@ -5,7 +5,7 @@ import { Shield, Target, Heart, Users, CheckCircle, Mail, ArrowRight } from 'luc
 export const metadata: Metadata = {
   title: 'Sobre Nós | Central de Defesa Digital',
   description: 'Conheça a Central de Defesa Digital — a maior plataforma brasileira de recuperação financeira após golpes digitais.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/sobre' },
+  alternates: { canonical: 'https://defesapix.com.br/sobre' },
 };
 
 export default function SobrePage() {
@@ -100,8 +100,8 @@ export default function SobrePage() {
               <p className="text-sm text-white/60 mb-4">
                 Dúvidas, sugestões ou para reportar erros no conteúdo.
               </p>
-              <a href="mailto:contato@centraldefesadigital.com.br" className="btn-secondary text-sm py-2">
-                contato@centraldefesadigital.com.br
+              <a href="mailto:contato@defesapix.com.br" className="btn-secondary text-sm py-2">
+                contato@defesapix.com.br
               </a>
             </div>
             <div className="card border-yellow-500/20">
@@ -110,8 +110,8 @@ export default function SobrePage() {
               <p className="text-sm text-white/60 mb-4">
                 Advogados especializados em crimes digitais: faça parte da nossa rede.
               </p>
-              <a href="mailto:parceiros@centraldefesadigital.com.br" className="btn-secondary text-sm py-2">
-                parceiros@centraldefesadigital.com.br
+              <a href="mailto:parceiros@defesapix.com.br" className="btn-secondary text-sm py-2">
+                parceiros@defesapix.com.br
               </a>
             </div>
           </div>

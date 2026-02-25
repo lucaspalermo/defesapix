@@ -6,7 +6,7 @@ import FAQSection from '@/components/home/FAQSection';
 export const metadata: Metadata = {
   title: 'Golpe de Emprego Falso: O Que Fazer? | Central de Defesa Digital',
   description: 'Foi vítima de vaga de emprego falsa? Saiba como denunciar ao MTE, Procon e Polícia, e recuperar taxas pagas indevidamente.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-emprego' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-emprego' },
 };
 
 const faqItems = [

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'como recuperar pix enviado por engano fraude',
     'prazo contestacao pix',
   ],
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-pix' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-pix' },
 };
 
 const STEPS = [

@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/dashboard', '/meus-casos', '/documentos', '/api/', '/login', '/cadastro'],
       },
     ],
-    sitemap: 'https://centraldefesadigital.com.br/sitemap.xml',
-    host: 'https://centraldefesadigital.com.br',
+    sitemap: 'https://defesapix.com.br/sitemap.xml',
+    host: 'https://defesapix.com.br',
   };
 }

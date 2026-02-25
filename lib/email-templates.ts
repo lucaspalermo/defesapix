@@ -15,7 +15,7 @@ export function templateBoasVindas(nome: string, tipo: string, horasRestantes: n
         CENTRAL DE DEFESA DIGITAL
       </p>
       <p style="margin:4px 0 0;color:rgba(255,255,255,0.4);font-size:12px">
-        centraldefesadigital.com.br
+        defesapix.com.br
       </p>
     </div>
 
@@ -57,13 +57,13 @@ export function templateBoasVindas(nome: string, tipo: string, horasRestantes: n
       </ol>
     </div>
 
-    <a href="https://centraldefesadigital.com.br/ferramentas"
+    <a href="https://defesapix.com.br/ferramentas"
        style="display:inline-block;background:#F97316;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px">
       Acessar meus documentos →
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:36px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · centraldefesadigital.com.br<br>
+      Central de Defesa Digital · defesapix.com.br<br>
       Você recebeu este e-mail porque ativou lembretes de prazo.
     </p>
   </div>
@@ -94,13 +94,13 @@ export function templateLembrete24h(nome: string, tipo: string): string {
       expira em menos de 24 horas — após isso, a recuperação fica muito mais difícil.
     </p>
 
-    <a href="https://centraldefesadigital.com.br/ferramentas/gerador-contestacao-med"
+    <a href="https://defesapix.com.br/ferramentas/gerador-contestacao-med"
        style="display:inline-block;background:#F97316;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px;margin-bottom:24px">
       Acessar documento MED →
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · centraldefesadigital.com.br
+      Central de Defesa Digital · defesapix.com.br
     </p>
   </div>
 </body>
@@ -133,13 +133,13 @@ export function templateLembrete48h(nome: string, tipo: string): string {
       </ul>
     </div>
 
-    <a href="https://centraldefesadigital.com.br/ferramentas/gerador-contestacao-med"
+    <a href="https://defesapix.com.br/ferramentas/gerador-contestacao-med"
        style="display:inline-block;background:#F97316;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px">
       Ver documento MED →
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:32px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · centraldefesadigital.com.br
+      Central de Defesa Digital · defesapix.com.br
     </p>
   </div>
 </body>

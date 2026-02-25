@@ -6,7 +6,7 @@ import FAQSection from '@/components/home/FAQSection';
 export const metadata: Metadata = {
   title: 'Golpe do Amor (Romance Scam): O Que Fazer? | Central de Defesa Digital',
   description: 'Foi vítima de romance scam? Saiba como documentar, denunciar e proteger sua identidade após golpe afetivo digital.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-romance' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-romance' },
 };
 
 const faqItems = [

@@ -140,7 +140,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${artigo.titulo} | Central de Defesa Digital`,
     description: artigo.resumo,
     keywords: artigo.tags,
-    alternates: { canonical: `https://centraldefesadigital.com.br/blog/${slug}` },
+    alternates: { canonical: `https://defesapix.com.br/blog/${slug}` },
     openGraph: {
       title: artigo.titulo,
       description: artigo.resumo,

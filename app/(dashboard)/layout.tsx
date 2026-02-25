@@ -1,5 +1,10 @@
 import Link from 'next/link';
-import { Shield, LayoutDashboard, FolderOpen, FileText, LogOut, User, Settings } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { Shield, LayoutDashboard, FolderOpen, FileText, User, Settings } from 'lucide-react';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { SignOutButton } from '@/components/layout/Header';
 
 const NAV = [
   { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard'  },
@@ -8,7 +13,26 @@ const NAV = [
   { icon: Settings,        label: 'Admin',      href: '/admin'      },
 ];
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+const PLAN_LABELS: Record<string, string> = {
+  FREE: 'Plano Gratuito',
+  BASIC: 'Plano Básico',
+  PRO: 'Plano Pro',
+};
+
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: (session.user as any).id },
+    select: { name: true, plan: true },
+  });
+
+  const userName = user?.name || session.user.name || 'Usuário';
+  const userPlan = PLAN_LABELS[user?.plan ?? 'FREE'] ?? 'Plano Gratuito';
   return (
     <div className="min-h-screen bg-navy-900 flex">
       {/* Sidebar */}
@@ -47,14 +71,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <User className="w-4 h-4 text-green-400" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Usuário</p>
-              <p className="text-xs text-white/40">Plano Gratuito</p>
+              <p className="text-sm font-medium text-white">{userName}</p>
+              <p className="text-xs text-white/40">{userPlan}</p>
             </div>
           </div>
-          <Link href="/login" className="flex items-center gap-2 px-3 py-2 text-sm text-white/40 hover:text-white/70 transition-colors rounded-xl hover:bg-white/5">
-            <LogOut className="w-4 h-4" />
-            Sair
-          </Link>
+          <SignOutButton />
         </div>
       </aside>
 

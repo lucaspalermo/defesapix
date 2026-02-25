@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Gerador de Contestação MED — Mecanismo Especial de Devolução Pix | Central de Defesa Digital',
   description:
     'Gere o documento oficial para acionar o MED e recuperar dinheiro de golpe via Pix. Baseado na Resolução BCB nº 93/2021. Preenchimento guiado em minutos.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/ferramentas/gerador-contestacao-med' },
+  alternates: { canonical: 'https://defesapix.com.br/ferramentas/gerador-contestacao-med' },
 };
 
 export default function GeradorMEDPage() {

@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       });
 
       await transporter.sendMail({
-        from: `"Central de Defesa Digital" <${process.env.EMAIL_FROM ?? 'noreply@centraldefesadigital.com.br'}>`,
+        from: `"Central de Defesa Digital" <${process.env.EMAIL_FROM ?? 'noreply@defesapix.com.br'}>`,
         to: email,
         subject: `⏰ Lembretes de prazo ativados — ${tipo ?? 'Golpe digital'}`,
         html: templateBoasVindas(nome, tipo ?? 'Golpe digital', horasRestantes),

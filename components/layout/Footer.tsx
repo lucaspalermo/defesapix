@@ -112,7 +112,7 @@ export default function Footer() {
                 { href: 'https://www.instagram.com/centraldefesadigital', Icon: Instagram },
                 { href: 'https://www.youtube.com/@centraldefesadigital',  Icon: Youtube },
                 { href: 'https://www.facebook.com/centraldefesadigital',  Icon: Facebook },
-                { href: 'mailto:contato@centraldefesadigital.com.br',     Icon: Mail },
+                { href: 'mailto:contato@defesapix.com.br',     Icon: Mail },
               ].map(({ href, Icon }) => (
                 <a
                   key={href}

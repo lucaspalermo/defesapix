@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://centraldefesadigital.com.br';
+const BASE_URL = 'https://defesapix.com.br';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [

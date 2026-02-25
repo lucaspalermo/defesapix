@@ -6,7 +6,7 @@ import FAQSection from '@/components/home/FAQSection';
 export const metadata: Metadata = {
   title: 'Golpe de Investimento e Criptomoedas: O Que Fazer? | Central de Defesa Digital',
   description: 'Perdeu dinheiro em investimento falso ou criptomoedas fraudulentas? Veja como denunciar à CVM, Polícia Federal e Banco Central.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-investimento' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-investimento' },
 };
 
 const faqItems = [

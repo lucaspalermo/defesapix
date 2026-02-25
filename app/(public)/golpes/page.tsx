@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     'roubo celular golpe',
     'golpe investimento',
   ],
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes' },
 };
 
 const GOLPES = [

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     'bloquear imei celular roubado',
     'celular furtado o que fazer',
   ],
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/roubo-celular' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/roubo-celular' },
 };
 
 const OPERADORAS = [

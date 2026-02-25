@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     'Seu WhatsApp foi clonado ou você recebeu pedido de dinheiro via número clonado? Saiba o que fazer, como denunciar e como se proteger de responsabilidade.',
   keywords: ['clonagem whatsapp', 'golpe whatsapp o que fazer', 'numero clonado whatsapp', 'golpe whatsapp como denunciar'],
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-whatsapp' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-whatsapp' },
 };
 
 const faqItems = [

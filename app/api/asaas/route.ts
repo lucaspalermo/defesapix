@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     // 1. Criar cliente no Asaas
     const cliente = await criarCliente(
       nome  || 'Cliente',
-      email || `cliente-${Date.now()}@centraldefesadigital.com.br`,
+      email || `cliente-${Date.now()}@defesapix.com.br`,
     );
 
     // 2. Criar cobrança PIX

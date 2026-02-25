@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Blog — Segurança Digital e Recuperação de Golpes | Central de Defesa Digital',
   description:
     'Artigos, guias e dicas sobre como se proteger de golpes digitais, o que fazer após ser vítima e como recuperar dinheiro. Conteúdo gratuito e atualizado semanalmente.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/blog' },
+  alternates: { canonical: 'https://defesapix.com.br/blog' },
 };
 
 const ARTIGOS = [

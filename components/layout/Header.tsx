@@ -2,8 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Shield, Menu, X, ChevronDown, Zap } from 'lucide-react';
+import { Shield, Menu, X, ChevronDown, Zap, LogOut } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
+
+/** Reusable sign-out button for the dashboard sidebar */
+export function SignOutButton() {
+  return (
+    <button
+      onClick={() => signOut({ callbackUrl: '/login' })}
+      className="flex items-center gap-2 px-3 py-2 text-sm text-white/40 hover:text-white/70 transition-colors rounded-xl hover:bg-white/5 w-full"
+    >
+      <LogOut className="w-4 h-4" />
+      Sair
+    </button>
+  );
+}
 
 const NAV_LINKS = [
   {

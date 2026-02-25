@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Simulador de Recuperação de Pix e Golpe Digital | Central de Defesa Digital',
   description:
     'Calcule sua probabilidade de recuperar o dinheiro perdido em golpe digital. Baseado no tipo de golpe, valor, banco e tempo decorrido. Gratuito.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/ferramentas/simulador-recuperacao' },
+  alternates: { canonical: 'https://defesapix.com.br/ferramentas/simulador-recuperacao' },
 };
 
 export default function SimuladorPage() {

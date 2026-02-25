@@ -6,7 +6,7 @@ import FAQSection from '@/components/home/FAQSection';
 export const metadata: Metadata = {
   title: 'Boleto Falso: O Que Fazer? Guia Completo | Central de Defesa Digital',
   description: 'Pagou um boleto falso ou adulterado? Saiba como contestar o pagamento, notificar o banco e recuperar o valor. Passo a passo detalhado.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br/golpes/golpe-boleto' },
+  alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-boleto' },
 };
 
 const faqItems = [

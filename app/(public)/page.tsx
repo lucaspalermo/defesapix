@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro',
   description:
     'Caiu num golpe via Pix? Saiba exatamente o que fazer agora. Gere a contestação MED, boletim de ocorrência e notificação bancária em minutos.',
-  alternates: { canonical: 'https://centraldefesadigital.com.br' },
+  alternates: { canonical: 'https://defesapix.com.br' },
 };
 
 const GOLPE_TYPES = [
