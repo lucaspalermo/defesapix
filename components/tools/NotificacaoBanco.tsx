@@ -40,13 +40,24 @@ export default function NotificacaoBanco() {
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
 
-  const { register, handleSubmit, formState: { errors }, watch, getValues } = useForm<FormData>({
+  const [valorDisplay, setValorDisplay] = useState('');
+
+  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { pedidoDevolucao: true, pedidoProcoloco: true },
   });
 
+  const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, '');
+    if (!digits) { setValorDisplay(''); setValue('valorPrejuizo', ''); return; }
+    const cents = parseInt(digits, 10);
+    const formatted = (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    setValorDisplay(formatted);
+    setValue('valorPrejuizo', formatted, { shouldValidate: true });
+  };
+
   const onSubmit = (data: FormData) => {
-    const valorNum = parseFloat(data.valorPrejuizo.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+    const valorNum = parseFloat(data.valorPrejuizo.replace(/\./g, '').replace(',', '.')) || 0;
     const pedidos = [
       data.pedidoDevolucao ? `Devolução integral de R$ ${valorNum.toFixed(2).replace('.', ',')} em até 5 dias úteis` : null,
       data.pedidoProcoloco ? 'Fornecimento de número de protocolo desta notificação' : null,
@@ -226,7 +237,13 @@ export default function NotificacaoBanco() {
             </div>
             <div>
               <label className="label">Valor do prejuízo (R$) *</label>
-              <input {...register('valorPrejuizo')} className="input" placeholder="0,00" />
+              <input
+                value={valorDisplay}
+                onChange={handleValorChange}
+                inputMode="numeric"
+                className="input"
+                placeholder="0,00"
+              />
             </div>
           </div>
           <div>

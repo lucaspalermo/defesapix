@@ -57,16 +57,27 @@ export default function PacoteCompleto() {
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
 
-  const { register, handleSubmit, formState: { errors }, watch, getValues } = useForm<FormData>({
+  const [valorDisplay, setValorDisplay] = useState('');
+
+  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+  const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, '');
+    if (!digits) { setValorDisplay(''); setValue('valor', ''); return; }
+    const cents = parseInt(digits, 10);
+    const formatted = (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    setValorDisplay(formatted);
+    setValue('valor', formatted, { shouldValidate: true });
+  };
 
   const banco = watch('banco');
   const dataOcorrencia = watch('dataOcorrencia');
   const bankContact = BANK_CONTACTS[banco];
 
   const onSubmit = (data: FormData) => {
-    const valorNum = parseFloat(data.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+    const valorNum = parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0;
 
     const med = gerarTextoMED({
       nomeVitima: data.nome,
@@ -255,7 +266,13 @@ export default function PacoteCompleto() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="label">Valor transferido (R$) *</label>
-                <input {...register('valor')} className="input" placeholder="0,00" />
+                <input
+                  value={valorDisplay}
+                  onChange={handleValorChange}
+                  inputMode="numeric"
+                  className="input"
+                  placeholder="0,00"
+                />
                 {errors.valor && <p className="text-red-400 text-xs mt-1">{errors.valor.message}</p>}
               </div>
               <div>
