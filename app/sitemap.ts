@@ -1,0 +1,48 @@
+import { MetadataRoute } from 'next';
+
+const BASE_URL = 'https://centraldefesadigital.com.br';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const staticPages = [
+    { url: BASE_URL, priority: 1.0, changeFrequency: 'weekly' as const },
+    { url: `${BASE_URL}/ferramentas`, priority: 0.9, changeFrequency: 'weekly' as const },
+    { url: `${BASE_URL}/golpes/golpe-pix`, priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-whatsapp`, priority: 0.85, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-boleto`, priority: 0.85, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-romance`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-emprego`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-investimento`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpes/golpe-clone-app`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/simulador-recuperacao`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/gerador-contestacao-med`, priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/gerador-bo`, priority: 0.85, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/notificacao-banco`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/ferramentas/checklist`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/blog`, priority: 0.7, changeFrequency: 'daily' as const },
+    { url: `${BASE_URL}/educacao`, priority: 0.7, changeFrequency: 'weekly' as const },
+    { url: `${BASE_URL}/parceiros`, priority: 0.6, changeFrequency: 'weekly' as const },
+    { url: `${BASE_URL}/sobre`, priority: 0.5, changeFrequency: 'monthly' as const },
+  ];
+
+  // Blog articles
+  const BLOG_SLUGS = [
+    'med-mecanismo-especial-devolucao-pix',
+    'golpe-whatsapp-como-identificar-se-proteger',
+    'banco-responsavel-golpe-digital-stj',
+    'golpe-investimento-criptomoeda-brasil',
+    'como-registrar-bo-online-golpe-digital',
+    'procon-banco-central-reclamacao-golpe',
+  ];
+
+  const blogPages = BLOG_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/blog/${slug}`,
+    priority: 0.7 as const,
+    changeFrequency: 'monthly' as const,
+    lastModified: new Date(),
+  }));
+
+  return [
+    ...staticPages.map((p) => ({ ...p, lastModified: new Date() })),
+    ...blogPages,
+  ];
+}
