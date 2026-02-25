@@ -102,18 +102,18 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Link href="/ferramentas" className="btn-primary text-base px-8 py-4">
+                <Link href="/ferramentas/diagnostico" className="btn-primary text-base px-8 py-4">
                   <Shield className="w-5 h-5" />
-                  Recuperar meu dinheiro
+                  Diagnosticar meu caso grátis
                 </Link>
-                <Link href="#como-funciona" className="btn-secondary text-base px-8 py-4">
-                  Como funciona
-                  <ArrowRight className="w-4 h-4" />
+                <Link href="/ferramentas/pacote-completo" className="btn-secondary text-base px-8 py-4">
+                  <Zap className="w-4 h-4" />
+                  Kit Completo — R$47
                 </Link>
               </div>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/30">
-                {['Sem advogado necessário', 'Documentos em minutos', 'Começa grátis'].map((t) => (
+                {['Sem advogado necessário', 'Documentos em 15 min', 'R$47 pagamento único'].map((t) => (
                   <span key={t} className="flex items-center gap-1.5">
                     <CheckCircle className="w-3.5 h-3.5 text-green-500" />
                     {t}
@@ -388,8 +388,8 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-10">
-            <Link href="/ferramentas" className="btn-primary px-8 py-4 text-base">
-              Começar agora — é grátis
+            <Link href="/ferramentas/diagnostico" className="btn-primary px-8 py-4 text-base">
+              Diagnosticar meu caso grátis
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
