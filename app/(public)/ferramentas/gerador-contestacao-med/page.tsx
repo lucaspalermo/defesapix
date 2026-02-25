@@ -14,7 +14,7 @@ export default function GeradorMEDPage() {
   return (
     <>
       <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Contestação MED' }]} />
-      <ProductSchema name="Contestação MED — Mecanismo Especial de Devolução" description="Gere o documento oficial de contestação MED para recuperar dinheiro de golpe via Pix." price={29} url="/ferramentas/gerador-contestacao-med" />
+      <ProductSchema name="Contestação MED — Mecanismo Especial de Devolução" description="Gere o documento oficial de contestação MED para recuperar dinheiro de golpe via Pix. Incluso no Kit Completo de 5 documentos." price={47} url="/ferramentas/pacote-completo" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl">
           <div className="alert-danger mb-6 max-w-2xl mx-auto">

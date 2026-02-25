@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 
 const SYSTEM_PROMPT = `Você é um advogado especialista em direito do consumidor e crimes digitais no Brasil. Sua tarefa é aprimorar o texto jurídico de um documento de vítima de fraude/golpe para torná-lo:
 
@@ -18,7 +18,7 @@ Regras:
 
 export async function POST(req: NextRequest) {
   try {
-    if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json({ error: 'Serviço de IA indisponível' }, { status: 503 });
     }
 
@@ -30,20 +30,22 @@ export async function POST(req: NextRequest) {
     const tipoLabel = tipo === 'bo' ? 'Boletim de Ocorrência'
       : tipo === 'med' ? 'Contestação MED (Mecanismo Especial de Devolução)'
       : tipo === 'notificacao' ? 'Notificação Extrajudicial ao Banco'
+      : tipo === 'bacen' ? 'Reclamação ao Banco Central (BACEN)'
+      : tipo === 'procon' ? 'Reclamação ao Procon / consumidor.gov.br'
       : 'documento jurídico';
 
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      temperature: 0.3,
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const message = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 4000,
+      system: SYSTEM_PROMPT,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `Aprimore o seguinte ${tipoLabel}:\n\n${texto}` },
       ],
     });
 
-    const textoMelhorado = completion.choices[0]?.message?.content;
+    const block = message.content[0];
+    const textoMelhorado = block?.type === 'text' ? block.text : null;
     if (!textoMelhorado) {
       return NextResponse.json({ error: 'Não foi possível melhorar o texto' }, { status: 500 });
     }

@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 const TOOLS = [
   {
     icon: Zap,
-    titulo: 'Pacote Emergência — 3 Documentos PDF',
-    desc: 'MED + BO + Notificação Bancária num único formulário. Preencha uma vez, baixe 3 PDFs prontos para usar. Para quem precisa agir agora.',
+    titulo: 'Kit Completo de Recuperação — 5 Documentos',
+    desc: 'MED + BO + Notificação Bancária + Reclamação BACEN + Reclamação Procon. Preencha uma vez, baixe 5 PDFs prontos para protocolar.',
     href: '/ferramentas/pacote-completo',
     tag: 'R$47 — Mais popular',
     tagColor: 'badge-yellow',
     destaque: true,
-    sub: 'Melhor custo-benefício',
+    sub: 'Tudo que você precisa por R$47',
   },
   {
     icon: TrendingUp,
@@ -36,30 +36,30 @@ const TOOLS = [
     titulo: 'Contestação MED (Pix)',
     desc: 'Documento oficial para acionar o Mecanismo Especial de Devolução do Banco Central. Inclui countdown do prazo de 72h.',
     href: '/ferramentas/gerador-contestacao-med',
-    tag: 'PDF R$29',
-    tagColor: 'badge-yellow',
+    tag: 'Preview grátis',
+    tagColor: 'badge-green',
     destaque: false,
-    sub: 'Preview grátis · PDF pago',
+    sub: 'Completo no Kit de 5 docs',
   },
   {
     icon: Shield,
     titulo: 'Boletim de Ocorrência (BO)',
     desc: 'Modelo completo do BO digital para crimes de estelionato, roubo de celular e golpes via Pix. Necessário para acionar o banco.',
     href: '/ferramentas/gerador-bo',
-    tag: 'PDF R$19',
-    tagColor: 'badge-yellow',
+    tag: 'Preview grátis',
+    tagColor: 'badge-green',
     destaque: false,
-    sub: 'Preview grátis · PDF pago',
+    sub: 'Completo no Kit de 5 docs',
   },
   {
     icon: Bell,
     titulo: 'Notificação Formal ao Banco',
     desc: 'Notificação extrajudicial que cria responsabilidade legal formal e protocolo. O banco tem 30 dias para responder.',
     href: '/ferramentas/notificacao-banco',
-    tag: 'PDF R$29',
-    tagColor: 'badge-yellow',
+    tag: 'Preview grátis',
+    tagColor: 'badge-green',
     destaque: false,
-    sub: 'Preview grátis · PDF pago',
+    sub: 'Completo no Kit de 5 docs',
   },
   {
     icon: CheckSquare,
@@ -96,7 +96,7 @@ export default function FerramentasPage() {
           <div className="grid grid-cols-1 gap-4">
             {TOOLS.map((tool) => {
               const Icon = tool.icon;
-              const isPaid = tool.tag.startsWith('PDF') || tool.tag.startsWith('R$4');
+              const isPaid = tool.tag.startsWith('R$4');
               return (
                 <Link
                   key={tool.href}
@@ -136,8 +136,8 @@ export default function FerramentasPage() {
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
             {[
               { label: 'Preview do documento', valor: 'Grátis', cor: 'text-green-400' },
-              { label: 'Download em PDF', valor: 'R$19 – R$29', cor: 'text-amber-400' },
-              { label: '3 documentos completos', valor: 'R$47', cor: 'text-ember-400' },
+              { label: 'Simulador + Checklist', valor: 'Grátis', cor: 'text-green-400' },
+              { label: '5 documentos completos', valor: 'R$47', cor: 'text-ember-400' },
             ].map((item) => (
               <div key={item.label} className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
                 <p className={`font-black text-base ${item.cor}`}>{item.valor}</p>

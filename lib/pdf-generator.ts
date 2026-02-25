@@ -372,6 +372,203 @@ www.defesapix.com.br | contato@defesapix.com.br
   `.trim();
 }
 
+export interface DocumentoReclamacaoBACEN {
+  nomeVitima: string;
+  cpfVitima: string;
+  banco: string;
+  agencia: string;
+  conta: string;
+  dataOcorrencia: string;
+  valorPrejuizo: number;
+  tipoFraude: string;
+  descricao: string;
+  protocoloBanco?: string;
+}
+
+export interface DocumentoReclamacaoProcon {
+  nomeVitima: string;
+  cpfVitima: string;
+  banco: string;
+  dataOcorrencia: string;
+  valorPrejuizo: number;
+  tipoFraude: string;
+  descricao: string;
+  protocoloBanco?: string;
+}
+
+export function gerarTextoReclamacaoBACEN(dados: DocumentoReclamacaoBACEN): string {
+  const dataAtual = new Date().toLocaleDateString('pt-BR');
+  return `
+RECLAMAÇÃO FORMAL AO BANCO CENTRAL DO BRASIL
+Portal MeuBC — www.bcb.gov.br/meubc
+
+Data: ${dataAtual}
+
+━━━━━━━━━━━━━━━━━━━━━━
+DADOS DO RECLAMANTE
+━━━━━━━━━━━━━━━━━━━━━━
+Nome: ${dados.nomeVitima}
+CPF: ${dados.cpfVitima}
+
+INSTITUIÇÃO RECLAMADA: ${dados.banco.toUpperCase()}
+Agência: ${dados.agencia} | Conta: ${dados.conta}
+
+━━━━━━━━━━━━━━━━━━━━━━
+DADOS DA RECLAMAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━
+Tipo: Fraude / Golpe — ${dados.tipoFraude}
+Data da ocorrência: ${dados.dataOcorrencia}
+Valor do prejuízo: R$ ${dados.valorPrejuizo.toFixed(2).replace('.', ',')}
+${dados.protocoloBanco ? `Protocolo de atendimento no banco: ${dados.protocoloBanco}` : 'Protocolo do banco: (informar após ligar para o SAC)'}
+
+━━━━━━━━━━━━━━━━━━━━━━
+RELATO DOS FATOS
+━━━━━━━━━━━━━━━━━━━━━━
+
+${dados.descricao}
+
+━━━━━━━━━━━━━━━━━━━━━━
+PROVIDÊNCIAS SOLICITADAS
+━━━━━━━━━━━━━━━━━━━━━━
+
+Solicito ao Banco Central do Brasil que:
+
+1. Determine ao ${dados.banco} que apresente resposta formal sobre os fatos relatados no prazo de 10 (dez) dias úteis, conforme regulamentação vigente;
+
+2. Verifique se a instituição financeira cumpriu as obrigações previstas na Resolução BCB nº 93/2021 (Mecanismo Especial de Devolução) e na Resolução nº 4.658/2018 (segurança cibernética);
+
+3. Apure eventual descumprimento dos deveres de segurança e prevenção a fraudes, conforme Circular BACEN nº 3.978/2020;
+
+4. Aplique as medidas administrativas cabíveis em caso de descumprimento.
+
+━━━━━━━━━━━━━━━━━━━━━━
+FUNDAMENTAÇÃO LEGAL
+━━━━━━━━━━━━━━━━━━━━━━
+
+• Resolução BCB nº 93/2021 — Mecanismo Especial de Devolução (MED)
+• Resolução nº 4.658/2018 — Política de segurança cibernética
+• Circular BACEN nº 3.978/2020 — Prevenção à lavagem de dinheiro
+• Código de Defesa do Consumidor (Lei 8.078/90) — Arts. 14 e 42
+• Lei 14.155/2021 — Crimes em meio digital
+
+━━━━━━━━━━━━━━━━━━━━━━
+COMO REGISTRAR NO PORTAL MEUBC
+━━━━━━━━━━━━━━━━━━━━━━
+
+1. Acesse: www.bcb.gov.br/meubc
+2. Faça login com sua conta Gov.br
+3. Clique em "Registrar reclamação"
+4. Selecione o banco: ${dados.banco}
+5. Categoria: "Pix" ou "Fraude/Golpe"
+6. Cole o texto acima no campo de descrição
+7. Anexe comprovantes se disponíveis
+8. Clique em "Enviar"
+
+Declaro serem verdadeiras as informações prestadas.
+
+${dados.nomeVitima}
+CPF: ${dados.cpfVitima}
+${dataAtual}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Documento gerado pela DefesaPix
+www.defesapix.com.br
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  `.trim();
+}
+
+export function gerarTextoReclamacaoProcon(dados: DocumentoReclamacaoProcon): string {
+  const dataAtual = new Date().toLocaleDateString('pt-BR');
+  return `
+RECLAMAÇÃO FORMAL AO PROCON / CONSUMIDOR.GOV.BR
+
+Data: ${dataAtual}
+
+━━━━━━━━━━━━━━━━━━━━━━
+DADOS DO CONSUMIDOR
+━━━━━━━━━━━━━━━━━━━━━━
+Nome: ${dados.nomeVitima}
+CPF: ${dados.cpfVitima}
+
+EMPRESA RECLAMADA: ${dados.banco.toUpperCase()}
+Categoria: Banco / Instituição Financeira
+
+━━━━━━━━━━━━━━━━━━━━━━
+DADOS DA RECLAMAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━
+Assunto: Fraude Bancária — ${dados.tipoFraude}
+Data da ocorrência: ${dados.dataOcorrencia}
+Valor do prejuízo: R$ ${dados.valorPrejuizo.toFixed(2).replace('.', ',')}
+${dados.protocoloBanco ? `Protocolo do banco: ${dados.protocoloBanco}` : 'Protocolo do banco: (informar após ligar para o SAC)'}
+
+━━━━━━━━━━━━━━━━━━━━━━
+RELATO DO PROBLEMA
+━━━━━━━━━━━━━━━━━━━━━━
+
+Venho registrar reclamação contra a instituição financeira ${dados.banco} em razão de fraude sofrida conforme descrito a seguir:
+
+${dados.descricao}
+
+Após a ocorrência, tomei as seguintes providências:
+• Registrei Boletim de Ocorrência na delegacia eletrônica
+• Notifiquei formalmente o banco via SAC
+• Solicitei a contestação/devolução dos valores
+• Registrei reclamação no Banco Central (MeuBC)
+
+Apesar de todas as providências, o banco não apresentou solução satisfatória dentro do prazo de 5 (cinco) dias úteis.
+
+━━━━━━━━━━━━━━━━━━━━━━
+PEDIDOS
+━━━━━━━━━━━━━━━━━━━━━━
+
+1. Devolução integral do valor de R$ ${dados.valorPrejuizo.toFixed(2).replace('.', ',')} à minha conta;
+2. Fornecimento de esclarecimentos formais sobre as medidas de segurança adotadas;
+3. Apuração de falha na prestação do serviço bancário (Art. 14, CDC);
+4. Indenização por danos morais, conforme entendimento jurisprudencial.
+
+━━━━━━━━━━━━━━━━━━━━━━
+FUNDAMENTAÇÃO LEGAL
+━━━━━━━━━━━━━━━━━━━━━━
+
+• Código de Defesa do Consumidor (Lei 8.078/90):
+  - Art. 14: Responsabilidade objetiva do fornecedor de serviços
+  - Art. 6º, VI: Direito à reparação integral dos danos
+  - Art. 42: Proibição de cobrança abusiva
+• Súmula 479 do STJ: "As instituições financeiras respondem objetivamente pelos danos gerados por fortuito interno relativo a fraudes e delitos praticados por terceiros no âmbito de operações bancárias."
+• Lei 14.155/2021: Majorante para crimes em meio digital
+
+━━━━━━━━━━━━━━━━━━━━━━
+COMO REGISTRAR
+━━━━━━━━━━━━━━━━━━━━━━
+
+OPÇÃO 1 — Consumidor.gov.br (funciona para todos os estados):
+1. Acesse: consumidor.gov.br
+2. Faça login com sua conta Gov.br
+3. Clique em "Registrar Reclamação"
+4. Busque o banco: ${dados.banco}
+5. Cole este texto no campo de descrição
+6. Anexe comprovantes
+7. Envie
+
+OPÇÃO 2 — Procon do seu estado:
+• SP: procon.sp.gov.br
+• RJ: procon.rj.gov.br
+• MG: procon.mg.gov.br
+• Outros estados: pesquise "Procon + seu estado"
+
+Declaro serem verdadeiras as informações prestadas.
+
+${dados.nomeVitima}
+CPF: ${dados.cpfVitima}
+${dataAtual}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Documento gerado pela DefesaPix
+www.defesapix.com.br
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  `.trim();
+}
+
 export function gerarChecklistGolpe(tipo: string, valor: number): ChecklistItem[] {
   const items: ChecklistItem[] = [
     { id: '1', titulo: 'Registrar Boletim de Ocorrência', descricao: 'BO online ou presencial na delegacia mais próxima', prazo: 'Agora', completado: false, urgente: true },

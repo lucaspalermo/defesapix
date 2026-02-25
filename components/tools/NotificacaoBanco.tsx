@@ -4,13 +4,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Bell, CheckCircle, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Bell, CheckCircle, Lock, ArrowRight, Zap } from 'lucide-react';
 import { gerarTextoNotificacaoBanco } from '@/lib/pdf-generator';
-import PaymentModal from '@/components/tools/PaymentModal';
-import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
-import toast from 'react-hot-toast';
-
-interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
+import Link from 'next/link';
 
 const schema = z.object({
   nomeVitima: z.string().min(3),
@@ -37,14 +33,9 @@ const TIPOS_FRAUDE = ['Golpe via Pix', 'Clonagem de WhatsApp', 'Boleto Falso', '
 export default function NotificacaoBanco() {
   const [preview, setPreview] = useState('');
   const [gerado, setGerado] = useState(false);
-  const [pago, setPago] = useState(false);
-  const [paying, setPaying] = useState(false);
-  const [payment, setPayment] = useState<PaymentData | null>(null);
-  const [tipoFraudeSalvo, setTipoFraudeSalvo] = useState('');
-
   const [valorDisplay, setValorDisplay] = useState('');
 
-  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { pedidoDevolucao: true, pedidoProcoloco: true },
   });
@@ -83,26 +74,6 @@ export default function NotificacaoBanco() {
     });
     setPreview(texto);
     setGerado(true);
-    setTipoFraudeSalvo(data.tipoFraude);
-  };
-
-  const handlePagamento = async () => {
-    setPaying(true);
-    try {
-      const { nomeVitima, cpfVitima } = getValues();
-      const res = await fetch('/api/asaas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'NOTIFICACAO_BANCO', nome: nomeVitima, cpf: cpfVitima.replace(/\D/g, '') }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
-      setPayment({ paymentId: data.paymentId, pixQrCode: data.pixQrCode, pixCopiaECola: data.pixCopiaECola, valor: data.valor });
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Erro ao iniciar pagamento');
-    } finally {
-      setPaying(false);
-    }
   };
 
   if (gerado) {
@@ -112,75 +83,53 @@ export default function NotificacaoBanco() {
           <CheckCircle className="w-5 h-5 shrink-0" />
           <div>
             <strong className="block">Notificação gerada com sucesso!</strong>
-            <p className="text-sm mt-1">Prévia do documento abaixo. Baixe o PDF completo para entregar ao banco.</p>
+            <p className="text-sm mt-1">Prévia do documento abaixo. Obtenha o Kit Completo para baixar o documento com base legal completa.</p>
           </div>
         </div>
 
         <div className="card">
           <div className="relative">
-            <pre className={`font-mono text-xs text-white/70 whitespace-pre-wrap max-h-72 overflow-y-auto ${!pago ? 'select-none' : ''}`}>
-              {pago ? preview : preview.substring(0, 500) + '\n\n[...CONTEÚDO COMPLETO NO DOCUMENTO PAGO...]'}
+            <pre className="font-mono text-xs text-white/70 whitespace-pre-wrap max-h-72 overflow-y-auto select-none">
+              {preview.substring(0, 500) + '\n\n[...DOCUMENTO COMPLETO NO KIT DE 5 DOCUMENTOS...]'}
             </pre>
-            {!pago && (
-              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-800 to-transparent rounded-b-xl flex items-end justify-center pb-3">
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Lock className="w-3 h-3" />
-                  Desbloqueie por R$29
-                </div>
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-800 to-transparent rounded-b-xl flex items-end justify-center pb-3">
+              <div className="flex items-center gap-2 text-white/40 text-xs">
+                <Lock className="w-3 h-3" />
+                Documento completo disponível no Kit Completo
               </div>
-            )}
+            </div>
           </div>
         </div>
 
-        {!pago ? (
-          <div className="card border-green-500/20 text-center">
-            <h3 className="font-bold text-white text-lg mb-2">Baixe a notificação completa em PDF — R$29</h3>
-            <p className="text-white/60 text-sm mb-6">
-              Documento com base legal completa, pronto para protocolar no banco pessoalmente,
-              por e-mail ou via SAC.
+        {/* CTA — Kit Completo */}
+        <div className="card border-orange-500/20 bg-orange-500/5">
+          <div className="text-center">
+            <h3 className="font-bold text-white text-lg mb-2">Baixe a notificação completa + 4 documentos extras</h3>
+            <p className="text-white/60 text-sm mb-4">
+              O Kit Completo inclui: Notificação Bancária + Contestação MED + B.O. + Reclamação BACEN + Reclamação Procon — tudo preenchido com seus dados.
             </p>
-            <button
-              onClick={handlePagamento}
-              disabled={paying}
-              className="btn-primary w-full justify-center py-3.5 disabled:opacity-60"
+            <div className="flex items-baseline gap-1 justify-center mb-4">
+              <span className="text-white/50 text-sm">R$</span>
+              <span className="text-4xl font-black text-white">47</span>
+              <span className="text-white/40 text-sm ml-1">pagamento único</span>
+            </div>
+            <Link
+              href="/ferramentas/pacote-completo"
+              className="btn-primary w-full justify-center py-3.5 text-base"
             >
-              {paying ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Aguarde...</>
-              ) : (
-                <><Lock className="w-4 h-4" /> Pagar R$29 e baixar</>
-              )}
-            </button>
+              <Zap className="w-5 h-5" />
+              Obter Kit Completo — 5 Documentos
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <p className="text-xs text-white/25 mt-3">
+              Pagamento seguro via PIX · Garantia de 7 dias
+            </p>
           </div>
-        ) : (
-          <GuiaPosCompra
-            textoDocumento={preview}
-            nomeArquivoPDF="notificacao-bancaria-central-defesa-digital.pdf"
-            tituloPDF="Notificação Extrajudicial ao Banco"
-            tipoGolpe={tipoFraudeSalvo}
-            nomeVitima={getValues('nomeVitima')}
-            emailVitima={getValues('emailVitima')}
-            tipoDocumento="notificacao"
-          />
-        )}
+        </div>
 
         <button onClick={() => setGerado(false)} className="btn-secondary w-full justify-center text-sm">
           Editar dados
         </button>
-
-        {payment && (
-          <PaymentModal
-            paymentId={payment.paymentId}
-            pixQrCode={payment.pixQrCode}
-            pixCopiaECola={payment.pixCopiaECola}
-            valor={payment.valor}
-            produto="Notificação Bancária"
-            onPaid={() => {
-              setPago(true);
-              setPayment(null);
-            }}
-            onClose={() => setPayment(null)}
-          />
-        )}
       </div>
     );
   }

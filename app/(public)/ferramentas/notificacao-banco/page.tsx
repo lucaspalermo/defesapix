@@ -14,7 +14,7 @@ export default function NotificacaoBancoPage() {
   return (
     <>
       <BreadcrumbSchema items={[{ name: 'Ferramentas', href: '/ferramentas' }, { name: 'Notificação Bancária' }]} />
-      <ProductSchema name="Notificação Formal ao Banco" description="Gere a notificação extrajudicial oficial ao banco baseada no CDC e Resolução BACEN." price={29} url="/ferramentas/notificacao-banco" />
+      <ProductSchema name="Notificação Formal ao Banco" description="Gere a notificação extrajudicial oficial ao banco baseada no CDC e Resolução BACEN. Incluso no Kit Completo de 5 documentos." price={47} url="/ferramentas/pacote-completo" />
       <section className="bg-hero-gradient py-12 bg-grid-pattern">
         <div className="container max-w-4xl text-center">
           <h1 className="text-4xl font-bold text-white mb-4">

@@ -4,16 +4,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { FileText, Eye, Lock, CheckCircle, Phone, Mail, ExternalLink, Loader2 } from 'lucide-react';
+import { FileText, Eye, Lock, CheckCircle, Phone, Mail, ExternalLink, Zap, ArrowRight } from 'lucide-react';
 import { gerarTextoMED } from '@/lib/pdf-generator';
 import { BANK_CONTACTS } from '@/lib/bank-contacts';
 import CountdownMED from './CountdownMED';
 import EmailCapture from './EmailCapture';
-import PaymentModal from '@/components/tools/PaymentModal';
-import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
-import toast from 'react-hot-toast';
-
-interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
+import Link from 'next/link';
 
 const schema = z.object({
   nomeVitima: z.string().min(3, 'Nome muito curto'),
@@ -34,16 +30,12 @@ type FormData = z.infer<typeof schema>;
 const BANCOS = ['Nubank', 'Itaú', 'Bradesco', 'Santander', 'Banco do Brasil', 'Caixa', 'Inter', 'C6 Bank', 'PicPay', 'Mercado Pago', 'Outro'];
 
 export default function GeradorMED() {
-  const [step, setStep] = useState<'form' | 'preview' | 'payment'>('form');
+  const [step, setStep] = useState<'form' | 'preview'>('form');
   const [documentText, setDocumentText] = useState('');
   const [currentData, setCurrentData] = useState<FormData | null>(null);
-  const [isPaid, setIsPaid] = useState(false);
-  const [paying, setPaying] = useState(false);
-  const [payment, setPayment] = useState<PaymentData | null>(null);
-
   const [valorDisplay, setValorDisplay] = useState('');
 
-  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
@@ -77,25 +69,6 @@ export default function GeradorMED() {
     setDocumentText(text);
     setCurrentData(data);
     setStep('preview');
-  };
-
-  const handlePagamento = async () => {
-    setPaying(true);
-    try {
-      const { nomeVitima, cpfVitima } = getValues();
-      const res = await fetch('/api/asaas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'MED', nome: nomeVitima, cpf: cpfVitima.replace(/\D/g, '') }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
-      setPayment({ paymentId: data.paymentId, pixQrCode: data.pixQrCode, pixCopiaECola: data.pixCopiaECola, valor: data.valor });
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Erro ao iniciar pagamento');
-    } finally {
-      setPaying(false);
-    }
   };
 
   // ─── FORM ──────────────────────────────────────────────────────────────────
@@ -269,201 +242,102 @@ export default function GeradorMED() {
   }
 
   // ─── PREVIEW ───────────────────────────────────────────────────────────────
-  if (step === 'preview') {
-    return (
-      <div className="space-y-6">
-        <div className="card border-green-500/20">
-          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-green-400" />
-              <h2 className="font-bold text-white">Contestação MED gerada!</h2>
-            </div>
-            <span className="badge-green">Pronta para uso</span>
-          </div>
-
-          {/* Countdown in preview */}
-          {currentData?.dataOcorrencia && (
-            <div className="mb-4">
-              <CountdownMED dataOcorrencia={currentData.dataOcorrencia} />
-            </div>
-          )}
-
-          {/* Document preview */}
-          <div className="relative">
-            <div className={`bg-navy-700 rounded-xl p-5 font-mono text-xs text-white/70 whitespace-pre-wrap max-h-72 overflow-y-auto ${!isPaid ? 'select-none' : ''}`}>
-              {isPaid ? documentText : documentText.substring(0, 600) + '\n\n[...CONTEÚDO COMPLETO NO DOCUMENTO PAGO...]'}
-            </div>
-            {!isPaid && (
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-800 to-transparent rounded-b-xl flex items-end justify-center pb-4">
-                <div className="flex items-center gap-2 text-white/50 text-xs">
-                  <Lock className="w-3 h-3" />
-                  Conteúdo completo disponível após pagamento
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Email capture — non-blocking */}
-        <EmailCapture tipo="Golpe via Pix" dataOcorrencia={currentData?.dataOcorrencia} />
-
-        {/* Bank contact card */}
-        {currentData?.banco && BANK_CONTACTS[currentData.banco] && (
-          <div className="card border-blue-500/20">
-            <p className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">
-              Como entregar o documento — {currentData.banco}
-            </p>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-green-400 shrink-0" />
-                <span className="text-white/70">SAC: <span className="text-white font-mono">{BANK_CONTACTS[currentData.banco].sac}</span></span>
-              </div>
-              <div className="flex items-start gap-2 text-sm">
-                <FileText className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
-                <span className="text-white/60 text-xs">{BANK_CONTACTS[currentData.banco].instrucaoMED}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm">
-                <Mail className="w-4 h-4 text-blue-400 shrink-0" />
-                <span className="text-white/70 text-xs">Ouvidoria: {BANK_CONTACTS[currentData.banco].ouvidoria}</span>
-              </div>
-              <a
-                href={BANK_CONTACTS[currentData.banco].linkMeuBC}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs text-green-400 hover:text-green-300 mt-1"
-              >
-                <ExternalLink className="w-3 h-3" />
-                Registrar também no BACEN →
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Payment / download */}
-        {!isPaid ? (
-          <div className="card border-yellow-500/20 bg-yellow-500/5">
-            <div className="text-center">
-              <h3 className="font-bold text-white text-xl mb-2">Baixe o documento completo por R$29</h3>
-              <p className="text-white/70 mb-6 text-sm">
-                PDF oficial com fundamentos legais completos, pronto para protocolar no banco.
-              </p>
-              <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-sm mx-auto">
-                {['Documento completo em PDF', 'Todos os fundamentos legais (Resolução BCB 93/2021)', 'Pronto para protocolo no banco', 'Garantia de 7 dias'].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={handlePagamento}
-                disabled={paying}
-                className="btn-primary w-full justify-center py-4 text-base mb-3 disabled:opacity-60"
-              >
-                {paying ? (
-                  <><Loader2 className="w-5 h-5 animate-spin" /> Aguarde...</>
-                ) : (
-                  <><Lock className="w-5 h-5" /> Pagar R$29 e baixar agora</>
-                )}
-              </button>
-              <p className="text-xs text-white/30">
-                Precisa dos 3 documentos?{' '}
-                <a href="/ferramentas/pacote-completo" className="text-orange-400 hover:text-orange-300">
-                  Pacote Emergência por R$47 →
-                </a>
-              </p>
-            </div>
-          </div>
-        ) : (
-          <GuiaPosCompra
-            textoDocumento={documentText}
-            nomeArquivoPDF="contestacao-med-central-defesa-digital.pdf"
-            tituloPDF="Contestação MED"
-            tipoGolpe="Golpe via Pix"
-            nomeVitima={getValues('nomeVitima')}
-            emailVitima={getValues('emailVitima')}
-            tipoDocumento="med"
-          />
-        )}
-
-        <div className="flex gap-3">
-          <button onClick={() => setStep('form')} className="btn-secondary flex-1 justify-center">
-            Editar dados
-          </button>
-          <a href="/ferramentas/pacote-completo" className="btn-ghost flex-1 justify-center text-sm">
-            Gerar BO + Notificação também →
-          </a>
-        </div>
-
-        {payment && (
-          <PaymentModal
-            paymentId={payment.paymentId}
-            pixQrCode={payment.pixQrCode}
-            pixCopiaECola={payment.pixCopiaECola}
-            valor={payment.valor}
-            produto="Contestação MED"
-            onPaid={() => {
-              setIsPaid(true);
-              setPayment(null);
-            }}
-            onClose={() => setPayment(null)}
-          />
-        )}
-      </div>
-    );
-  }
-
-  // ─── PAYMENT ───────────────────────────────────────────────────────────────
   return (
-    <div className="card border-green-500/20 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center mx-auto mb-6">
-        <Lock className="w-8 h-8 text-green-400" />
-      </div>
-      <h2 className="font-bold text-white text-2xl mb-2">Acesse o documento completo</h2>
-      <p className="text-white/70 mb-8">
-        Contestação MED completa com todos os fundamentos legais.
-      </p>
+    <div className="space-y-6">
+      <div className="card border-green-500/20">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <CheckCircle className="w-6 h-6 text-green-400" />
+            <h2 className="font-bold text-white">Contestação MED gerada!</h2>
+          </div>
+          <span className="badge-green">Pronta para uso</span>
+        </div>
 
-      <div className="bg-navy-700 rounded-2xl p-6 mb-6 text-left">
-        <div className="flex justify-between items-center text-sm">
-          <span className="text-white/60">Contestação MED — Documento Individual</span>
-          <span className="font-bold text-white text-lg">R$ 29</span>
+        {/* Countdown in preview */}
+        {currentData?.dataOcorrencia && (
+          <div className="mb-4">
+            <CountdownMED dataOcorrencia={currentData.dataOcorrencia} />
+          </div>
+        )}
+
+        {/* Document preview */}
+        <div className="relative">
+          <div className="bg-navy-700 rounded-xl p-5 font-mono text-xs text-white/70 whitespace-pre-wrap max-h-72 overflow-y-auto select-none">
+            {documentText.substring(0, 600) + '\n\n[...DOCUMENTO COMPLETO NO KIT DE 5 DOCUMENTOS...]'}
+          </div>
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-800 to-transparent rounded-b-xl flex items-end justify-center pb-4">
+            <div className="flex items-center gap-2 text-white/50 text-xs">
+              <Lock className="w-3 h-3" />
+              Documento completo disponível no Kit Completo
+            </div>
+          </div>
         </div>
       </div>
 
-      <button
-        onClick={handlePagamento}
-        disabled={paying}
-        className="btn-primary w-full justify-center py-4 text-base mb-4 disabled:opacity-60"
-      >
-        {paying ? (
-          <><Loader2 className="w-5 h-5 animate-spin" /> Aguarde...</>
-        ) : (
-          <><Lock className="w-5 h-5" /> Finalizar pagamento — R$ 29</>
-        )}
-      </button>
-      <button onClick={() => setStep('preview')} className="btn-ghost w-full justify-center">
-        Voltar à prévia
-      </button>
-      <p className="text-xs text-white/30 mt-4">
-        Pagamento 100% seguro via PIX (Asaas). Garantia de 7 dias.
-      </p>
+      {/* Email capture */}
+      <EmailCapture tipo="Golpe via Pix" dataOcorrencia={currentData?.dataOcorrencia} />
 
-      {payment && (
-        <PaymentModal
-          paymentId={payment.paymentId}
-          pixQrCode={payment.pixQrCode}
-          pixCopiaECola={payment.pixCopiaECola}
-          valor={payment.valor}
-          produto="Contestação MED"
-          onPaid={() => {
-            setIsPaid(true);
-            setPayment(null);
-            setStep('preview');
-          }}
-          onClose={() => setPayment(null)}
-        />
+      {/* Bank contact card */}
+      {currentData?.banco && BANK_CONTACTS[currentData.banco] && (
+        <div className="card border-blue-500/20">
+          <p className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">
+            Como entregar o documento — {currentData.banco}
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm">
+              <Phone className="w-4 h-4 text-green-400 shrink-0" />
+              <span className="text-white/70">SAC: <span className="text-white font-mono">{BANK_CONTACTS[currentData.banco].sac}</span></span>
+            </div>
+            <div className="flex items-start gap-2 text-sm">
+              <FileText className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
+              <span className="text-white/60 text-xs">{BANK_CONTACTS[currentData.banco].instrucaoMED}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+              <span className="text-white/70 text-xs">Ouvidoria: {BANK_CONTACTS[currentData.banco].ouvidoria}</span>
+            </div>
+            <a
+              href={BANK_CONTACTS[currentData.banco].linkMeuBC}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs text-green-400 hover:text-green-300 mt-1"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Registrar também no BACEN →
+            </a>
+          </div>
+        </div>
       )}
+
+      {/* CTA — Kit Completo */}
+      <div className="card border-orange-500/20 bg-orange-500/5">
+        <div className="text-center">
+          <h3 className="font-bold text-white text-lg mb-2">Baixe a contestação MED completa + 4 documentos extras</h3>
+          <p className="text-white/60 text-sm mb-4">
+            O Kit Completo inclui: Contestação MED + B.O. + Notificação Bancária + Reclamação BACEN + Reclamação Procon — tudo preenchido com seus dados.
+          </p>
+          <div className="flex items-baseline gap-1 justify-center mb-4">
+            <span className="text-white/50 text-sm">R$</span>
+            <span className="text-4xl font-black text-white">47</span>
+            <span className="text-white/40 text-sm ml-1">pagamento único</span>
+          </div>
+          <Link
+            href="/ferramentas/pacote-completo"
+            className="btn-primary w-full justify-center py-3.5 text-base"
+          >
+            <Zap className="w-5 h-5" />
+            Obter Kit Completo — 5 Documentos
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <p className="text-xs text-white/25 mt-3">
+            Pagamento seguro via PIX · Garantia de 7 dias
+          </p>
+        </div>
+      </div>
+
+      <button onClick={() => setStep('form')} className="btn-secondary w-full justify-center">
+        Editar dados
+      </button>
     </div>
   );
 }

@@ -5,13 +5,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
-  Zap, CheckCircle, FileText, Shield, Bell, Lock, Download, Phone, Mail, ExternalLink, Loader2,
+  Zap, CheckCircle, FileText, Shield, Bell, Lock, Phone, Mail, ExternalLink, Loader2, Scale, Building2,
 } from 'lucide-react';
-import { gerarTextoMED, gerarTextoBO, gerarTextoNotificacaoBanco, baixarPDF } from '@/lib/pdf-generator';
+import {
+  gerarTextoMED, gerarTextoBO, gerarTextoNotificacaoBanco,
+  gerarTextoReclamacaoBACEN, gerarTextoReclamacaoProcon,
+} from '@/lib/pdf-generator';
 import { BANK_CONTACTS } from '@/lib/bank-contacts';
 import CountdownMED from './CountdownMED';
 import EmailCapture from './EmailCapture';
 import PaymentModal from '@/components/tools/PaymentModal';
+import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
 
 interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
@@ -39,12 +43,14 @@ type FormData = z.infer<typeof schema>;
 const BANCOS = ['Nubank', 'Itaú', 'Bradesco', 'Santander', 'Banco do Brasil', 'Caixa', 'Inter', 'C6 Bank', 'PicPay', 'Mercado Pago', 'Outro'];
 const TIPOS_GOLPE = ['Golpe via Pix', 'Clonagem de WhatsApp', 'Boleto Falso', 'App/Site Falso de Banco', 'Golpe por Telefone', 'Fraude em Cartão', 'Investimento Fraudulento', 'Outro'];
 
-type Step = 'form' | 'preview' | 'download';
+type Step = 'form' | 'preview';
 
 interface Docs {
   med: string;
   bo: string;
   notificacao: string;
+  bacen: string;
+  procon: string;
   data: FormData;
   valorNum: number;
 }
@@ -53,7 +59,6 @@ export default function PacoteCompleto() {
   const [step, setStep] = useState<Step>('form');
   const [docs, setDocs] = useState<Docs | null>(null);
   const [paid, setPaid] = useState(false);
-  const [downloading, setDownloading] = useState<string | null>(null);
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
 
@@ -80,42 +85,25 @@ export default function PacoteCompleto() {
     const valorNum = parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0;
 
     const med = gerarTextoMED({
-      nomeVitima: data.nome,
-      cpfVitima: data.cpf,
-      banco: data.banco,
-      agencia: data.agencia,
-      conta: data.conta,
-      valorTransferido: valorNum,
-      dataOcorrencia: data.dataOcorrencia,
-      chavePixDestinatario: data.chavePixDestinatario,
-      descricaoGolpe: data.descricao,
-      numeroBo: data.numeroBo,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
+      agencia: data.agencia, conta: data.conta, valorTransferido: valorNum,
+      dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario,
+      descricaoGolpe: data.descricao, numeroBo: data.numeroBo,
     });
 
     const bo = gerarTextoBO({
-      nomeVitima: data.nome,
-      cpfVitima: data.cpf,
-      enderecoVitima: data.endereco || 'Não informado',
-      telefoneVitima: data.telefone,
-      emailVitima: data.email,
-      dataOcorrencia: data.dataOcorrencia,
-      localOcorrencia: 'Internet / Aplicativo bancário',
-      tipoGolpe: data.tipoGolpe,
-      descricaoDetalhada: data.descricao,
-      valorPrejuizo: valorNum,
+      nomeVitima: data.nome, cpfVitima: data.cpf,
+      enderecoVitima: data.endereco || 'Não informado', telefoneVitima: data.telefone,
+      emailVitima: data.email, dataOcorrencia: data.dataOcorrencia,
+      localOcorrencia: 'Internet / Aplicativo bancário', tipoGolpe: data.tipoGolpe,
+      descricaoDetalhada: data.descricao, valorPrejuizo: valorNum,
       dadosInfrator: data.dadosInfrator,
     });
 
     const notificacao = gerarTextoNotificacaoBanco({
-      nomeVitima: data.nome,
-      cpfVitima: data.cpf,
-      banco: data.banco,
-      agencia: data.agencia,
-      conta: data.conta,
-      dataOcorrencia: data.dataOcorrencia,
-      valorPrejuizo: valorNum,
-      tipoFraude: data.tipoGolpe,
-      descricao: data.descricao,
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
+      agencia: data.agencia, conta: data.conta, dataOcorrencia: data.dataOcorrencia,
+      valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
       pedidos: [
         `Devolução integral de R$ ${valorNum.toFixed(2).replace('.', ',')} em até 5 dias úteis`,
         'Acionamento imediato do Mecanismo Especial de Devolução (MED) — Resolução BCB 93/2021',
@@ -126,7 +114,19 @@ export default function PacoteCompleto() {
       ],
     });
 
-    setDocs({ med, bo, notificacao, data, valorNum });
+    const bacen = gerarTextoReclamacaoBACEN({
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
+      agencia: data.agencia, conta: data.conta, dataOcorrencia: data.dataOcorrencia,
+      valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
+    });
+
+    const procon = gerarTextoReclamacaoProcon({
+      nomeVitima: data.nome, cpfVitima: data.cpf, banco: data.banco,
+      dataOcorrencia: data.dataOcorrencia, valorPrejuizo: valorNum,
+      tipoFraude: data.tipoGolpe, descricao: data.descricao,
+    });
+
+    setDocs({ med, bo, notificacao, bacen, procon, data, valorNum });
     setStep('preview');
   };
 
@@ -149,41 +149,16 @@ export default function PacoteCompleto() {
     }
   };
 
-  const handleDownload = async (tipo: 'med' | 'bo' | 'notificacao') => {
-    if (!docs) return;
-    setDownloading(tipo);
-    try {
-      const map = {
-        med: { texto: docs.med, nome: 'contestacao-med.pdf', titulo: 'Contestação MED' },
-        bo: { texto: docs.bo, nome: 'boletim-ocorrencia.pdf', titulo: 'Modelo de Boletim de Ocorrência' },
-        notificacao: { texto: docs.notificacao, nome: 'notificacao-bancaria.pdf', titulo: 'Notificação Extrajudicial ao Banco' },
-      };
-      const { texto, nome, titulo } = map[tipo];
-      await baixarPDF(texto, nome, titulo);
-      toast.success(`${titulo} baixado!`);
-    } finally {
-      setDownloading(null);
-    }
-  };
-
-  const handleDownloadAll = async () => {
-    await handleDownload('med');
-    await handleDownload('bo');
-    await handleDownload('notificacao');
-  };
-
   // ─── STEP: FORM ──────────────────────────────────────────────────────────────
   if (step === 'form') {
     return (
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Countdown */}
         {dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
 
-        {/* Personal */}
         <div className="card border-orange-500/20">
           <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
             <Zap className="w-5 h-5 text-orange-400" />
-            Pacote Emergência — 3 documentos em 15 min
+            Kit Completo de Recuperação — 5 documentos
           </h2>
 
           <div className="space-y-4 mb-6">
@@ -216,7 +191,6 @@ export default function PacoteCompleto() {
             </div>
           </div>
 
-          {/* Bank */}
           <div className="space-y-4 mb-6">
             <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados bancários</h3>
             <div>
@@ -238,7 +212,6 @@ export default function PacoteCompleto() {
               </div>
             </div>
 
-            {/* Bank contact card */}
             {bankContact && (
               <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
                 <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
@@ -260,19 +233,12 @@ export default function PacoteCompleto() {
             )}
           </div>
 
-          {/* Transaction */}
           <div className="space-y-4 mb-6">
             <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados da fraude</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="label">Valor transferido (R$) *</label>
-                <input
-                  value={valorDisplay}
-                  onChange={handleValorChange}
-                  inputMode="numeric"
-                  className="input"
-                  placeholder="0,00"
-                />
+                <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
                 {errors.valor && <p className="text-red-400 text-xs mt-1">{errors.valor.message}</p>}
               </div>
               <div>
@@ -296,23 +262,15 @@ export default function PacoteCompleto() {
             </div>
             <div>
               <label className="label">Descrição detalhada do golpe *</label>
-              <textarea
-                {...register('descricao')}
-                rows={5}
-                className="input resize-none"
-                placeholder="Descreva cronologicamente como o golpe aconteceu..."
-              />
+              <textarea {...register('descricao')} rows={5} className="input resize-none"
+                placeholder="Descreva cronologicamente como o golpe aconteceu..." />
               {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
               <p className="text-xs text-white/30 mt-1">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
             </div>
             <div>
               <label className="label">Dados do infrator (opcional)</label>
-              <textarea
-                {...register('dadosInfrator')}
-                rows={2}
-                className="input resize-none"
-                placeholder="Nome usado, conta bancária, telefone, redes sociais..."
-              />
+              <textarea {...register('dadosInfrator')} rows={2} className="input resize-none"
+                placeholder="Nome usado, conta bancária, telefone, redes sociais..." />
             </div>
             <div>
               <label className="label">Número do BO (se já registrou)</label>
@@ -323,7 +281,7 @@ export default function PacoteCompleto() {
 
         <button type="submit" className="btn-primary w-full justify-center py-4 text-base">
           <Zap className="w-5 h-5" />
-          Gerar 3 documentos — prévia gratuita
+          Gerar 5 documentos — prévia gratuita
         </button>
       </form>
     );
@@ -331,17 +289,18 @@ export default function PacoteCompleto() {
 
   // ─── STEP: PREVIEW ───────────────────────────────────────────────────────────
   if (step === 'preview' && docs) {
+    const allDocsText = [docs.bo, docs.med, docs.notificacao, docs.bacen, docs.procon].join('\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n');
+
     return (
       <div className="space-y-6">
         <div className="alert-success">
           <CheckCircle className="w-5 h-5 shrink-0" />
           <div>
-            <strong className="block">3 documentos gerados com sucesso!</strong>
+            <strong className="block">5 documentos gerados com sucesso!</strong>
             <p className="text-sm mt-1">Prévia abaixo. Desbloqueie todos os PDFs por R$47.</p>
           </div>
         </div>
 
-        {/* Countdown */}
         {docs.data.dataOcorrencia && <CountdownMED dataOcorrencia={docs.data.dataOcorrencia} />}
 
         {/* Document previews */}
@@ -349,6 +308,8 @@ export default function PacoteCompleto() {
           { key: 'med', label: 'Contestação MED', icon: Shield, color: 'text-red-400', text: docs.med },
           { key: 'bo', label: 'Boletim de Ocorrência', icon: FileText, color: 'text-blue-400', text: docs.bo },
           { key: 'notificacao', label: 'Notificação Bancária', icon: Bell, color: 'text-green-400', text: docs.notificacao },
+          { key: 'bacen', label: 'Reclamação BACEN', icon: Scale, color: 'text-amber-400', text: docs.bacen },
+          { key: 'procon', label: 'Reclamação Procon', icon: Building2, color: 'text-purple-400', text: docs.procon },
         ] as const).map(({ key, label, icon: Icon, color, text }) => (
           <div key={key} className="card">
             <div className="flex items-center gap-2 mb-3">
@@ -368,23 +329,11 @@ export default function PacoteCompleto() {
                 </div>
               )}
             </div>
-            {paid && (
-              <button
-                onClick={() => handleDownload(key as 'med' | 'bo' | 'notificacao')}
-                disabled={!!downloading}
-                className="btn-secondary mt-3 w-full justify-center text-sm py-2"
-              >
-                <Download className="w-4 h-4" />
-                {downloading === key ? 'Gerando PDF...' : `Baixar PDF — ${label}`}
-              </button>
-            )}
           </div>
         ))}
 
-        {/* Email capture (non-blocking) */}
         <EmailCapture tipo={docs.data.tipoGolpe} dataOcorrencia={docs.data.dataOcorrencia} />
 
-        {/* Bank contact card */}
         {BANK_CONTACTS[docs.data.banco] && (
           <div className="card border-blue-500/20">
             <p className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">
@@ -399,12 +348,8 @@ export default function PacoteCompleto() {
                 <FileText className="w-4 h-4 text-orange-400 shrink-0" />
                 <span className="text-white/60 text-xs">{BANK_CONTACTS[docs.data.banco].instrucaoMED}</span>
               </div>
-              <a
-                href={BANK_CONTACTS[docs.data.banco].linkMeuBC}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-green-400 hover:text-green-300 mt-1"
-              >
+              <a href={BANK_CONTACTS[docs.data.banco].linkMeuBC} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-green-400 hover:text-green-300 mt-1">
                 <ExternalLink className="w-4 h-4" />
                 Registrar também no BACEN (MeuBC)
               </a>
@@ -412,20 +357,23 @@ export default function PacoteCompleto() {
           </div>
         )}
 
-        {/* Payment / Download all */}
+        {/* Payment / GuiaPosCompra */}
         {!paid ? (
           <div className="card border-orange-500/20 text-center">
-            <h3 className="font-bold text-white text-xl mb-2">Baixar os 3 documentos em PDF — R$47</h3>
+            <h3 className="font-bold text-white text-xl mb-2">Kit Completo de Recuperação — R$47</h3>
             <p className="text-white/60 text-sm mb-6">
-              MED + Boletim de Ocorrência + Notificação Bancária.<br />
-              Tudo pronto para protocolar. Economia de 50% vs. avulso.
+              5 documentos prontos + guia passo a passo + melhoria de texto com IA.
             </p>
-            <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-xs mx-auto">
+            <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-sm mx-auto">
               {[
-                '3 PDFs prontos para protocolo',
-                'Dados personalizados em todos os docs',
-                'Fundamento legal completo',
-                'Contatos oficiais do banco inclusos',
+                'Modelo de B.O. com tipificação penal',
+                'Contestação MED (Pix) com fundamento legal',
+                'Notificação formal ao banco (CDC + BACEN)',
+                'Reclamação pronta para o Banco Central',
+                'Reclamação pronta para o Procon',
+                'Guia passo a passo com scripts',
+                'Texto aprimorado por IA (linguagem de advogado)',
+                'Envio por e-mail + salvamento local',
                 'Garantia de 7 dias',
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
@@ -442,20 +390,21 @@ export default function PacoteCompleto() {
               {paying ? (
                 <><Loader2 className="w-5 h-5 animate-spin" /> Aguarde...</>
               ) : (
-                <><Lock className="w-5 h-5" /> Pagar R$47 e baixar os 3 PDFs</>
+                <><Lock className="w-5 h-5" /> Pagar R$47 e baixar tudo</>
               )}
             </button>
             <p className="text-xs text-white/30">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
           </div>
         ) : (
-          <button
-            onClick={handleDownloadAll}
-            disabled={!!downloading}
-            className="btn-primary w-full justify-center py-4 text-base"
-          >
-            <Download className="w-5 h-5" />
-            {downloading ? 'Gerando PDFs...' : 'Baixar todos os 3 PDFs'}
-          </button>
+          <GuiaPosCompra
+            textoDocumento={allDocsText}
+            nomeArquivoPDF="kit-recuperacao-central-defesa-digital.pdf"
+            tituloPDF="Kit Completo de Recuperação"
+            tipoGolpe={docs.data.tipoGolpe}
+            nomeVitima={docs.data.nome}
+            emailVitima={docs.data.email}
+            tipoDocumento="pacote"
+          />
         )}
 
         <button onClick={() => setStep('form')} className="btn-secondary w-full justify-center text-sm">
@@ -468,11 +417,10 @@ export default function PacoteCompleto() {
             pixQrCode={payment.pixQrCode}
             pixCopiaECola={payment.pixCopiaECola}
             valor={payment.valor}
-            produto="Pacote Emergência — 3 PDFs"
+            produto="Kit Completo — 5 Documentos"
             onPaid={() => {
               setPaid(true);
               setPayment(null);
-              toast.success('Pagamento confirmado! Baixe seus documentos abaixo.');
             }}
             onClose={() => setPayment(null)}
           />
