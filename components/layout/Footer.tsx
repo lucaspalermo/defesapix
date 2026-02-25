@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Shield, Instagram, Youtube, Facebook, Mail, ExternalLink, Zap } from 'lucide-react';
+import { Shield, Instagram, Youtube, Facebook, Mail, ExternalLink } from 'lucide-react';
+import NewsletterForm from './NewsletterForm';
 
 const FOOTER_LINKS = {
   'Tipos de Golpe': [
@@ -48,39 +49,7 @@ export default function Footer() {
     <footer className="bg-[#050508] border-t border-white/[0.05]">
 
       {/* ── NEWSLETTER ─────────────────────────────────────── */}
-      <div className="relative overflow-hidden border-b border-white/[0.05] py-14">
-        <div className="absolute inset-0 bg-gradient-to-r from-ember-900/20 via-transparent to-ember-900/10" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-ember-500/[0.06] rounded-full blur-[60px]" />
-
-        <div className="container relative text-center">
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-ember-400 uppercase tracking-widest mb-4 bg-ember-500/[0.07] border border-ember-500/20 px-3.5 py-1.5 rounded-full">
-            <Zap className="w-3 h-3" />
-            Alertas gratuitos
-          </div>
-
-          <h3 className="font-heading text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">
-            Receba alertas de novos golpes digitais
-          </h3>
-          <p className="text-white/35 mb-7 text-sm">
-            Orientações semanais e alertas de golpes em circulação no Brasil.
-          </p>
-
-          <form className="flex flex-col sm:flex-row gap-2.5 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="seu@email.com.br"
-              className="flex-1 px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.1] text-white text-sm placeholder-white/25 focus:outline-none focus:border-ember-500/40 focus:bg-white/[0.07] transition-all"
-            />
-            <button
-              type="submit"
-              className="btn-primary text-sm px-6 py-3 shrink-0"
-            >
-              Quero receber
-            </button>
-          </form>
-          <p className="text-white/20 text-xs mt-3">Sem spam. Cancele quando quiser. LGPD compliant.</p>
-        </div>
-      </div>
+      <NewsletterForm />
 
       {/* ── MAIN FOOTER ────────────────────────────────────── */}
       <div className="container py-14">
@@ -177,7 +146,6 @@ export default function Footer() {
         <div className="border-t border-white/[0.05] pt-7 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/20 text-xs text-center md:text-left">
             © {year} DefesaPix. Todos os direitos reservados.
-            {' '}CNPJ: XX.XXX.XXX/0001-XX
           </p>
           <div className="flex items-center gap-5">
             {['Termos', 'Privacidade', 'Cookies'].map((label) => (
