@@ -4,17 +4,18 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Bell, CheckCircle, Download, Lock, ArrowRight, FileText, Loader2 } from 'lucide-react';
-import { gerarTextoNotificacaoBanco, baixarPDF } from '@/lib/pdf-generator';
+import { Bell, CheckCircle, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { gerarTextoNotificacaoBanco } from '@/lib/pdf-generator';
 import PaymentModal from '@/components/tools/PaymentModal';
+import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
-import Link from 'next/link';
 
 interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
 
 const schema = z.object({
   nomeVitima: z.string().min(3),
   cpfVitima: z.string().min(11),
+  emailVitima: z.string().email('E-mail inválido'),
   banco: z.string().min(2),
   agencia: z.string().min(1),
   conta: z.string().min(1),
@@ -39,6 +40,7 @@ export default function NotificacaoBanco() {
   const [pago, setPago] = useState(false);
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
+  const [tipoFraudeSalvo, setTipoFraudeSalvo] = useState('');
 
   const [valorDisplay, setValorDisplay] = useState('');
 
@@ -81,12 +83,7 @@ export default function NotificacaoBanco() {
     });
     setPreview(texto);
     setGerado(true);
-  };
-
-  const handleDownload = async () => {
-    if (!pago) return;
-    await baixarPDF(preview, 'notificacao-bancaria-central-defesa-digital.pdf', 'Notificação Extrajudicial ao Banco');
-    toast.success('Notificação baixada em PDF!');
+    setTipoFraudeSalvo(data.tipoFraude);
   };
 
   const handlePagamento = async () => {
@@ -155,10 +152,15 @@ export default function NotificacaoBanco() {
             </button>
           </div>
         ) : (
-          <button onClick={handleDownload} className="btn-primary w-full justify-center">
-            <FileText className="w-4 h-4" />
-            Baixar PDF novamente
-          </button>
+          <GuiaPosCompra
+            textoDocumento={preview}
+            nomeArquivoPDF="notificacao-bancaria-central-defesa-digital.pdf"
+            tituloPDF="Notificação Extrajudicial ao Banco"
+            tipoGolpe={tipoFraudeSalvo}
+            nomeVitima={getValues('nomeVitima')}
+            emailVitima={getValues('emailVitima')}
+            tipoDocumento="notificacao"
+          />
         )}
 
         <button onClick={() => setGerado(false)} className="btn-secondary w-full justify-center text-sm">
@@ -172,11 +174,9 @@ export default function NotificacaoBanco() {
             pixCopiaECola={payment.pixCopiaECola}
             valor={payment.valor}
             produto="Notificação Bancária"
-            onPaid={async () => {
+            onPaid={() => {
               setPago(true);
               setPayment(null);
-              await baixarPDF(preview, 'notificacao-bancaria-central-defesa-digital.pdf', 'Notificação Extrajudicial ao Banco');
-              toast.success('Notificação baixada em PDF!');
             }}
             onClose={() => setPayment(null)}
           />
@@ -206,6 +206,11 @@ export default function NotificacaoBanco() {
               <input {...register('cpfVitima')} className="input" placeholder="000.000.000-00" />
               {errors.cpfVitima && <p className="text-red-400 text-xs mt-1">{errors.cpfVitima.message}</p>}
             </div>
+          </div>
+          <div>
+            <label className="label">E-mail *</label>
+            <input {...register('emailVitima')} type="email" className="input" placeholder="seu@email.com" />
+            {errors.emailVitima && <p className="text-red-400 text-xs mt-1">{errors.emailVitima.message}</p>}
           </div>
         </div>
 

@@ -6,11 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FileText, Eye, Lock, CheckCircle, Phone, Mail, ExternalLink, Loader2 } from 'lucide-react';
 import { gerarTextoMED } from '@/lib/pdf-generator';
-import { baixarPDF } from '@/lib/pdf-generator';
 import { BANK_CONTACTS } from '@/lib/bank-contacts';
 import CountdownMED from './CountdownMED';
 import EmailCapture from './EmailCapture';
 import PaymentModal from '@/components/tools/PaymentModal';
+import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
 
 interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
@@ -18,6 +18,7 @@ interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: str
 const schema = z.object({
   nomeVitima: z.string().min(3, 'Nome muito curto'),
   cpfVitima: z.string().min(11, 'CPF inválido').max(14),
+  emailVitima: z.string().email('E-mail inválido'),
   banco: z.string().min(2, 'Informe o banco'),
   agencia: z.string().min(1, 'Informe a agência'),
   conta: z.string().min(1, 'Informe a conta'),
@@ -37,7 +38,6 @@ export default function GeradorMED() {
   const [documentText, setDocumentText] = useState('');
   const [currentData, setCurrentData] = useState<FormData | null>(null);
   const [isPaid, setIsPaid] = useState(false);
-  const [downloading, setDownloading] = useState(false);
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
 
@@ -77,16 +77,6 @@ export default function GeradorMED() {
     setDocumentText(text);
     setCurrentData(data);
     setStep('preview');
-  };
-
-  const downloadPDF = async () => {
-    setDownloading(true);
-    try {
-      await baixarPDF(documentText, 'contestacao-med-central-defesa-digital.pdf', 'Contestação MED');
-      toast.success('PDF da Contestação MED baixado!');
-    } finally {
-      setDownloading(false);
-    }
   };
 
   const handlePagamento = async () => {
@@ -137,6 +127,11 @@ export default function GeradorMED() {
                 <input {...register('cpfVitima')} className="input" placeholder="000.000.000-00" />
                 {errors.cpfVitima && <p className="text-red-400 text-xs mt-1">{errors.cpfVitima.message}</p>}
               </div>
+            </div>
+            <div>
+              <label className="label">E-mail *</label>
+              <input {...register('emailVitima')} type="email" className="input" placeholder="seu@email.com" />
+              {errors.emailVitima && <p className="text-red-400 text-xs mt-1">{errors.emailVitima.message}</p>}
             </div>
           </div>
 
@@ -380,14 +375,15 @@ export default function GeradorMED() {
             </div>
           </div>
         ) : (
-          <button
-            onClick={downloadPDF}
-            disabled={downloading}
-            className="btn-primary w-full justify-center py-4"
-          >
-            <FileText className="w-5 h-5" />
-            {downloading ? 'Gerando PDF...' : 'Baixar PDF novamente'}
-          </button>
+          <GuiaPosCompra
+            textoDocumento={documentText}
+            nomeArquivoPDF="contestacao-med-central-defesa-digital.pdf"
+            tituloPDF="Contestação MED"
+            tipoGolpe="Golpe via Pix"
+            nomeVitima={getValues('nomeVitima')}
+            emailVitima={getValues('emailVitima')}
+            tipoDocumento="med"
+          />
         )}
 
         <div className="flex gap-3">
@@ -409,7 +405,6 @@ export default function GeradorMED() {
             onPaid={() => {
               setIsPaid(true);
               setPayment(null);
-              setTimeout(downloadPDF, 500);
             }}
             onClose={() => setPayment(null)}
           />
@@ -465,7 +460,6 @@ export default function GeradorMED() {
             setIsPaid(true);
             setPayment(null);
             setStep('preview');
-            setTimeout(downloadPDF, 500);
           }}
           onClose={() => setPayment(null)}
         />
