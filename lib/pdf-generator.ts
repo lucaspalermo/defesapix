@@ -1,4 +1,4 @@
-// Central de Defesa Digital — PDF Document Generator
+// DefesaPix — PDF Document Generator
 // Uses jsPDF for client-side PDF generation
 
 /**
@@ -67,7 +67,7 @@ export async function baixarPDF(
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.setTextColor(160, 160, 175);
-    doc.text('Documento jurídico — Central de Defesa Digital', mL, fY);
+    doc.text('Documento jurídico — DefesaPix', mL, fY);
     doc.text(`Página ${pageNum}`, pageW - mR, fY, { align: 'right' });
   };
 
@@ -244,7 +244,7 @@ CPF: ${dados.cpfVitima}
 Data: ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Documento gerado pela Central de Defesa Digital
+Documento gerado pela DefesaPix
 www.defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();
@@ -304,7 +304,7 @@ CPF: ${dados.cpfVitima}
 Data: ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Documento gerado pela Central de Defesa Digital
+Documento gerado pela DefesaPix
 www.defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();
@@ -366,7 +366,7 @@ CPF: ${dados.cpfVitima}
 ${dataAtual}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Documento gerado pela Central de Defesa Digital
+Documento gerado pela DefesaPix
 www.defesapix.com.br | contato@defesapix.com.br
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   `.trim();

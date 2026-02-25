@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Boleto Falso: O Que Fazer? Guia Completo | Central de Defesa Digital',
+  title: 'Boleto Falso: O Que Fazer? Guia Completo',
   description: 'Pagou um boleto falso ou adulterado? Saiba como contestar o pagamento, notificar o banco e recuperar o valor. Passo a passo detalhado.',
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-boleto' },
 };
@@ -107,6 +107,24 @@ export default function GolpeBoletoPage() {
       </article>
 
       <FAQSection items={faqItems} />
+
+      <section className="section border-t border-white/10">
+        <div className="container max-w-4xl">
+          <h2 className="text-xl font-bold text-white mb-4">Leia também no blog</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { titulo: 'O banco é responsável pelos golpes digitais? O que diz o STJ', href: '/blog/banco-responsavel-golpe-digital-stj' },
+              { titulo: 'Procon e Banco Central: como e quando fazer reclamação', href: '/blog/procon-banco-central-reclamacao-golpe' },
+              { titulo: 'Juizado Especial Cível: como processar o banco', href: '/blog/juizado-especial-civel-golpe-digital' },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all group">
+                <span className="text-green-400 shrink-0">📄</span>
+                <span className="text-sm text-white/70 group-hover:text-green-400 transition-colors">{item.titulo}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

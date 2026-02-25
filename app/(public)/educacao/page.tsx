@@ -4,7 +4,7 @@ import { BookOpen, Shield, AlertTriangle, CheckCircle, ExternalLink, Video, File
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Educação Digital — Como se Proteger de Golpes Online | Central de Defesa Digital',
+  title: 'Educação Digital — Como se Proteger de Golpes Online',
   description:
     'Guias completos, vídeos e recursos educativos para se proteger de golpes digitais. Aprenda a identificar fraudes antes de ser vítima.',
   alternates: { canonical: 'https://defesapix.com.br/educacao' },

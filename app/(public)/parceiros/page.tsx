@@ -4,7 +4,7 @@ import { Scale, MapPin, Phone, CheckCircle, Star, ArrowRight, Users } from 'luci
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Parceiros Jurídicos Especializados em Golpes Digitais | Central de Defesa Digital',
+  title: 'Parceiros Jurídicos Especializados em Golpes Digitais',
   description:
     'Rede de advogados e escritórios especializados em crimes digitais e recuperação financeira. Consulta gratuita de 30 minutos para casos acima de R$5.000.',
   alternates: { canonical: 'https://defesapix.com.br/parceiros' },
@@ -142,7 +142,7 @@ export default function ParceirosPage() {
 
                   <div className="flex flex-col gap-3 sm:w-48 shrink-0">
                     <a
-                      href={`https://wa.me/55${parceiro.whatsapp}?text=Olá, vim pela Central de Defesa Digital e gostaria de uma consulta.`}
+                      href={`https://wa.me/55${parceiro.whatsapp}?text=Olá, vim pela DefesaPix e gostaria de uma consulta.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary justify-center text-sm py-2.5"

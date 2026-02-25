@@ -1,4 +1,4 @@
-// Central de Defesa Digital — Email templates (HTML)
+// DefesaPix — Email templates (HTML)
 
 export function templateBoasVindas(nome: string, tipo: string, horasRestantes: number): string {
   const critico = horasRestantes < 24 && horasRestantes > 0;
@@ -6,7 +6,7 @@ export function templateBoasVindas(nome: string, tipo: string, horasRestantes: n
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><title>Central de Defesa Digital</title></head>
+<head><meta charset="UTF-8"><title>DefesaPix</title></head>
 <body style="margin:0;padding:0;background:#09090F;font-family:Arial,Helvetica,sans-serif">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px">
 
@@ -63,7 +63,7 @@ export function templateBoasVindas(nome: string, tipo: string, horasRestantes: n
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:36px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · defesapix.com.br<br>
+      DefesaPix · defesapix.com.br<br>
       Você recebeu este e-mail porque ativou lembretes de prazo.
     </p>
   </div>
@@ -74,7 +74,7 @@ export function templateBoasVindas(nome: string, tipo: string, horasRestantes: n
 export function templateLembrete24h(nome: string, tipo: string): string {
   return `<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><title>Lembrete — Central de Defesa Digital</title></head>
+<head><meta charset="UTF-8"><title>Lembrete — DefesaPix</title></head>
 <body style="margin:0;padding:0;background:#09090F;font-family:Arial,Helvetica,sans-serif">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px">
 
@@ -100,7 +100,7 @@ export function templateLembrete24h(nome: string, tipo: string): string {
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · defesapix.com.br
+      DefesaPix · defesapix.com.br
     </p>
   </div>
 </body>
@@ -110,7 +110,7 @@ export function templateLembrete24h(nome: string, tipo: string): string {
 export function templateLembrete48h(nome: string, tipo: string): string {
   return `<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><title>Lembrete — Central de Defesa Digital</title></head>
+<head><meta charset="UTF-8"><title>Lembrete — DefesaPix</title></head>
 <body style="margin:0;padding:0;background:#09090F;font-family:Arial,Helvetica,sans-serif">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px">
 
@@ -139,7 +139,7 @@ export function templateLembrete48h(nome: string, tipo: string): string {
     </a>
 
     <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:32px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
-      Central de Defesa Digital · defesapix.com.br
+      DefesaPix · defesapix.com.br
     </p>
   </div>
 </body>

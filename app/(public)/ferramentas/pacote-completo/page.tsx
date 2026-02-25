@@ -5,7 +5,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
-  title: 'Pacote Emergência — 3 Documentos Jurídicos em 15 minutos | Central de Defesa Digital',
+  title: 'Pacote Emergência — 3 Documentos Jurídicos em 15 minutos',
   description:
     'Gere de uma só vez: Contestação MED, Boletim de Ocorrência e Notificação Bancária. Preencha uma vez, baixe 3 PDFs prontos para protocolo. R$47 — sem mensalidade.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas/pacote-completo' },

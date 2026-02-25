@@ -4,7 +4,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import ProductSchema from '@/components/seo/ProductSchema';
 
 export const metadata: Metadata = {
-  title: 'Gerador de Notificação Formal ao Banco — Golpe Digital | Central de Defesa Digital',
+  title: 'Gerador de Notificação Formal ao Banco — Golpe Digital',
   description:
     'Gere a notificação extrajudicial oficial ao banco. Baseada no CDC e Resolução BACEN 4.658/2018. Cria protocolo de responsabilidade legal para recuperação de valores.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas/notificacao-banco' },

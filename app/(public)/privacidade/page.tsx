@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Lock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Política de Privacidade | DefesaPix',
+  title: 'Política de Privacidade',
   description: 'Política de Privacidade da plataforma DefesaPix — saiba como coletamos, usamos e protegemos seus dados pessoais.',
   robots: { index: false, follow: false },
 };

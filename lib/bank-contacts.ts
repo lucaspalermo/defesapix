@@ -1,4 +1,4 @@
-// Central de Defesa Digital — Contatos oficiais dos bancos para acionamento de fraude/MED
+// DefesaPix — Contatos oficiais dos bancos para acionamento de fraude/MED
 
 export interface BankContact {
   sac: string;

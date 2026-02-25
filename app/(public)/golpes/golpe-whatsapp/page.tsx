@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025 | Central de Defesa Digital',
+  title: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025',
   description:
     'Seu WhatsApp foi clonado ou você recebeu pedido de dinheiro via número clonado? Saiba o que fazer, como denunciar e como se proteger de responsabilidade.',
   keywords: ['clonagem whatsapp', 'golpe whatsapp o que fazer', 'numero clonado whatsapp', 'golpe whatsapp como denunciar'],
@@ -161,6 +161,24 @@ export default function GolpeWhatsAppPage() {
       </article>
 
       <FAQSection items={faqItems} />
+
+      <section className="section border-t border-white/10">
+        <div className="container max-w-4xl">
+          <h2 className="text-xl font-bold text-white mb-4">Leia também no blog</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { titulo: 'Golpe do WhatsApp: como identificar e se proteger', href: '/blog/golpe-whatsapp-como-identificar-se-proteger' },
+              { titulo: 'Golpe do falso funcionário do banco: como funciona', href: '/blog/golpe-falso-funcionario-banco' },
+              { titulo: 'Engenharia social: a base de 90% dos golpes digitais', href: '/blog/engenharia-social-o-que-e-como-se-proteger' },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all group">
+                <span className="text-green-400 shrink-0">📄</span>
+                <span className="text-sm text-white/70 group-hover:text-green-400 transition-colors">{item.titulo}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

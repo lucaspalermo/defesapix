@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do Empréstimo Consignado: O Que Fazer? | DefesaPix',
+  title: 'Golpe do Empréstimo Consignado: O Que Fazer?',
   description:
     'Descobriu empréstimo consignado que não contratou? Saiba como cancelar, recuperar valores descontados indevidamente e seus direitos legais. Guia completo.',
   keywords: [

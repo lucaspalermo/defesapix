@@ -3,7 +3,7 @@ import { Scale } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'LGPD — Seus Direitos | DefesaPix',
+  title: 'LGPD — Seus Direitos',
   description: 'Conheça seus direitos de titular de dados pessoais conforme a Lei Geral de Proteção de Dados (LGPD). Saiba como exercê-los na plataforma DefesaPix.',
   robots: { index: false, follow: false },
 };

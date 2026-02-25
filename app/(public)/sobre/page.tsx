@@ -4,8 +4,8 @@ import { Shield, Target, Heart, Users, CheckCircle, Mail, ArrowRight } from 'luc
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Sobre Nós | Central de Defesa Digital',
-  description: 'Conheça a Central de Defesa Digital — a maior plataforma brasileira de recuperação financeira após golpes digitais.',
+  title: 'Sobre Nós',
+  description: 'Conheça a DefesaPix — a maior plataforma brasileira de recuperação financeira após golpes digitais.',
   alternates: { canonical: 'https://defesapix.com.br/sobre' },
 };
 
@@ -19,7 +19,7 @@ export default function SobrePage() {
             <Shield className="w-9 h-9 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Central de Defesa Digital
+            DefesaPix
           </h1>
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
             A maior plataforma brasileira focada em recuperação financeira após golpes digitais.
@@ -55,7 +55,7 @@ export default function SobrePage() {
             <h2 className="text-2xl font-bold text-white mb-4">Nossa história</h2>
             <div className="card border-green-500/20">
               <p className="text-white/70 leading-relaxed mb-4">
-                A Central de Defesa Digital nasceu de uma necessidade real: vítimas de golpes digitais
+                A DefesaPix nasceu de uma necessidade real: vítimas de golpes digitais
                 no Brasil têm acesso limitado a informações claras e documentos corretos para se defender.
                 Enquanto os golpistas se tornam cada vez mais sofisticados, a maioria das pessoas não
                 sabe nem por onde começar.
@@ -121,7 +121,7 @@ export default function SobrePage() {
           {/* Disclaimer */}
           <div className="border border-white/10 rounded-xl p-6 text-sm text-white/40">
             <strong className="text-white/60 block mb-2">Importante — Aviso Legal</strong>
-            A Central de Defesa Digital é uma plataforma de tecnologia e conteúdo educativo. Não somos
+            A DefesaPix é uma plataforma de tecnologia e conteúdo educativo. Não somos
             um escritório de advocacia e não prestamos serviços jurídicos. Os documentos disponibilizados
             são modelos orientativos redigidos com base na legislação vigente, mas não substituem
             aconselhamento jurídico profissional. Para casos complexos, recomendamos consultar um

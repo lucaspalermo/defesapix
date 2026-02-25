@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Termos de Uso | DefesaPix',
+  title: 'Termos de Uso',
   description: 'Termos de Uso da plataforma DefesaPix — leia atentamente antes de utilizar nossos serviços.',
   robots: { index: false, follow: false },
 };

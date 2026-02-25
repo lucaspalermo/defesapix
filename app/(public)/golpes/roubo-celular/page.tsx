@@ -9,7 +9,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Celular Roubado: O Que Fazer Agora? Guia de Emergência | Central de Defesa Digital',
+  title: 'Celular Roubado: O Que Fazer Agora? Guia de Emergência',
   description:
     'Roubaram seu celular? Aja nos próximos 5 minutos: bloqueie o SIM, congele o banco, bloqueie o IMEI. Guia de emergência com números diretos das operadoras.',
   keywords: [

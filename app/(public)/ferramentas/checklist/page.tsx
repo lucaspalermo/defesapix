@@ -3,7 +3,7 @@ import ChecklistTool from '@/components/tools/ChecklistTool';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Checklist de Ação para Vítimas de Golpe Digital | Central de Defesa Digital',
+  title: 'Checklist de Ação para Vítimas de Golpe Digital',
   description:
     'Checklist interativo e personalizado com todos os passos que você deve tomar após sofrer um golpe digital. Em ordem de urgência e com prazos legais.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas/checklist' },

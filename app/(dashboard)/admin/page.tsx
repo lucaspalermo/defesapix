@@ -10,7 +10,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
-  title: 'Painel Admin | Central de Defesa Digital',
+  title: 'Painel Admin',
   robots: { index: false, follow: false },
 };
 
@@ -76,7 +76,7 @@ export default async function AdminPage() {
           <Shield className="w-3.5 h-3.5 text-ember-400" />
           Painel Administrativo
         </div>
-        <h1 className="font-heading font-black text-3xl text-white mb-1">Central de Defesa Digital</h1>
+        <h1 className="font-heading font-black text-3xl text-white mb-1">DefesaPix</h1>
         <p className="text-white/40 text-sm">Visao geral do sistema</p>
       </div>
 

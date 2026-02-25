@@ -1,4 +1,4 @@
-// Central de Defesa Digital — Database Schema
+// DefesaPix — Database Schema
 // Engine: PostgreSQL via Prisma ORM
 
 generator client {

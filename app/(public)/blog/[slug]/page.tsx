@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Clock, ArrowLeft, Tag, Share2, FileText } from 'lucide-react';
+import { Clock, ArrowLeft, Tag, Share2, FileText, BookOpen } from 'lucide-react';
 
 // Static blog content (in production, fetched from Prisma)
 const ARTIGOS: Record<string, {
@@ -21,7 +21,7 @@ const ARTIGOS: Record<string, {
     tags: ['MED', 'Pix', 'BACEN', 'Resolução BCB 93/2021'],
     tempoLeitura: 8,
     publishedAt: '2025-01-15',
-    autorNome: 'Equipe Central de Defesa Digital',
+    autorNome: 'Equipe DefesaPix',
     conteudo: `
 ## O que é o MED?
 
@@ -81,7 +81,7 @@ Use nossa ferramenta gratuita para gerar o documento oficial de contestação ME
     tags: ['STJ', 'Banco', 'Responsabilidade', 'CDC'],
     tempoLeitura: 12,
     publishedAt: '2025-02-01',
-    autorNome: 'Equipe Central de Defesa Digital',
+    autorNome: 'Equipe DefesaPix',
     conteudo: `
 ## Responsabilidade objetiva dos bancos
 
@@ -1077,7 +1077,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!artigo) return { title: 'Artigo não encontrado' };
 
   return {
-    title: `${artigo.titulo} | Central de Defesa Digital`,
+    title: `${artigo.titulo}`,
     description: artigo.resumo,
     keywords: artigo.tags,
     alternates: { canonical: `https://defesapix.com.br/blog/${slug}` },
@@ -1149,11 +1149,12 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           {/* Content */}
           <div className="prose prose-invert max-w-none mb-12">
             {artigo.conteudo.split('\n').map((line, i) => {
+              if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-bold text-white mt-8 mb-3">{line.slice(4)}</h3>;
               if (line.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold text-white mt-10 mb-4">{line.slice(3)}</h2>;
               if (line.startsWith('> ')) return <blockquote key={i} className="border-l-4 border-green-500 pl-4 py-2 my-4 text-white/70 italic">{line.slice(2)}</blockquote>;
-              if (line.startsWith('- ')) return <li key={i} className="text-white/70 ml-4 mb-1">{line.slice(2)}</li>;
-              if (line.startsWith('1. ') || line.startsWith('2. ') || line.startsWith('3. ') || line.startsWith('4. '))
-                return <li key={i} className="text-white/70 ml-4 mb-1 list-decimal">{line.slice(3)}</li>;
+              if (line.startsWith('- ')) return <li key={i} className="text-white/70 ml-4 mb-1" dangerouslySetInnerHTML={{ __html: line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }} />;
+              if (/^\d+\.\s/.test(line))
+                return <li key={i} className="text-white/70 ml-4 mb-1 list-decimal" dangerouslySetInnerHTML={{ __html: line.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }} />;
               if (line.trim() === '') return <div key={i} className="mb-4" />;
               return <p key={i} className="text-white/70 leading-relaxed mb-3" dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }} />;
             })}
@@ -1181,6 +1182,57 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
               <Link href="/ferramentas/checklist" className="btn-secondary">
                 Ver checklist de ação
               </Link>
+            </div>
+          </div>
+
+          {/* Related Articles */}
+          {(() => {
+            const related = Object.entries(ARTIGOS)
+              .filter(([s]) => s !== slug)
+              .map(([s, a]) => {
+                let score = 0;
+                if (a.categoria === artigo.categoria) score += 3;
+                score += a.tags.filter((t) => artigo.tags.includes(t)).length;
+                return { slug: s, ...a, score };
+              })
+              .sort((a, b) => b.score - a.score)
+              .slice(0, 3);
+
+            return related.length > 0 ? (
+              <div className="mt-12">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-green-400" />
+                  Artigos relacionados
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {related.map((r) => (
+                    <Link key={r.slug} href={`/blog/${r.slug}`} className="card hover:border-green-500/30 transition-all group">
+                      <span className="badge-green text-xs mb-2 inline-block">{r.categoria}</span>
+                      <h4 className="font-semibold text-white text-sm mb-2 group-hover:text-green-400 transition-colors line-clamp-2">
+                        {r.titulo}
+                      </h4>
+                      <div className="flex items-center gap-1 text-xs text-white/40">
+                        <Clock className="w-3 h-3" />
+                        {r.tempoLeitura} min
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : null;
+          })()}
+
+          {/* Cross-links to Golpes & Ferramentas */}
+          <div className="mt-10 border-t border-white/10 pt-8">
+            <h3 className="text-lg font-bold text-white mb-4">Conteúdo relacionado</h3>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/golpes/golpe-pix" className="text-sm text-green-400 hover:text-green-300 transition-colors">Golpe Pix →</Link>
+              <Link href="/golpes/golpe-whatsapp" className="text-sm text-green-400 hover:text-green-300 transition-colors">Golpe WhatsApp →</Link>
+              <Link href="/ferramentas/gerador-contestacao-med" className="text-sm text-green-400 hover:text-green-300 transition-colors">Gerar MED →</Link>
+              <Link href="/ferramentas/gerador-bo" className="text-sm text-green-400 hover:text-green-300 transition-colors">Gerar B.O. →</Link>
+              <Link href="/ferramentas/notificacao-banco" className="text-sm text-green-400 hover:text-green-300 transition-colors">Notificar Banco →</Link>
+              <Link href="/golpes" className="text-sm text-white/50 hover:text-white transition-colors">Ver todos os golpes →</Link>
+              <Link href="/blog" className="text-sm text-white/50 hover:text-white transition-colors">Ver todos os artigos →</Link>
             </div>
           </div>
         </div>

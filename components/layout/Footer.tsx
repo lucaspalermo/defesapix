@@ -176,7 +176,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] pt-7 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/20 text-xs text-center md:text-left">
-            © {year} Central de Defesa Digital. Todos os direitos reservados.
+            © {year} DefesaPix. Todos os direitos reservados.
             {' '}CNPJ: XX.XXX.XXX/0001-XX
           </p>
           <div className="flex items-center gap-5">
@@ -194,7 +194,7 @@ export default function Footer() {
 
         {/* Disclaimer */}
         <p className="mt-5 text-[0.65rem] text-white/12 leading-relaxed text-center max-w-3xl mx-auto">
-          A Central de Defesa Digital não é um escritório de advocacia e não presta serviços jurídicos.
+          A DefesaPix não é um escritório de advocacia e não presta serviços jurídicos.
           Os documentos gerados são modelos orientativos e não substituem aconselhamento jurídico profissional.
         </p>
       </div>

@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do Amor (Romance Scam): O Que Fazer? | Central de Defesa Digital',
+  title: 'Golpe do Amor (Romance Scam): O Que Fazer?',
   description: 'Foi vítima de romance scam? Saiba como documentar, denunciar e proteger sua identidade após golpe afetivo digital.',
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-romance' },
 };
@@ -108,6 +108,24 @@ export default function GolpeRomancePage() {
       </article>
 
       <FAQSection items={faqItems} />
+
+      <section className="section border-t border-white/10">
+        <div className="container max-w-4xl">
+          <h2 className="text-xl font-bold text-white mb-4">Leia também no blog</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { titulo: 'Engenharia social: a base de 90% dos golpes digitais', href: '/blog/engenharia-social-o-que-e-como-se-proteger' },
+              { titulo: 'Como registrar B.O. online para golpe digital', href: '/blog/como-registrar-bo-online-golpe-digital' },
+              { titulo: 'Como proteger idosos de golpes digitais', href: '/blog/como-proteger-idoso-golpe-digital' },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all group">
+                <span className="text-green-400 shrink-0">📄</span>
+                <span className="text-sm text-white/70 group-hover:text-green-400 transition-colors">{item.titulo}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

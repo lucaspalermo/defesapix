@@ -39,10 +39,10 @@ async function asaasRequest<T = unknown>(
 // ─── Produtos e preços ─────────────────────────────────────────────────────────
 
 export const ASAAS_PRODUTOS = {
-  BO_INDIVIDUAL:     { valor: 19, descricao: 'Boletim de Ocorrência — Central de Defesa Digital' },
-  MED:               { valor: 29, descricao: 'Contestação MED — Central de Defesa Digital' },
-  NOTIFICACAO_BANCO: { valor: 29, descricao: 'Notificação Bancária — Central de Defesa Digital' },
-  PACOTE_EMERGENCIA: { valor: 47, descricao: 'Pacote Emergência (3 PDFs) — Central de Defesa Digital' },
+  BO_INDIVIDUAL:     { valor: 19, descricao: 'Boletim de Ocorrência — DefesaPix' },
+  MED:               { valor: 29, descricao: 'Contestação MED — DefesaPix' },
+  NOTIFICACAO_BANCO: { valor: 29, descricao: 'Notificação Bancária — DefesaPix' },
+  PACOTE_EMERGENCIA: { valor: 47, descricao: 'Pacote Emergência (3 PDFs) — DefesaPix' },
 } as const;
 
 export type ProdutoAsaas = keyof typeof ASAAS_PRODUTOS;

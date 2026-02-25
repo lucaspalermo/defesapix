@@ -42,7 +42,7 @@ const TESTIMONIALS = [
     cidade: 'Belo Horizonte, MG',
     tipo: 'Golpe via Pix',
     valor: 'R$ 2.300',
-    texto: 'Estava desesperada quando encontrei a Central de Defesa Digital. O passo a passo me acalmou e o MED funcionou. Recuperei R$ 2.300 em 15 dias.',
+    texto: 'Estava desesperada quando encontrei a DefesaPix. O passo a passo me acalmou e o MED funcionou. Recuperei R$ 2.300 em 15 dias.',
     estrelas: 5,
     recuperou: true,
   },
@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
         <div className="text-center mb-16">
           <span className="badge-green mb-4">Casos Reais</span>
           <h2 className="section-title">
-            Quem usou a Central de Defesa Digital
+            Quem usou a DefesaPix
           </h2>
           <p className="section-subtitle mx-auto text-center">
             Depoimentos reais de vítimas que usaram nossa plataforma para se defender e recuperar seus valores.

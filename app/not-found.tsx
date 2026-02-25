@@ -4,7 +4,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'Página não encontrada | DefesaPix',
+  title: 'Página não encontrada',
   description: 'A página que você procura não existe ou foi movida. Confira nossas ferramentas e guias para se proteger de golpes digitais.',
   robots: { index: false, follow: true },
 };

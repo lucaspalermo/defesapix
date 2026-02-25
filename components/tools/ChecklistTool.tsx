@@ -54,7 +54,7 @@ export default function ChecklistTool() {
       ),
       '━'.repeat(60),
       '',
-      'Central de Defesa Digital — defesapix.com.br',
+      'DefesaPix — defesapix.com.br',
       'Documentos jurídicos completos disponíveis no site.',
     ].join('\n');
 

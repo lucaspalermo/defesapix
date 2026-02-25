@@ -4,7 +4,7 @@ import { TrendingUp, FileText, Shield, CheckSquare, Bell, ArrowRight, Lock, Zap,
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Ferramentas Jurídicas para Vítimas de Golpe Digital | Central de Defesa Digital',
+  title: 'Ferramentas Jurídicas para Vítimas de Golpe Digital',
   description:
     'Simulador de recuperação, contestação MED, Boletim de Ocorrência, notificação bancária e checklist personalizado. Comece grátis, PDF em minutos.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas' },

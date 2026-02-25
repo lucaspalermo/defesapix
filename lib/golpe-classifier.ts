@@ -1,4 +1,4 @@
-// Central de Defesa Digital — Scam Classifier & Action Planner
+// DefesaPix — Scam Classifier & Action Planner
 
 export type TipoGolpe =
   | 'PIX'

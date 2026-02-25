@@ -8,7 +8,7 @@ import {
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Tipos de Golpe Digital: Guias Completos | Central de Defesa Digital',
+  title: 'Tipos de Golpe Digital: Guias Completos',
   description:
     'Guias completos para cada tipo de golpe digital no Brasil: Pix, WhatsApp, boleto falso, roubo de celular, falso advogado e mais. Orientações jurídicas atualizadas.',
   keywords: [

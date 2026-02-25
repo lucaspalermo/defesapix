@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Phishing: Como Identificar e Se Proteger de E-mails e Sites Falsos | DefesaPix',
+  title: 'Phishing: Como Identificar e Se Proteger de E-mails e Sites Falsos',
   description:
     'Recebeu e-mail ou SMS suspeito? Saiba identificar phishing, proteger seus dados e o que fazer se clicou em link falso. Guia completo com exemplos reais.',
   keywords: [

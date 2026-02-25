@@ -3,7 +3,7 @@ import SimuladorRecuperacao from '@/components/tools/SimuladorRecuperacao';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 export const metadata: Metadata = {
-  title: 'Simulador de Recuperação de Pix e Golpe Digital | Central de Defesa Digital',
+  title: 'Simulador de Recuperação de Pix e Golpe Digital',
   description:
     'Calcule sua probabilidade de recuperar o dinheiro perdido em golpe digital. Baseado no tipo de golpe, valor, banco e tempo decorrido. Gratuito.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas/simulador-recuperacao' },

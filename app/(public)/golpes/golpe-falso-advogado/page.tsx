@@ -9,7 +9,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do Falso Advogado: Como Identificar e se Defender | Central de Defesa Digital',
+  title: 'Golpe do Falso Advogado: Como Identificar e se Defender',
   description:
     'Prometeram recuperar seu dinheiro e pediram honorários antecipados? Saiba como identificar o golpe do falso advogado, verificar o registro na OAB e denunciar.',
   keywords: [

@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'App ou Site Falso de Banco: O Que Fazer? | Central de Defesa Digital',
+  title: 'App ou Site Falso de Banco: O Que Fazer?',
   description: 'Acessou um aplicativo ou site falso do banco? Saiba o que fazer imediatamente para proteger sua conta e recuperar valores perdidos.',
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-clone-app' },
 };
@@ -117,6 +117,24 @@ export default function GolpeCloneAppPage() {
       </article>
 
       <FAQSection items={faqItems} />
+
+      <section className="section border-t border-white/10">
+        <div className="container max-w-4xl">
+          <h2 className="text-xl font-bold text-white mb-4">Leia também no blog</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { titulo: 'Engenharia social: a base de 90% dos golpes digitais', href: '/blog/engenharia-social-o-que-e-como-se-proteger' },
+              { titulo: 'Como bloquear celular roubado: IMEI, chip e apps', href: '/blog/como-bloquear-celular-roubado-imei' },
+              { titulo: 'Seus direitos como cliente de banco digital', href: '/blog/direitos-consumidor-banco-digital' },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all group">
+                <span className="text-green-400 shrink-0">📄</span>
+                <span className="text-sm text-white/70 group-hover:text-green-400 transition-colors">{item.titulo}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

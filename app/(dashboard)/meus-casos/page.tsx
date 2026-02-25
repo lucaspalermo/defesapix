@@ -10,7 +10,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
-  title: 'Meus Casos | Central de Defesa Digital',
+  title: 'Meus Casos',
   robots: { index: false },
 };
 

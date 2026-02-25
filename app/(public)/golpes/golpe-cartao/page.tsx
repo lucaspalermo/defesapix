@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do Cartão de Crédito: O Que Fazer? Guia Completo | DefesaPix',
+  title: 'Golpe do Cartão de Crédito: O Que Fazer? Guia Completo',
   description:
     'Cartão clonado ou compra não reconhecida? Saiba como contestar transações, bloquear o cartão e recuperar seu dinheiro. Guia completo com prazos e direitos legais.',
   keywords: [

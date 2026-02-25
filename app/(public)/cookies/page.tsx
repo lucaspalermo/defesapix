@@ -3,7 +3,7 @@ import { Cookie } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Política de Cookies | DefesaPix',
+  title: 'Política de Cookies',
   description: 'Política de Cookies da plataforma DefesaPix — saiba como utilizamos cookies e tecnologias semelhantes para melhorar sua experiência.',
   robots: { index: false, follow: false },
 };

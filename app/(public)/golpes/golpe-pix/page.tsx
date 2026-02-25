@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe via Pix: O Que Fazer? Guia Completo 2025 | Central de Defesa Digital',
+  title: 'Golpe via Pix: O Que Fazer? Guia Completo 2025',
   description:
     'Caiu num golpe via Pix? Saiba exatamente o que fazer em 2025. MED, Boletim de Ocorrência, notificação bancária — tudo explicado passo a passo. Recupere seu dinheiro.',
   keywords: [
@@ -100,8 +100,8 @@ const schemaArticle = {
   '@type': 'Article',
   headline: 'Golpe via Pix: O Que Fazer? Guia Completo 2025',
   description: 'Guia completo sobre como agir após cair em golpe via Pix. MED, BO, notificação bancária e mais.',
-  author: { '@type': 'Organization', name: 'Central de Defesa Digital' },
-  publisher: { '@type': 'Organization', name: 'Central de Defesa Digital' },
+  author: { '@type': 'Organization', name: 'DefesaPix' },
+  publisher: { '@type': 'Organization', name: 'DefesaPix' },
   datePublished: '2025-01-01',
   dateModified: new Date().toISOString().split('T')[0],
 };
@@ -372,6 +372,21 @@ export default function GolpePixPage() {
                 <span className="text-sm font-semibold text-white/80 group-hover:text-green-400 transition-colors">
                   {item.titulo} →
                 </span>
+              </Link>
+            ))}
+          </div>
+
+          <h3 className="text-lg font-bold text-white mt-8 mb-4">Leia também no blog</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { titulo: 'MED: O que é e como acionar o Mecanismo Especial de Devolução', href: '/blog/med-mecanismo-especial-devolucao-pix' },
+              { titulo: 'Como recuperar dinheiro de golpe Pix em 2025', href: '/blog/como-recuperar-dinheiro-golpe-pix-2025' },
+              { titulo: 'Golpe do QR Code Pix: como funciona e como evitar', href: '/blog/golpe-qr-code-pix-como-funciona' },
+              { titulo: 'O banco é responsável pelos golpes digitais? O que diz o STJ', href: '/blog/banco-responsavel-golpe-digital-stj' },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all group">
+                <span className="text-green-400 shrink-0">📄</span>
+                <span className="text-sm text-white/70 group-hover:text-green-400 transition-colors">{item.titulo}</span>
               </Link>
             ))}
           </div>
