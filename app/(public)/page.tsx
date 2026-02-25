@@ -17,7 +17,7 @@ import ReviewSchema from '@/components/seo/ReviewSchema';
 export const metadata: Metadata = {
   title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro',
   description:
-    'Caiu num golpe via Pix? Saiba exatamente o que fazer agora. Gere a contestação MED, boletim de ocorrência e notificação bancária em minutos.',
+    'Caiu num golpe via Pix? Diagnóstico gratuito em 30s + Kit Completo com 5 documentos jurídicos por R$47. Contestação MED, BO, notificação bancária. Prazo MED: 72h — aja agora.',
   alternates: { canonical: 'https://defesapix.com.br' },
 };
 

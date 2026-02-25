@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: '%s | DefesaPix',
   },
   description:
-    'Fui vítima de golpe via Pix? Saiba o que fazer agora. Gere contestação MED, boletim de ocorrência e notificação bancária em minutos. A maior plataforma brasileira de recuperação após golpes digitais.',
+    'Caiu num golpe digital? Diagnóstico gratuito em 30s + Kit Completo com 5 documentos jurídicos por R$47. Contestação MED, BO, notificação bancária e reclamação BACEN. Prazo MED: 72h.',
   keywords: [
     'golpe pix o que fazer',
     'golpe pix como recuperar dinheiro',

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import {
   Search, ArrowRight, AlertTriangle, Clock, Shield, FileText,
-  Bell, Scale, Building2, CheckCircle, Zap, Lock, ChevronRight,
+  CheckCircle, Zap, Lock, ChevronRight,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -172,15 +172,6 @@ export default function DiagnosticoGratuito() {
     BAIXA: { text: 'text-red-400', bg: 'bg-red-500', ring: 'ring-red-500/30', label: 'Chance baixa — mas ainda possível', emoji: '' },
   };
 
-  const iconForDoc = (doc: string) => {
-    if (doc.includes('MED')) return Shield;
-    if (doc.includes('BO') || doc.includes('Boletim')) return FileText;
-    if (doc.includes('Notificação')) return Bell;
-    if (doc.includes('BACEN')) return Scale;
-    if (doc.includes('Procon')) return Building2;
-    return FileText;
-  };
-
   /* ── FORMULÁRIO ─────────────────────────────────────────────────────────── */
   if (!result) {
     return (
@@ -320,60 +311,52 @@ export default function DiagnosticoGratuito() {
         </div>
       </div>
 
-      {/* Documentos necessários */}
-      <div className="card">
-        <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-blue-400" />
-          Documentos que você precisa ({result.golpe.docs.length})
-        </h3>
-        <div className="space-y-2">
-          {result.golpe.docs.map((doc) => {
-            const Icon = iconForDoc(doc);
-            return (
-              <div key={doc} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10">
-                <Icon className="w-4 h-4 text-white/40 shrink-0" />
-                <span className="text-sm text-white/80 flex-1">{doc}</span>
-                <Lock className="w-3.5 h-3.5 text-white/20" />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Caminhos de recuperação — resumo sem detalhe */}
-      <div className="card">
-        <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-green-400" />
-          Caminhos para recuperar seu dinheiro
-        </h3>
-        <ol className="space-y-2">
-          {result.golpe.caminhos.map((caminho, i) => (
-            <li key={i} className="flex items-center gap-3 text-sm text-white/70">
-              <span className="w-6 h-6 rounded-full bg-white/10 text-white/50 flex items-center justify-center text-xs font-bold shrink-0">
-                {i + 1}
-              </span>
-              {caminho}
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {/* ── CTA PRINCIPAL ─────────────────────────────────────────────────── */}
+      {/* ── O que você precisa (travado) ──────────────────────────────────── */}
       <div className="card border-orange-500/30 bg-gradient-to-b from-orange-500/10 to-transparent">
         <div className="text-center">
-          <h3 className="font-bold text-white text-lg mb-2">
-            Resolva agora — todos os documentos prontos em 15 minutos
+          <h3 className="font-bold text-white text-xl mb-2">
+            Seu plano de recuperação está pronto
           </h3>
           <p className="text-sm text-white/60 mb-6">
-            Gere {result.golpe.docs.length > 1 ? `os ${result.golpe.docs.length} documentos` : 'o documento'} que você precisa,
-            com linguagem jurídica profissional e guia completo passo a passo.
+            Identificamos {result.golpe.docs.length} documento{result.golpe.docs.length > 1 ? 's' : ''} jurídico{result.golpe.docs.length > 1 ? 's' : ''} que você precisa
+            e {result.golpe.caminhos.length} passo{result.golpe.caminhos.length > 1 ? 's' : ''} para recuperar seu dinheiro.
           </p>
+
+          {/* Itens travados — só mostra quantidade, não o conteúdo */}
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <FileText className="w-5 h-5 text-blue-400" />
+                <Lock className="w-3.5 h-3.5 text-white/25" />
+              </div>
+              <p className="text-2xl font-bold text-white">{result.golpe.docs.length}</p>
+              <p className="text-xs text-white/40 mt-1">Documentos jurídicos</p>
+            </div>
+            <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Shield className="w-5 h-5 text-green-400" />
+                <Lock className="w-3.5 h-3.5 text-white/25" />
+              </div>
+              <p className="text-2xl font-bold text-white">{result.golpe.caminhos.length}</p>
+              <p className="text-xs text-white/40 mt-1">Passos para recuperação</p>
+            </div>
+          </div>
+
+          {/* Linhas borradas simulando conteúdo travado */}
+          <div className="space-y-2 mb-6 select-none">
+            {Array.from({ length: Math.min(result.golpe.docs.length, 4) }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div className="w-4 h-4 rounded bg-white/10 shrink-0" />
+                <div className="flex-1 h-3 rounded bg-white/[0.08] blur-[4px]" />
+                <Lock className="w-3.5 h-3.5 text-white/15 shrink-0" />
+              </div>
+            ))}
+          </div>
 
           <div className="flex flex-wrap gap-2 justify-center mb-5">
             {[
-              `${result.golpe.docs.length} documento${result.golpe.docs.length > 1 ? 's' : ''} jurídico${result.golpe.docs.length > 1 ? 's' : ''}`,
-              'Guia passo a passo',
-              'Linguagem de advogado (IA)',
+              'Linguagem de advogado',
+              'Guia passo a passo completo',
               'PDF pronto para protocolar',
               'Garantia 7 dias',
             ].map((t) => (
@@ -385,7 +368,7 @@ export default function DiagnosticoGratuito() {
 
           <Link href="/ferramentas/pacote-completo" className="btn-primary w-full justify-center py-4 text-base">
             <Zap className="w-5 h-5" />
-            Gerar documentos agora — R$47
+            Desbloquear plano completo — R$47
             <ArrowRight className="w-5 h-5" />
           </Link>
 
