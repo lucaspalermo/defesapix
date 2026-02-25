@@ -12,6 +12,7 @@ import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import StatsSection from '@/components/home/StatsSection';
 import FAQSection from '@/components/home/FAQSection';
+import ReviewSchema from '@/components/seo/ReviewSchema';
 
 export const metadata: Metadata = {
   title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro',
@@ -566,6 +567,14 @@ export default function HomePage() {
       </section>
 
       {/* ══ SOCIAL PROOF + PRICING + FAQ ═══════════════════════ */}
+      <ReviewSchema reviews={[
+        { author: 'M. Santos', rating: 5, text: 'Em menos de 1 hora, a Central gerou meu MED, BO e notificação bancária. Em 12 dias, recebi R$ 4.800 de volta.', date: '2025-01-10' },
+        { author: 'J. Ferreira', rating: 5, text: 'Meu WhatsApp foi clonado. A plataforma me ajudou a registrar o BO correto e notificar as autoridades.', date: '2025-01-18' },
+        { author: 'A. Lima', rating: 5, text: 'Perdi R$15k num esquema de criptomoedas. O site me conectou com um advogado parceiro que abriu processo.', date: '2025-01-25' },
+        { author: 'P. Rodrigues', rating: 5, text: 'Paguei um boleto adulterado. Com o modelo da plataforma, contestei no banco e recuperei tudo em 8 dias.', date: '2025-02-02' },
+        { author: 'C. Mendes', rating: 5, text: 'O passo a passo me acalmou e o MED funcionou. Recuperei R$ 2.300 em 15 dias.', date: '2025-02-08' },
+        { author: 'R. Costa', rating: 4, text: 'A plataforma me ajudou a documentar tudo e entender meus direitos. O processo judicial está em andamento.', date: '2025-02-14' },
+      ]} />
       <TestimonialsSection />
       <PricingSection />
       <FAQSection items={faqItems} />

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {
   Zap, Smartphone, FileText, Heart, Briefcase, BarChart3,
   Globe, PhoneOff, Scale, ArrowRight, Shield, AlertTriangle,
+  CreditCard, Mail, Banknote,
 } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
@@ -102,6 +103,33 @@ const GOLPES = [
     desc: 'Vaga falsa usada para cobrar taxas de cadastro, pedir documentos ou solicitar equipamentos.',
     tags: ['Procon', 'MTE', 'Denúncia'],
     stat: 'Procon pode ressarcir',
+  },
+  {
+    Icon: CreditCard,
+    titulo: 'Cartão Clonado',
+    href: '/golpes/golpe-cartao',
+    urgencia: 'ALTA' as const,
+    desc: 'Compras não reconhecidas no cartão de crédito ou débito. Chargeback e contestação bancária.',
+    tags: ['Chargeback', 'CDC', 'Banco'],
+    stat: 'Contestação em até 120 dias',
+  },
+  {
+    Icon: Mail,
+    titulo: 'Phishing',
+    href: '/golpes/golpe-phishing',
+    urgencia: 'ALTA' as const,
+    desc: 'E-mails, SMS e sites falsos que imitam bancos e empresas para roubar senhas e dados.',
+    tags: ['E-mail', 'SMS', 'Site falso'],
+    stat: 'Troque senhas imediatamente',
+  },
+  {
+    Icon: Banknote,
+    titulo: 'Consignado Fraudulento',
+    href: '/golpes/golpe-consignado',
+    urgencia: 'ALTA' as const,
+    desc: 'Empréstimo consignado contratado sem autorização — descontos indevidos na folha ou INSS.',
+    tags: ['INSS', 'Consignado', 'CDC'],
+    stat: 'CDC garante cancelamento',
   },
 ];
 
