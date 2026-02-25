@@ -1096,16 +1096,25 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
   const artigo = ARTIGOS[slug];
   if (!artigo) notFound();
 
+  const articleUrl = `https://defesapix.com.br/blog/${slug}`;
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: artigo.titulo,
     description: artigo.resumo,
-    author: { '@type': 'Organization', name: artigo.autorNome },
-    publisher: { '@type': 'Organization', name: 'Central de Defesa Digital' },
+    author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'DefesaPix',
+      logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+    },
     datePublished: artigo.publishedAt,
     dateModified: artigo.publishedAt,
     keywords: artigo.tags.join(', '),
+    url: articleUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    image: 'https://defesapix.com.br/opengraph-image',
+    inLanguage: 'pt-BR',
   };
 
   return (
