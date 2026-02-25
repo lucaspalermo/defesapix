@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   alternates: { canonical: 'https://defesapix.com.br' },
-  verification: { google: 'seu-codigo-de-verificacao' },
+  verification: { google: '9E1YEZk0Jy0IOAwk-iJxUq51yXWdlHR4bZqQQTQD540' },
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
