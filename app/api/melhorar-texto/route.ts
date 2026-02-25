@@ -74,8 +74,9 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ textoMelhorado });
-  } catch (error) {
-    console.error('[MELHORAR_TEXTO]', error);
-    return NextResponse.json({ error: 'Erro ao processar texto' }, { status: 500 });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[MELHORAR_TEXTO]', msg, error);
+    return NextResponse.json({ error: msg || 'Erro ao processar texto' }, { status: 500 });
   }
 }

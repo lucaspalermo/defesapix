@@ -13,7 +13,6 @@ import {
 } from '@/lib/pdf-generator';
 import { BANK_CONTACTS } from '@/lib/bank-contacts';
 import CountdownMED from './CountdownMED';
-import EmailCapture from './EmailCapture';
 import PaymentModal from '@/components/tools/PaymentModal';
 import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
@@ -39,6 +38,7 @@ const schema = z.object({
 });
 
 type FormData = z.infer<typeof schema>;
+type DocKey = 'bo' | 'med' | 'notificacao' | 'bacen' | 'procon';
 
 const BANCOS = ['Nubank', 'Itaú', 'Bradesco', 'Santander', 'Banco do Brasil', 'Caixa', 'Inter', 'C6 Bank', 'PicPay', 'Mercado Pago', 'Outro'];
 
@@ -63,6 +63,7 @@ interface GolpeConfig {
   infratorLabel: string;
   infratorPlaceholder: string;
   descPlaceholder: string;
+  docs: DocKey[];
 }
 
 const GOLPE_CONFIG: Record<string, GolpeConfig> = {
@@ -73,6 +74,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Outros dados do golpista (opcional)',
     infratorPlaceholder: 'Nome, telefone, redes sociais do golpista...',
     descPlaceholder: 'Descreva como aconteceu: quem te contatou, o que disseram, como você fez o Pix...',
+    docs: ['bo', 'med', 'notificacao', 'bacen', 'procon'],
   },
   'Clonagem de WhatsApp': {
     showBanco: false, showAgenciaConta: false, showValor: true,
@@ -81,6 +83,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Número do WhatsApp e dados do golpista',
     infratorPlaceholder: '(11) 99999-9999, perfil usado, quem foi contactado...',
     descPlaceholder: 'Como percebeu a clonagem, o que o golpista fez, quem foi contactado, valores pedidos...',
+    docs: ['bo', 'procon'],
   },
   'Boleto Falso': {
     showBanco: true, showAgenciaConta: true, showValor: true,
@@ -89,6 +92,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Dados do boleto falso e empresa cobrada',
     infratorPlaceholder: 'Banco emitente, linha digitável, empresa que pagava...',
     descPlaceholder: 'Como recebeu o boleto, o que achava que estava pagando, como percebeu a fraude...',
+    docs: ['bo', 'notificacao', 'bacen', 'procon'],
   },
   'App/Site Falso de Banco': {
     showBanco: true, showAgenciaConta: true, showValor: true,
@@ -97,6 +101,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'URL ou nome do site/app falso',
     infratorPlaceholder: 'www.exemplo.com, nome do app na loja...',
     descPlaceholder: 'Como encontrou o site/app, o que pediu, que dados você colocou, quando percebeu...',
+    docs: ['bo', 'notificacao', 'bacen', 'procon'],
   },
   'Golpe por Telefone': {
     showBanco: false, showAgenciaConta: false, showValor: true,
@@ -105,6 +110,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Número que ligou e empresa que fingiu ser',
     infratorPlaceholder: '0800-123-4567, empresa que fingiu ser, o que pediram...',
     descPlaceholder: 'Quem ligou, o que disseram, que dados pediu, o que você fez...',
+    docs: ['bo', 'procon'],
   },
   'Fraude em Cartão': {
     showBanco: true, showAgenciaConta: false, showValor: true,
@@ -113,6 +119,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Dados do cartão e transações não reconhecidas',
     infratorPlaceholder: 'Final 1234, Visa, compras em loja X no valor de R$...',
     descPlaceholder: 'Quando percebeu as compras, se o cartão estava com você, valores e lojas...',
+    docs: ['bo', 'notificacao', 'bacen', 'procon'],
   },
   'Investimento Fraudulento': {
     showBanco: true, showAgenciaConta: true, showValor: true,
@@ -121,6 +128,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Plataforma/site do investimento fraudulento',
     infratorPlaceholder: 'Nome do site, perfil no Instagram, promessas feitas...',
     descPlaceholder: 'Como conheceu a plataforma, o que prometeram, quanto investiu, quando parou de receber...',
+    docs: ['bo', 'notificacao', 'bacen', 'procon'],
   },
   'Roubo/Furto de Celular': {
     showBanco: false, showAgenciaConta: false, showValor: false,
@@ -129,6 +137,7 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Dados do aparelho roubado',
     infratorPlaceholder: 'Modelo do celular, IMEI (na caixa/nota fiscal), cor, operadora...',
     descPlaceholder: 'Onde e quando aconteceu, como foi abordado, se acessaram seus apps bancários, prejuízo financeiro...',
+    docs: ['bo'],
   },
   'Outro': {
     showBanco: true, showAgenciaConta: true, showValor: true,
@@ -137,23 +146,26 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorLabel: 'Dados do infrator (opcional)',
     infratorPlaceholder: 'Nome, conta bancária, telefone, redes sociais...',
     descPlaceholder: 'Descreva cronologicamente como o golpe aconteceu...',
+    docs: ['bo', 'notificacao', 'bacen', 'procon'],
   },
 };
 
-type Step = 'form' | 'preview';
+const DOC_META: Record<DocKey, { label: string; icon: typeof FileText; color: string }> = {
+  bo: { label: 'Boletim de Ocorrência', icon: FileText, color: 'text-blue-400' },
+  med: { label: 'Contestação MED', icon: Shield, color: 'text-red-400' },
+  notificacao: { label: 'Notificação Bancária', icon: Bell, color: 'text-green-400' },
+  bacen: { label: 'Reclamação BACEN', icon: Scale, color: 'text-amber-400' },
+  procon: { label: 'Reclamação Procon', icon: Building2, color: 'text-purple-400' },
+};
 
 interface Docs {
-  med: string;
-  bo: string;
-  notificacao: string;
-  bacen: string;
-  procon: string;
+  texts: Partial<Record<DocKey, string>>;
+  docList: DocKey[];
   data: FormData;
   valorNum: number;
 }
 
 export default function PacoteCompleto() {
-  const [step, setStep] = useState<Step>('form');
   const [docs, setDocs] = useState<Docs | null>(null);
   const [paid, setPaid] = useState(false);
   const [paying, setPaying] = useState(false);
@@ -205,70 +217,77 @@ export default function PacoteCompleto() {
     }
   };
 
-  const onSubmit = (data: FormData) => {
+  const gerarDocs = (data: FormData): Docs => {
     const valorNum = data.valor ? (parseFloat(data.valor.replace(/\./g, '').replace(',', '.')) || 0) : 0;
     const bancoVal = data.banco || 'Não informado';
     const agenciaVal = data.agencia || 'N/A';
     const contaVal = data.conta || 'N/A';
+    const cfg = GOLPE_CONFIG[data.tipoGolpe] || GOLPE_CONFIG['Outro'];
+    const docList = cfg.docs;
+    const texts: Partial<Record<DocKey, string>> = {};
 
-    const med = gerarTextoMED({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
-      agencia: agenciaVal, conta: contaVal, valorTransferido: valorNum,
-      dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario || 'N/A',
-      descricaoGolpe: data.descricao, numeroBo: data.numeroBo,
-    });
+    if (docList.includes('bo')) {
+      texts.bo = gerarTextoBO({
+        nomeVitima: data.nome, cpfVitima: data.cpf,
+        enderecoVitima: data.endereco || 'Não informado', telefoneVitima: data.telefone,
+        emailVitima: data.email, dataOcorrencia: data.dataOcorrencia,
+        localOcorrencia: 'Internet / Aplicativo bancário', tipoGolpe: data.tipoGolpe,
+        descricaoDetalhada: data.descricao, valorPrejuizo: valorNum,
+        dadosInfrator: data.dadosInfrator,
+      });
+    }
+    if (docList.includes('med')) {
+      texts.med = gerarTextoMED({
+        nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+        agencia: agenciaVal, conta: contaVal, valorTransferido: valorNum,
+        dataOcorrencia: data.dataOcorrencia, chavePixDestinatario: data.chavePixDestinatario || 'N/A',
+        descricaoGolpe: data.descricao, numeroBo: data.numeroBo,
+      });
+    }
+    if (docList.includes('notificacao')) {
+      texts.notificacao = gerarTextoNotificacaoBanco({
+        nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+        agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
+        valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
+        pedidos: [
+          `Devolução integral de R$ ${valorNum.toFixed(2).replace('.', ',')} em até 5 dias úteis`,
+          'Fornecimento de número de protocolo desta notificação',
+          'Comunicação ao Banco Central do Brasil (BACEN) sobre o incidente',
+          'Investigação interna e medidas para prevenir recorrência',
+          'Manifestação formal em até 5 (cinco) dias úteis',
+          ...(data.tipoGolpe === 'Golpe via Pix' ? ['Acionamento imediato do MED — Resolução BCB 93/2021'] : []),
+        ],
+      });
+    }
+    if (docList.includes('bacen')) {
+      texts.bacen = gerarTextoReclamacaoBACEN({
+        nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+        agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
+        valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
+      });
+    }
+    if (docList.includes('procon')) {
+      texts.procon = gerarTextoReclamacaoProcon({
+        nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
+        dataOcorrencia: data.dataOcorrencia, valorPrejuizo: valorNum,
+        tipoFraude: data.tipoGolpe, descricao: data.descricao,
+      });
+    }
 
-    const bo = gerarTextoBO({
-      nomeVitima: data.nome, cpfVitima: data.cpf,
-      enderecoVitima: data.endereco || 'Não informado', telefoneVitima: data.telefone,
-      emailVitima: data.email, dataOcorrencia: data.dataOcorrencia,
-      localOcorrencia: 'Internet / Aplicativo bancário', tipoGolpe: data.tipoGolpe,
-      descricaoDetalhada: data.descricao, valorPrejuizo: valorNum,
-      dadosInfrator: data.dadosInfrator,
-    });
-
-    const notificacao = gerarTextoNotificacaoBanco({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
-      agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
-      valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
-      pedidos: [
-        `Devolução integral de R$ ${valorNum.toFixed(2).replace('.', ',')} em até 5 dias úteis`,
-        'Acionamento imediato do Mecanismo Especial de Devolução (MED) — Resolução BCB 93/2021',
-        'Fornecimento de número de protocolo desta notificação',
-        'Comunicação ao Banco Central do Brasil (BACEN) sobre o incidente',
-        'Investigação interna e medidas para prevenir recorrência',
-        'Manifestação formal em até 5 (cinco) dias úteis',
-      ],
-    });
-
-    const bacen = gerarTextoReclamacaoBACEN({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
-      agencia: agenciaVal, conta: contaVal, dataOcorrencia: data.dataOcorrencia,
-      valorPrejuizo: valorNum, tipoFraude: data.tipoGolpe, descricao: data.descricao,
-    });
-
-    const procon = gerarTextoReclamacaoProcon({
-      nomeVitima: data.nome, cpfVitima: data.cpf, banco: bancoVal,
-      dataOcorrencia: data.dataOcorrencia, valorPrejuizo: valorNum,
-      tipoFraude: data.tipoGolpe, descricao: data.descricao,
-    });
-
-    setDocs({ med, bo, notificacao, bacen, procon, data, valorNum });
-    setStep('preview');
+    return { texts, docList, data, valorNum };
   };
 
-  const handlePagamento = async () => {
+  const startPayment = async (data: FormData) => {
     setPaying(true);
     try {
-      const { nome, email, cpf } = getValues();
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'PACOTE_EMERGENCIA', nome, email, cpf: cpf.replace(/\D/g, '') }),
+        body: JSON.stringify({ produto: 'PACOTE_EMERGENCIA', nome: data.nome, email: data.email, cpf: data.cpf.replace(/\D/g, '') }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
-      setPayment({ paymentId: data.paymentId, pixQrCode: data.pixQrCode, pixCopiaECola: data.pixCopiaECola, valor: data.valor });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error ?? 'Erro ao criar pagamento');
+      setPayment({ paymentId: result.paymentId, pixQrCode: result.pixQrCode, pixCopiaECola: result.pixCopiaECola, valor: result.valor });
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Erro ao iniciar pagamento');
     } finally {
@@ -276,8 +295,16 @@ export default function PacoteCompleto() {
     }
   };
 
-  // ─── STEP: FORM ──────────────────────────────────────────────────────────────
-  if (step === 'form') {
+  const onSubmit = async (data: FormData) => {
+    const newDocs = gerarDocs(data);
+    setDocs(newDocs);
+    await startPayment(data);
+  };
+
+  // ─── VIEW: FORM ──────────────────────────────────────────────────────────────
+  if (!docs) {
+    const docCount = config?.docs.length ?? 0;
+
     return (
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {isPix && dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
@@ -285,7 +312,7 @@ export default function PacoteCompleto() {
         <div className="card border-orange-500/20">
           <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
             <Zap className="w-5 h-5 text-orange-400" />
-            Kit Completo de Recuperação
+            Kit de Recuperação
           </h2>
 
           {/* ── Seus dados ── */}
@@ -319,7 +346,7 @@ export default function PacoteCompleto() {
             </div>
           </div>
 
-          {/* ── Tipo de golpe (determina o restante) ── */}
+          {/* ── Tipo de golpe ── */}
           <div className="space-y-4 mb-6">
             <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">O que aconteceu?</h3>
             <div>
@@ -330,12 +357,21 @@ export default function PacoteCompleto() {
               </select>
               {errors.tipoGolpe && <p className="text-red-400 text-xs mt-1">{errors.tipoGolpe.message}</p>}
             </div>
+
+            {config && (
+              <div className="flex flex-wrap gap-2">
+                {config.docs.map((key) => (
+                  <span key={key} className="text-[0.65rem] px-2 py-1 rounded-full bg-white/5 text-white/50 border border-white/10">
+                    {DOC_META[key].label}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* ── Campos dinâmicos (só aparecem após selecionar tipo) ── */}
+          {/* ── Campos dinâmicos ── */}
           {config && (
             <>
-              {/* Dados bancários (condicional) */}
               {config.showBanco && (
                 <div className="space-y-4 mb-6">
                   <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados bancários</h3>
@@ -346,7 +382,6 @@ export default function PacoteCompleto() {
                       {BANCOS.map((b) => <option key={b} value={b}>{b}</option>)}
                     </select>
                   </div>
-
                   {config.showAgenciaConta && (
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -359,12 +394,9 @@ export default function PacoteCompleto() {
                       </div>
                     </div>
                   )}
-
                   {bankContact && (
                     <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
-                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
-                        Contato oficial — {banco}
-                      </p>
+                      <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">Contato oficial — {banco}</p>
                       <div className="flex items-start gap-2 text-sm">
                         <Phone className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
                         <span className="text-white/70">SAC: <span className="text-white font-mono">{bankContact.sac}</span></span>
@@ -382,10 +414,8 @@ export default function PacoteCompleto() {
                 </div>
               )}
 
-              {/* Detalhes da ocorrência */}
               <div className="space-y-4 mb-6">
                 <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Detalhes da ocorrência</h3>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {config.showValor && (
                     <div>
@@ -399,20 +429,17 @@ export default function PacoteCompleto() {
                     {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
                   </div>
                 </div>
-
                 {isPix && (
                   <div>
                     <label className="label">Chave Pix do golpista *</label>
                     <input {...register('chavePixDestinatario')} className="input" placeholder="CPF, e-mail, telefone ou chave aleatória" />
                   </div>
                 )}
-
                 <div>
                   <label className="label">{config.infratorLabel}</label>
                   <textarea {...register('dadosInfrator')} rows={2} className="input resize-none"
                     placeholder={config.infratorPlaceholder} />
                 </div>
-
                 <div>
                   <label className="label">Descrição detalhada *</label>
                   <textarea {...register('descricao')} rows={5} className="input resize-none"
@@ -420,21 +447,14 @@ export default function PacoteCompleto() {
                   {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-white/30">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
-                    <button
-                      type="button"
-                      onClick={handleMelhorarDescricao}
-                      disabled={melhorandoDescricao}
-                      className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 transition-colors"
-                    >
-                      {melhorandoDescricao ? (
-                        <><Loader2 className="w-3 h-3 animate-spin" /> Aprimorando...</>
-                      ) : (
-                        <><Sparkles className="w-3 h-3" /> Aprimorar com IA</>
-                      )}
+                    <button type="button" onClick={handleMelhorarDescricao} disabled={melhorandoDescricao}
+                      className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 transition-colors">
+                      {melhorandoDescricao
+                        ? <><Loader2 className="w-3 h-3 animate-spin" /> Aprimorando...</>
+                        : <><Sparkles className="w-3 h-3" /> Aprimorar com IA</>}
                     </button>
                   </div>
                 </div>
-
                 <div>
                   <label className="label">Número do BO (se já registrou)</label>
                   <input {...register('numeroBo')} className="input" placeholder="Opcional" />
@@ -444,138 +464,103 @@ export default function PacoteCompleto() {
           )}
         </div>
 
+        {/* ── CTA: Pagar + gerar ── */}
         {config && (
-          <button type="submit" className="btn-primary w-full justify-center py-4 text-base">
-            <Zap className="w-5 h-5" />
-            Gerar documentos — prévia gratuita
-          </button>
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {['Documentos jurídicos prontos', 'Guia passo a passo', 'Melhoria com IA', 'Garantia 7 dias'].map((t) => (
+                <span key={t} className="text-[0.65rem] px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                  <CheckCircle className="w-3 h-3 inline mr-1" />{t}
+                </span>
+              ))}
+            </div>
+            <button type="submit" disabled={paying}
+              className="btn-primary w-full justify-center py-4 text-base disabled:opacity-60">
+              {paying
+                ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
+                : <><Lock className="w-5 h-5" /> Pagar R$47 — gerar {docCount} documento{docCount > 1 ? 's' : ''}</>}
+            </button>
+            <p className="text-xs text-white/30 text-center">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
+          </div>
+        )}
+
+        {payment && (
+          <PaymentModal
+            paymentId={payment.paymentId}
+            pixQrCode={payment.pixQrCode}
+            pixCopiaECola={payment.pixCopiaECola}
+            valor={payment.valor}
+            produto={`Kit ${config?.docs.length ?? 0} Documento${(config?.docs.length ?? 0) > 1 ? 's' : ''}`}
+            onPaid={() => { setPaid(true); setPayment(null); }}
+            onClose={() => setPayment(null)}
+          />
         )}
       </form>
     );
   }
 
-  // ─── STEP: PREVIEW ───────────────────────────────────────────────────────────
-  if (step === 'preview' && docs) {
-    const allDocsText = [docs.bo, docs.med, docs.notificacao, docs.bacen, docs.procon].join('\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n');
+  // ─── VIEW: PAID — documentos + guia passo a passo ─────────────────────────
+  if (docs && paid) {
+    const allDocsText = docs.docList
+      .map((key) => docs.texts[key])
+      .filter(Boolean)
+      .join('\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n');
+
+    return (
+      <GuiaPosCompra
+        textoDocumento={allDocsText}
+        nomeArquivoPDF="kit-recuperacao-central-defesa-digital.pdf"
+        tituloPDF="Kit de Recuperação"
+        tipoGolpe={docs.data.tipoGolpe}
+        nomeVitima={docs.data.nome}
+        emailVitima={docs.data.email}
+        tipoDocumento="pacote"
+      />
+    );
+  }
+
+  // ─── VIEW: AGUARDANDO PAGAMENTO ───────────────────────────────────────────
+  if (docs && !paid) {
+    const docCount = docs.docList.length;
 
     return (
       <div className="space-y-6">
-        <div className="alert-success">
-          <CheckCircle className="w-5 h-5 shrink-0" />
-          <div>
-            <strong className="block">Documentos gerados com sucesso!</strong>
-            <p className="text-sm mt-1">Prévia abaixo. Desbloqueie todos os PDFs por R$47.</p>
-          </div>
+        {docs.docList.includes('med') && docs.data.dataOcorrencia && <CountdownMED dataOcorrencia={docs.data.dataOcorrencia} />}
+
+        <div className="card border-orange-500/20 text-center">
+          <h3 className="font-bold text-white text-xl mb-2">Seus documentos estão prontos!</h3>
+          <p className="text-white/60 text-sm mb-6">
+            Finalize o pagamento para acessar {docCount > 1 ? `os ${docCount} documentos` : 'o documento'} + guia completo.
+          </p>
+
+          <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-sm mx-auto">
+            {docs.docList.map((key) => (
+              <li key={key} className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+                {DOC_META[key].label}
+              </li>
+            ))}
+            <li className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+              Guia passo a passo personalizado
+            </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+              Melhoria com IA (linguagem de advogado)
+            </li>
+          </ul>
+
+          <button onClick={() => startPayment(docs.data)} disabled={paying}
+            className="btn-primary w-full justify-center py-4 text-base mb-3 disabled:opacity-60">
+            {paying
+              ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
+              : <><Lock className="w-5 h-5" /> Pagar R$47 via Pix</>}
+          </button>
+          <p className="text-xs text-white/30">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
         </div>
 
-        {docs.data.tipoGolpe === 'Golpe via Pix' && docs.data.dataOcorrencia && <CountdownMED dataOcorrencia={docs.data.dataOcorrencia} />}
-
-        {/* Document previews */}
-        {([
-          { key: 'bo', label: 'Boletim de Ocorrência', icon: FileText, color: 'text-blue-400', text: docs.bo },
-          { key: 'med', label: 'Contestação MED', icon: Shield, color: 'text-red-400', text: docs.med },
-          { key: 'notificacao', label: 'Notificação Bancária', icon: Bell, color: 'text-green-400', text: docs.notificacao },
-          { key: 'bacen', label: 'Reclamação BACEN', icon: Scale, color: 'text-amber-400', text: docs.bacen },
-          { key: 'procon', label: 'Reclamação Procon', icon: Building2, color: 'text-purple-400', text: docs.procon },
-        ] as const).map(({ key, label, icon: Icon, color, text }) => (
-          <div key={key} className="card">
-            <div className="flex items-center gap-2 mb-3">
-              <Icon className={`w-4 h-4 ${color}`} />
-              <p className="text-sm font-semibold text-white">{label}</p>
-            </div>
-            <div className="relative">
-              <pre className="font-mono text-xs text-white/60 whitespace-pre-wrap max-h-40 overflow-hidden select-none">
-                {text.substring(0, 400) + '\n\n[...DOCUMENTO COMPLETO NO PDF...]'}
-              </pre>
-              {!paid && (
-                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-800 to-transparent rounded-b-xl flex items-end justify-center pb-2">
-                  <div className="flex items-center gap-1.5 text-white/40 text-xs">
-                    <Lock className="w-3 h-3" />
-                    Desbloqueado após pagamento
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-
-        <EmailCapture tipo={docs.data.tipoGolpe} dataOcorrencia={docs.data.dataOcorrencia} />
-
-        {docs.data.banco && BANK_CONTACTS[docs.data.banco] && (
-          <div className="card border-blue-500/20">
-            <p className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">
-              Como entregar os documentos — {docs.data.banco}
-            </p>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-green-400 shrink-0" />
-                <span className="text-white/70">SAC: <span className="text-white font-mono">{BANK_CONTACTS[docs.data.banco].sac}</span></span>
-              </div>
-              <div className="flex items-center gap-2 text-sm">
-                <FileText className="w-4 h-4 text-orange-400 shrink-0" />
-                <span className="text-white/60 text-xs">{BANK_CONTACTS[docs.data.banco].instrucaoMED}</span>
-              </div>
-              <a href={BANK_CONTACTS[docs.data.banco].linkMeuBC} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-green-400 hover:text-green-300 mt-1">
-                <ExternalLink className="w-4 h-4" />
-                Registrar também no BACEN (MeuBC)
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Payment / GuiaPosCompra */}
-        {!paid ? (
-          <div className="card border-orange-500/20 text-center">
-            <h3 className="font-bold text-white text-xl mb-2">Kit Completo de Recuperação — R$47</h3>
-            <p className="text-white/60 text-sm mb-6">
-              Documentos prontos + guia passo a passo + melhoria de texto com IA.
-            </p>
-            <ul className="text-sm text-white/60 space-y-2 mb-6 text-left max-w-sm mx-auto">
-              {[
-                'Modelo de B.O. com tipificação penal',
-                'Contestação MED (Pix) com fundamento legal',
-                'Notificação formal ao banco (CDC + BACEN)',
-                'Reclamação pronta para o Banco Central',
-                'Reclamação pronta para o Procon',
-                'Guia passo a passo com scripts',
-                'Texto aprimorado por IA (linguagem de advogado)',
-                'Envio por e-mail + salvamento local',
-                'Garantia de 7 dias',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <button
-              onClick={handlePagamento}
-              disabled={paying}
-              className="btn-primary w-full justify-center py-4 text-base mb-3 disabled:opacity-60"
-            >
-              {paying ? (
-                <><Loader2 className="w-5 h-5 animate-spin" /> Aguarde...</>
-              ) : (
-                <><Lock className="w-5 h-5" /> Pagar R$47 e baixar tudo</>
-              )}
-            </button>
-            <p className="text-xs text-white/30">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
-          </div>
-        ) : (
-          <GuiaPosCompra
-            textoDocumento={allDocsText}
-            nomeArquivoPDF="kit-recuperacao-central-defesa-digital.pdf"
-            tituloPDF="Kit Completo de Recuperação"
-            tipoGolpe={docs.data.tipoGolpe}
-            nomeVitima={docs.data.nome}
-            emailVitima={docs.data.email}
-            tipoDocumento="pacote"
-          />
-        )}
-
-        <button onClick={() => setStep('form')} className="btn-secondary w-full justify-center text-sm">
-          Editar dados
+        <button onClick={() => setDocs(null)} className="btn-secondary w-full justify-center text-sm">
+          Voltar ao formulário
         </button>
 
         {payment && (
@@ -584,11 +569,8 @@ export default function PacoteCompleto() {
             pixQrCode={payment.pixQrCode}
             pixCopiaECola={payment.pixCopiaECola}
             valor={payment.valor}
-            produto="Kit Completo — 5 Documentos"
-            onPaid={() => {
-              setPaid(true);
-              setPayment(null);
-            }}
+            produto={`Kit ${docCount} Documento${docCount > 1 ? 's' : ''}`}
+            onPaid={() => { setPaid(true); setPayment(null); }}
             onClose={() => setPayment(null)}
           />
         )}
