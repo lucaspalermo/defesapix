@@ -17,6 +17,26 @@ const faqItems = [
   { question: 'Qual é o prazo para contestar um boleto falso?', answer: 'Não há prazo legal fixo, mas quanto mais rápido melhor. Boletos com compensação recente (em até 48h úteis) têm mais chance de cancelamento. Para fraude documentada, você tem até 5 anos para ação judicial (CDC).' },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Boleto Falso: O Que Fazer? Guia Completo',
+  description: 'Pagou um boleto falso ou adulterado? Saiba como contestar o pagamento, notificar o banco e recuperar o valor. Passo a passo detalhado.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-01-25',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-boleto',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-boleto' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeBoletoPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -30,6 +50,7 @@ export default function GolpeBoletoPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Boleto' }]} />
       <HowToSchema

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Syne } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
+import CookieBanner from '@/components/layout/CookieBanner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans antialiased bg-navy-900 text-white">
         {children}
+        <CookieBanner />
         <Toaster
           position="top-right"
           toastOptions={{

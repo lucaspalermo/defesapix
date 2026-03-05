@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import TrackedLink from '@/components/layout/TrackedLink';
 import {
   Shield, AlertTriangle, CheckCircle, ArrowRight,
   Zap, FileText, ChevronRight, Clock, Star, Lock,
@@ -102,14 +103,14 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Link href="/ferramentas/diagnostico" className="btn-primary text-base px-8 py-4">
+                <TrackedLink trackLabel="hero_diagnostico" href="/ferramentas/diagnostico" className="btn-primary text-base px-8 py-4">
                   <Shield className="w-5 h-5" />
                   Diagnosticar meu caso grátis
-                </Link>
-                <Link href="/ferramentas/pacote-completo" className="btn-secondary text-base px-8 py-4">
+                </TrackedLink>
+                <TrackedLink trackLabel="hero_kit_completo" href="/ferramentas/pacote-completo" className="btn-secondary text-base px-8 py-4">
                   <Zap className="w-4 h-4" />
                   Kit Completo — R$47
-                </Link>
+                </TrackedLink>
               </div>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/30">
@@ -388,10 +389,10 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-10">
-            <Link href="/ferramentas/diagnostico" className="btn-primary px-8 py-4 text-base">
+            <TrackedLink trackLabel="section_diagnostico" href="/ferramentas/diagnostico" className="btn-primary px-8 py-4 text-base">
               Diagnosticar meu caso grátis
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>

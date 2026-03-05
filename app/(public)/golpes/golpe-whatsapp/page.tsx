@@ -32,6 +32,26 @@ const faqItems = [
   },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025',
+  description: 'Seu WhatsApp foi clonado ou você recebeu pedido de dinheiro via número clonado? Saiba o que fazer, como denunciar e como se proteger de responsabilidade.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-01-20',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-whatsapp',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-whatsapp' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeWhatsAppPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -45,6 +65,7 @@ export default function GolpeWhatsAppPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe WhatsApp' }]} />
       <HowToSchema
         name="WhatsApp Clonado: O que fazer para recuperar e se proteger"

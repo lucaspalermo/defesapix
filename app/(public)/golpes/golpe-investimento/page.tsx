@@ -17,6 +17,26 @@ const faqItems = [
   { question: 'Posso recuperar bitcoin ou criptomoeda enviada para golpistas?', answer: 'É muito difícil recuperar criptomoedas por reversão direta, mas há caminhos: (1) se enviou via exchange brasileira regulamentada, pode pedir reversão; (2) análise blockchain pode rastrear destino dos fundos; (3) ação judicial com ordem de bloqueio de ativos.' },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Golpe de Investimento e Criptomoedas: O Que Fazer?',
+  description: 'Perdeu dinheiro em investimento falso ou criptomoedas fraudulentas? Veja como denunciar à CVM, Polícia Federal e Banco Central.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-12',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-investimento',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-investimento' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeInvestimentoPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -30,6 +50,7 @@ export default function GolpeInvestimentoPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Investimento' }]} />
       <HowToSchema

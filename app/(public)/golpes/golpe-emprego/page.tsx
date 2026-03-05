@@ -17,6 +17,26 @@ const faqItems = [
   { question: 'Como verificar se uma vaga é legítima?', answer: 'Verifique: (1) CNPJ da empresa no site da Receita Federal; (2) Empresa tem site oficial e presença real? (3) A vaga está publicada nos canais oficiais da empresa? (4) Você encontra avaliações da empresa no Glassdoor/LinkedIn?' },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Golpe de Emprego Falso: O Que Fazer?',
+  description: 'Foi vítima de vaga de emprego falsa? Saiba como denunciar ao MTE, Procon e Polícia, e recuperar taxas pagas indevidamente.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-05',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-emprego',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-emprego' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeEmpregoPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -30,6 +50,7 @@ export default function GolpeEmpregoPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Emprego' }]} />
       <HowToSchema

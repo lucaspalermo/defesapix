@@ -143,6 +143,26 @@ const opColor: Record<string, string> = {
   blue: 'border-blue-500/30 bg-blue-500/10', yellow: 'border-amber-500/30 bg-amber-500/10',
 };
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Celular Roubado: O Que Fazer Agora? Guia de Emergência',
+  description: 'Roubaram seu celular? Aja nos próximos 5 minutos: bloqueie o SIM, congele o banco, bloqueie o IMEI. Guia de emergência completo.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-18',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/roubo-celular',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/roubo-celular' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function RouboCelularPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -156,6 +176,7 @@ export default function RouboCelularPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Roubo de Celular' }]} />
       <HowToSchema
         name="Celular Roubado: O que fazer nos primeiros minutos"

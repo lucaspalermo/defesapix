@@ -118,6 +118,26 @@ const faqItems = [
   },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Golpe do Falso Advogado: Como Identificar e se Defender',
+  description: 'Prometeram recuperar seu dinheiro e pediram honorários antecipados? Saiba como identificar o golpe do falso advogado e denunciar.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-10',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-falso-advogado',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-falso-advogado' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeFalsoAdvogadoPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -131,6 +151,7 @@ export default function GolpeFalsoAdvogadoPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Falso Advogado' }]} />
       <HowToSchema
         name="Golpe do Falso Advogado: Como identificar e agir"

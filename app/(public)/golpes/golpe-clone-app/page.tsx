@@ -17,6 +17,26 @@ const faqItems = [
   { question: 'O banco é responsável se eu baixei um app falso?', answer: 'Parcialmente. O banco tem obrigação de combater aplicativos falsos (solicitar remoção às lojas) e de manter sistemas de detecção de fraude. O STJ tem entendido que o banco deve ressarcir em casos onde os sistemas de segurança falharam.' },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'App ou Site Falso de Banco: O Que Fazer?',
+  description: 'Acessou um aplicativo ou site falso do banco? Saiba o que fazer imediatamente para proteger sua conta e recuperar valores perdidos.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-01',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-clone-app',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-clone-app' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeCloneAppPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -30,6 +50,7 @@ export default function GolpeCloneAppPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Clone de App' }]} />
       <HowToSchema

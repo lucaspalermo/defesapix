@@ -17,6 +17,26 @@ const faqItems = [
   { question: 'Como denunciar o perfil falso nas redes sociais?', answer: 'No Instagram/Facebook: clique nos 3 pontinhos do perfil > Denunciar. No Tinder/Bumble: há opção de denúncia dentro do chat. Registre prints de TUDO antes de denunciar, pois o perfil pode ser deletado.' },
 ];
 
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Golpe do Amor (Romance Scam): O Que Fazer?',
+  description: 'Foi vítima de romance scam? Saiba como documentar, denunciar e proteger sua identidade após golpe afetivo digital.',
+  author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DefesaPix',
+    logo: { '@type': 'ImageObject', url: 'https://defesapix.com.br/favicon.svg' },
+  },
+  datePublished: '2025-02-15',
+  dateModified: new Date().toISOString().split('T')[0],
+  inLanguage: 'pt-BR',
+  url: 'https://defesapix.com.br/golpes/golpe-romance',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://defesapix.com.br/golpes/golpe-romance' },
+  image: 'https://defesapix.com.br/opengraph-image',
+};
+
 export default function GolpeRomancePage() {
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -30,6 +50,7 @@ export default function GolpeRomancePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: 'Golpe Romance' }]} />
       <HowToSchema
