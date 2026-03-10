@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Clock, ArrowLeft, Tag, Share2, FileText, BookOpen } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
+
+export const revalidate = 3600;
 
 // Static blog content (in production, fetched from Prisma)
 const ARTIGOS: Record<string, {
@@ -1071,9 +1074,32 @@ export async function generateStaticParams() {
   return Object.keys(ARTIGOS).map((slug) => ({ slug }));
 }
 
+async function getArtigo(slug: string) {
+  // Try static first
+  if (ARTIGOS[slug]) return { ...ARTIGOS[slug], source: 'static' as const };
+  // Fallback to database
+  const dbArtigo = await prisma.artigo.findUnique({ where: { slug } }).catch(() => null);
+  if (dbArtigo && dbArtigo.publicado) {
+    // Increment views (fire and forget)
+    prisma.artigo.update({ where: { id: dbArtigo.id }, data: { visualizacoes: { increment: 1 } } }).catch(() => {});
+    return {
+      titulo: dbArtigo.titulo,
+      resumo: dbArtigo.resumo,
+      conteudo: dbArtigo.conteudo,
+      categoria: dbArtigo.categoria,
+      tags: dbArtigo.tags,
+      tempoLeitura: dbArtigo.tempoLeitura,
+      publishedAt: dbArtigo.publishedAt?.toISOString().split('T')[0] || '',
+      autorNome: dbArtigo.autorNome,
+      source: 'db' as const,
+    };
+  }
+  return null;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const artigo = ARTIGOS[slug];
+  const artigo = await getArtigo(slug);
   if (!artigo) return { title: 'Artigo não encontrado' };
 
   return {
@@ -1093,7 +1119,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const artigo = ARTIGOS[slug];
+  const artigo = await getArtigo(slug);
   if (!artigo) notFound();
 
   const articleUrl = `https://defesapix.com.br/blog/${slug}`;
@@ -1186,14 +1212,26 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Related Articles */}
-          {(() => {
-            const related = Object.entries(ARTIGOS)
-              .filter(([s]) => s !== slug)
-              .map(([s, a]) => {
+          {await (async () => {
+            // Get DB articles for related
+            const dbRelated = await prisma.artigo.findMany({
+              where: { publicado: true, slug: { not: slug } },
+              select: { slug: true, titulo: true, categoria: true, tags: true, tempoLeitura: true },
+            }).catch(() => []);
+
+            const allRelated = [
+              ...Object.entries(ARTIGOS)
+                .filter(([s]) => s !== slug)
+                .map(([s, a]) => ({ slug: s, titulo: a.titulo, categoria: a.categoria, tags: a.tags, tempoLeitura: a.tempoLeitura })),
+              ...dbRelated.filter((d) => !ARTIGOS[d.slug]),
+            ];
+
+            const related = allRelated
+              .map((a) => {
                 let score = 0;
                 if (a.categoria === artigo.categoria) score += 3;
                 score += a.tags.filter((t) => artigo.tags.includes(t)).length;
-                return { slug: s, ...a, score };
+                return { ...a, score };
               })
               .sort((a, b) => b.score - a.score)
               .slice(0, 3);

@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
+import { prisma } from '@/lib/prisma';
 
 const BASE_URL = 'https://defesapix.com.br';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { url: BASE_URL, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/ferramentas`, priority: 0.9, changeFrequency: 'weekly' as const },
@@ -37,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/cookies`, priority: 0.3, changeFrequency: 'yearly' as const },
   ];
 
-  // Blog articles
+  // Static blog articles
   const BLOG_SLUGS = [
     'med-mecanismo-especial-devolucao-pix',
     'golpe-whatsapp-como-identificar-se-proteger',
@@ -61,15 +62,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'conta-laranja-pix-consequencias-legais',
   ];
 
-  const blogPages = BLOG_SLUGS.map((slug) => ({
+  const staticBlogPages = BLOG_SLUGS.map((slug) => ({
     url: `${BASE_URL}/blog/${slug}`,
     priority: 0.7 as const,
     changeFrequency: 'monthly' as const,
     lastModified: new Date(),
   }));
 
+  // Dynamic blog articles from database
+  const staticSlugsSet = new Set(BLOG_SLUGS);
+  let dbBlogPages: MetadataRoute.Sitemap = [];
+  try {
+    const dbArtigos = await prisma.artigo.findMany({
+      where: { publicado: true },
+      select: { slug: true, updatedAt: true },
+    });
+    dbBlogPages = dbArtigos
+      .filter((a) => !staticSlugsSet.has(a.slug))
+      .map((a) => ({
+        url: `${BASE_URL}/blog/${a.slug}`,
+        priority: 0.7 as const,
+        changeFrequency: 'monthly' as const,
+        lastModified: a.updatedAt,
+      }));
+  } catch {
+    // DB unavailable — only static pages
+  }
+
   return [
     ...staticPages.map((p) => ({ ...p, lastModified: new Date() })),
-    ...blogPages,
+    ...staticBlogPages,
+    ...dbBlogPages,
   ];
 }

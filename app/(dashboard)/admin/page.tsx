@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import {
   Users, FileText, CreditCard, Shield, Settings, FolderOpen,
-  TrendingUp, Eye, Search, Zap, Clock, BarChart3, Activity,
+  TrendingUp, Eye, Search, Zap, Clock, BarChart3, Activity, Sparkles,
 } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 const MENU = [
+  { label: 'Artigos / Blog', href: '/admin/artigos', icon: Sparkles, desc: 'Gerar e gerenciar artigos com IA' },
   { label: 'Usuarios', href: '/admin/usuarios', icon: Users, desc: 'Gerenciar contas e planos' },
   { label: 'Casos', href: '/admin/casos', icon: FileText, desc: 'Visualizar todos os casos' },
   { label: 'Pagamentos', href: '/admin/pagamentos', icon: CreditCard, desc: 'Historico de transacoes' },

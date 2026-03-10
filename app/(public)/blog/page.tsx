@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Clock, ArrowRight, Tag } from 'lucide-react';
+import { Clock, ArrowRight, Tag, Sparkles } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
   title: 'Blog — Segurança Digital e Recuperação de Golpes',
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
     'Artigos, guias e dicas sobre como se proteger de golpes digitais, o que fazer após ser vítima e como recuperar dinheiro. Conteúdo gratuito e atualizado semanalmente.',
   alternates: { canonical: 'https://defesapix.com.br/blog' },
 };
+
+export const revalidate = 3600; // Revalidate every 1 hour
 
 const ARTIGOS = [
   {
@@ -215,9 +218,45 @@ const ARTIGOS = [
 
 const CATEGORIAS = ['Todos', 'Pix & MED', 'Golpes', 'Direito Digital', 'Investimentos', 'Tutoriais', 'Defesa do Consumidor', 'Prevenção'];
 
-export default function BlogPage() {
-  const destaques = ARTIGOS.filter((a) => a.destaque);
-  const demais = ARTIGOS.filter((a) => !a.destaque);
+export default async function BlogPage() {
+  // Fetch dynamic articles from database
+  const dbArtigos = await prisma.artigo.findMany({
+    where: { publicado: true },
+    orderBy: { publishedAt: 'desc' },
+    select: {
+      slug: true,
+      titulo: true,
+      resumo: true,
+      categoria: true,
+      tags: true,
+      tempoLeitura: true,
+      publishedAt: true,
+    },
+  }).catch(() => []);
+
+  // Merge: DB articles first (newer), then static ones that aren't duplicated
+  const dbSlugs = new Set(dbArtigos.map((a) => a.slug));
+  const staticNonDuplicated = ARTIGOS.filter((a) => !dbSlugs.has(a.slug));
+
+  const dynamicArticles = dbArtigos.map((a) => ({
+    slug: a.slug,
+    titulo: a.titulo,
+    resumo: a.resumo,
+    categoria: a.categoria,
+    tags: a.tags,
+    tempoLeitura: a.tempoLeitura,
+    publishedAt: a.publishedAt?.toISOString().split('T')[0] || '',
+    destaque: false,
+    fromDb: true,
+  }));
+
+  const allArticles = [
+    ...dynamicArticles,
+    ...staticNonDuplicated.map((a) => ({ ...a, fromDb: false })),
+  ];
+
+  const destaques = allArticles.filter((a) => 'destaque' in a && a.destaque);
+  const demais = allArticles.filter((a) => !('destaque' in a && a.destaque));
 
   return (
     <>
