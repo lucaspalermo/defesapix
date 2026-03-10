@@ -45,9 +45,9 @@ const NAV_LINKS = [
       { label: 'Calculadora Prazo MED', href: '/calculadora-med', desc: 'Descubra se ainda está no prazo' },
     ],
   },
+  { label: 'Como Funciona', href: '/como-funciona' },
+  { label: 'Resultados', href: '/resultados' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Educação', href: '/educacao' },
-  { label: 'Parceiros', href: '/parceiros' },
 ];
 
 export default function Header() {

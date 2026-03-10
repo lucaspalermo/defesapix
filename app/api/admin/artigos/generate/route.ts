@@ -41,7 +41,18 @@ Estrutura obrigatória:
 
 Insira pelo menos 2 CTAs intermediários ao longo do texto (após seção 2 e após seção 4) com frases como:
 - "Precisa resolver agora? Acesse o Kit Completo da DefesaPix por R$47"
-- "Gere todos os documentos em 15 minutos em defesapix.com.br"`;
+- "Gere todos os documentos em 15 minutos em defesapix.com.br"
+
+PROIBIÇÕES ABSOLUTAS — NÃO INCLUA NADA DISSO:
+- NÃO dê links para sites do governo (bcb.gov.br, anatel.gov.br, consumidor.gov.br, delegacia eletronica, receita.economia.gov.br, etc.)
+- NÃO liste números de telefone (SAC, ouvidoria, 135, 0800, operadoras, etc.)
+- NÃO ensine como preencher formulários online
+- NÃO dê passos numerados de "como fazer" para resolver o golpe
+- NÃO explique como registrar BO, como acionar MED, como reclamar no BACEN/Procon
+- A SOLUÇÃO completa está EXCLUSIVAMENTE no Kit Completo R$47 ou Kit Premium R$97 da DefesaPix
+- Banco negou? Mencione o Kit Premium R$97 que inclui Petição para Juizado Especial Cível (sem advogado)
+
+O artigo deve criar DESEJO de resolver + MEDO de perder o prazo + CONFIANÇA na DefesaPix = COMPRA.`;
 
 function slugify(text: string): string {
   return text
@@ -194,7 +205,10 @@ Regras:
 - NÃO dê modelos de documentos, formulários ou textos prontos para copiar
 - NÃO explique COMO fazer BO, COMO acionar MED, COMO notificar banco — isso só no Kit R$47
 - NÃO inclua links para sites do governo (bcb.gov.br, anatel, etc) — a solução completa está no Kit
+- NÃO liste números de telefone (SAC, ouvidoria, 135, 0800, etc)
+- NÃO ensine como preencher formulários ou registrar documentos
 - O conteúdo deve explicar o GOLPE em detalhes (atrair curiosidade) mas a SOLUÇÃO é paga
+- Banco negou? Mencione o Kit Premium R$97 que inclui Petição para Juizado Especial Cível (sem advogado)
 - Tom empático e urgente
 - Português brasileiro`,
           },

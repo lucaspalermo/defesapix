@@ -50,7 +50,7 @@ const FEATURES = [
 ];
 
 const faqItems = [
-  { question: 'Golpe Pix: o que fazer imediatamente?', answer: 'Aja imediatamente: (1) Ligue para o SAC do seu banco e solicite o acionamento do MED; (2) Registre um Boletim de Ocorrência online; (3) Guarde todos os comprovantes da transação; (4) Use a DefesaPix para gerar todos os documentos em minutos.' },
+  { question: 'Golpe Pix: o que fazer imediatamente?', answer: 'Você precisa agir dentro de 72 horas para acionar o MED (Mecanismo Especial de Devolução). O processo envolve vários órgãos e documentos específicos com fundamentação legal. Na DefesaPix, você gera os 5 documentos necessários em 15 minutos por R$47 — sem precisar de advogado.' },
   { question: 'O que é o MED (Mecanismo Especial de Devolução)?', answer: 'O MED é um mecanismo do Banco Central (Resolução BCB nº 93/2021) que permite bloquear valores enviados via Pix em casos de fraude. O banco tem 72 horas para analisar e, se comprovada a fraude, bloquear os recursos. Você tem 80 dias para solicitar.' },
   { question: 'Dá para recuperar dinheiro após golpe Pix?', answer: 'Sim, é possível, mas depende da rapidez da ação. O MED tem conseguido devolver valores em casos onde o dinheiro ainda está na conta fraudulenta. Nossa plataforma aumenta suas chances ao garantir que todos os passos corretos sejam seguidos dentro dos prazos legais.' },
   { question: 'Preciso de advogado para recuperar dinheiro de golpe?', answer: 'Para a maioria dos casos, você pode iniciar o processo sem advogado usando nossos documentos modelo. Para valores acima de R$10.000 ou casos complexos, recomendamos nossos parceiros jurídicos, que oferecem avaliação gratuita.' },

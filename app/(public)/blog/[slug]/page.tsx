@@ -208,9 +208,9 @@ Nao perca tempo tentando montar os documentos sozinho — erros podem compromete
 
 ## Como verificar se um investimento é legítimo
 
-- Consulte a **lista de empresas autorizadas** no site da CVM (cvm.gov.br)
-- Verifique o **CNPJ** no site da Receita Federal
-- Pesquise reclamações no **Reclame Aqui** e **Consumidor.gov.br**
+- Consulte se a empresa tem **registro na CVM**
+- Verifique o **CNPJ** — empresas legítimas são transparentes
+- Pesquise **reclamações** em plataformas de avaliação
 - Desconfie de **retornos garantidos** acima da taxa Selic
     `,
   },
@@ -338,16 +338,9 @@ Ligação oferecendo "suporte técnico" para instalar programa que dá acesso re
 - **Ative notificações** de transações no app do banco
 - **Bloqueie ligações** de números desconhecidos
 
-## O que fazer se já caiu no golpe
-
-1. Acione o MED pelo banco imediatamente (se foi via Pix)
-2. Registre B.O. na delegacia eletrônica
-3. Ligue para o 135 (INSS) se for golpe de consignado
-4. Gere os documentos necessários para a recuperação
-
 ## Seu familiar já caiu? Aja rápido
 
-Se o golpe já aconteceu, o tempo é crítico — especialmente o prazo de **72 horas do MED** para golpes via Pix. Os documentos necessários (B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Procon) precisam estar corretos para serem aceitos.
+Se o golpe já aconteceu, o tempo é crítico. Existem prazos legais curtos e documentos específicos que precisam ser protocolados corretamente — um erro pode comprometer toda a recuperação.
 
 Na **DefesaPix**, você gera os 5 documentos personalizados em 15 minutos por **R$47** — sem precisar de advogado. Ideal para ajudar seu familiar a resolver rapidamente. Acesse **defesapix.com.br**.
     `,
@@ -428,7 +421,7 @@ Outra variação: o golpista edita uma imagem de comprovante Pix com dados falso
 
 ## Se caiu no golpe
 
-Se você entregou um produto baseado em comprovante falso, registre B.O. com prints do comprovante falso e dados do golpista. Se houve Pix reverso (MED acionado contra você de forma fraudulenta), conteste com o banco imediatamente.
+Se você entregou um produto baseado em comprovante falso ou teve Pix reverso acionado contra você, o tempo é crítico. Existem documentos específicos e prazos legais que precisam ser seguidos corretamente para recuperar o valor.
 
 ## Precisa dos documentos corretos para contestar?
 
@@ -492,49 +485,29 @@ Ao registrar o B.O. e a notificação ao banco, cite expressamente a Lei 14.155/
     conteudo: `
 ## Quando procurar o Juizado Especial
 
-O Juizado Especial Cível (JEC) é a última instância administrativa/judicial para casos onde o banco negou o MED, não respondeu às reclamações no BACEN e Procon, ou se recusa a devolver os valores.
+O Juizado Especial Cível (JEC) é a última instância para casos onde o banco negou o MED, não respondeu às reclamações no BACEN e Procon, ou se recusa a devolver os valores.
 
 ## Vantagens do JEC
 
 - **Gratuito** para causas de até 20 salários mínimos (não precisa pagar custas)
 - **Não precisa de advogado** para causas de até 20 salários mínimos
 - **Rápido**: audiência geralmente em 30 a 90 dias
-- **Simples**: petição pode ser escrita de forma simples, sem termos jurídicos
-- **Presencial ou online**: muitos JECs aceitam petição digital
 
-## Valores
+## O que você pode conseguir
 
-- **Até 20 salários mínimos**: não precisa de advogado, sem custas
-- **De 20 a 40 salários mínimos**: precisa de advogado, com custas reduzidas
-- **Acima de 40 salários mínimos**: Justiça Comum (precisa de advogado)
-
-## O que pedir na ação
-
-1. **Devolução dos valores** perdidos no golpe (dano material)
-2. **Indenização por dano moral**: R$5.000 a R$20.000 é o padrão
-3. **Tutela de urgência**: bloqueio dos valores na conta do golpista
-
-## Documentos necessários
-
-- B.O. registrado
-- Comprovantes de transferência
-- Protocolo do MED e resposta do banco
-- Protocolo de reclamação no BACEN
-- Protocolo de reclamação no Procon
-- Notificação formal enviada ao banco
-- Prints de conversas com o golpista
-
-## Fundamentação legal
-
-Cite na sua petição:
-- **Súmula 479 do STJ** (responsabilidade do banco)
-- **CDC, art. 14** (responsabilidade objetiva)
-- **Resolução BCB 93/2021** (MED)
-- **Lei 14.155/2021** (fraude eletrônica)
+- **Devolução dos valores** perdidos no golpe (dano material)
+- **Indenização por dano moral**: R$5.000 a R$20.000 é o padrão
+- **Tutela de urgência**: bloqueio dos valores na conta do golpista
 
 ## Taxa de sucesso
 
-Segundo levantamentos de escritórios especializados, a taxa de sucesso em ações contra bancos por golpes digitais no JEC é de aproximadamente 70-80%, especialmente quando a vítima esgotou todas as vias administrativas primeiro.
+Segundo levantamentos de escritórios especializados, a taxa de sucesso em ações contra bancos por golpes digitais no JEC é de aproximadamente **70-80%**, especialmente quando a vítima esgotou todas as vias administrativas primeiro — e é exatamente por isso que os documentos certos fazem toda a diferença.
+
+## Como entrar com a ação sem advogado?
+
+Para processar o banco no Juizado Especial, você precisa de uma petição inicial com fundamentação legal correta, além de todos os protocolos administrativos anteriores (BO, MED, BACEN, Procon, Notificação Bancária). Erros na petição ou documentação incompleta resultam em ação indeferida.
+
+No **Kit Premium da DefesaPix** por **R$97**, você recebe a **Petição Inicial para o Juizado Especial Cível** pronta, com fundamentação legal completa (Súmula 479 STJ, CDC art. 14, Lei 14.155/2021), além dos 5 documentos do Kit Completo. Tudo personalizado para o seu caso. Acesse **defesapix.com.br**.
     `,
   },
   'golpe-marketplace-olx-mercado-livre': {
@@ -574,10 +547,9 @@ Na entrega presencial, o golpista troca o produto por um defeituoso ou falso no 
 
 ## Se caiu no golpe
 
-1. Denuncie o anúncio e o perfil na plataforma
-2. Registre B.O. com prints do anúncio e conversas
-3. Se pagou via Pix: acione o MED em até 72h
-4. Registre no Procon e BACEN
+Se você perdeu dinheiro em marketplace, existem prazos legais e documentos jurídicos específicos que precisam ser protocolados corretamente para maximizar suas chances de recuperação. Quanto mais rápido você age, maiores as chances.
+
+Na **DefesaPix**, gere os 5 documentos personalizados em 15 minutos por **R$47**. Acesse **defesapix.com.br**.
     `,
   },
   'como-recuperar-dinheiro-golpe-pix-2025': {
@@ -744,12 +716,9 @@ Nubank, Inter, C6, PicPay e outros bancos digitais estão sujeitos às **mesmas 
 
 ## Como reclamar
 
-1. SAC do banco (primeira tentativa)
-2. Ouvidoria (se SAC não resolver)
-3. Banco Central — Meu BC (reclamação formal)
-4. Procon (mediação)
-5. Consumidor.gov.br (plataforma federal)
-6. Juizado Especial Cível (última instância)
+Existem varios canais de reclamacao — SAC, Ouvidoria, Banco Central, Procon, Juizado — mas cada um tem prazos, exigencias e fundamentacao legal especifica. Documentos mal redigidos sao ignorados.
+
+Na **DefesaPix**, gere os 5 documentos personalizados (incluindo Reclamacao BACEN e Procon) em 15 minutos por **R$47**. Acesse **defesapix.com.br**.
     `,
   },
   'golpe-falso-leilao-sites-fraudulentos': {
@@ -775,18 +744,16 @@ Golpistas criam sites que imitam leilões oficiais da Receita Federal, DETRAN ou
 
 ## Como verificar se é legítimo
 
-1. Leilões da Receita Federal estão em **receita.economia.gov.br**
-2. Leilões judiciais estão nos sites dos **tribunais** (TJ, TRF)
-3. O leiloeiro deve ter registro na **JUCERJA** ou junta comercial do estado
-4. Verifique o CNPJ do leiloeiro no site da Receita Federal
-5. Leilões oficiais **nunca** pedem pagamento via Pix para pessoa física
+- Leilões oficiais estão em sites com domínio **.gov.br**
+- O leiloeiro deve ter registro em junta comercial
+- Leilões oficiais **nunca** pedem pagamento via Pix para pessoa física
+- Preços absurdamente baixos são o principal sinal de golpe
 
 ## Se caiu no golpe
 
-1. Registre B.O. imediatamente com prints do site e comprovante
-2. Acione o MED se pagou via Pix
-3. Denuncie o site em SaferNet (safernet.org.br)
-4. Registre no Procon e Consumidor.gov.br
+Se você perdeu dinheiro em falso leilão, existem prazos legais e documentos específicos que precisam ser protocolados corretamente. Quanto mais rápido agir, maiores as chances de recuperação.
+
+Na **DefesaPix**, gere os 5 documentos personalizados em 15 minutos por **R$47**. Acesse **defesapix.com.br**.
     `,
   },
   'como-bloquear-celular-roubado-imei': {
@@ -810,7 +777,7 @@ Por isso, agir rapidamente e fundamental. Voce precisa bloquear o chip, o IMEI, 
 
 ## Dica preventiva
 
-Anote seu IMEI AGORA e guarde em local seguro. Disque *#06# no celular.
+Anote seu IMEI e guarde em local seguro — você vai precisar dele em caso de roubo.
 
 ## Precisa resolver agora?
 

@@ -17,6 +17,8 @@ const STATIC_GOLPE_SLUGS = [
   'golpe-emprego', 'golpe-investimento', 'golpe-clone-app',
   'golpe-falso-advogado', 'roubo-celular', 'golpe-cartao',
   'golpe-phishing', 'golpe-consignado',
+  'golpe-delivery', 'golpe-sextorsao', 'golpe-falso-suporte',
+  'golpe-maquininha', 'golpe-pix-errado', 'golpe-falso-sequestro',
 ];
 
 

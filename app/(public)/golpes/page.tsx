@@ -4,6 +4,7 @@ import {
   Zap, Smartphone, FileText, Heart, Briefcase, BarChart3,
   Globe, PhoneOff, Scale, ArrowRight, Shield, AlertTriangle,
   CreditCard, Mail, Banknote, Phone, ExternalLink,
+  Truck, Camera, Monitor, CreditCard as CreditCardIcon, ArrowLeftRight, PhoneCall,
 } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import { prisma } from '@/lib/prisma';
@@ -139,6 +140,60 @@ const GOLPES = [
     desc: 'Empréstimo consignado contratado sem autorização — descontos indevidos na folha ou INSS.',
     tags: ['INSS', 'Consignado', 'CDC'],
     stat: 'CDC garante cancelamento',
+  },
+  {
+    Icon: Truck,
+    titulo: 'Golpe do Delivery',
+    href: '/golpes/golpe-delivery',
+    urgencia: 'ALTA' as const,
+    desc: 'Maquininha adulterada, taxa extra falsa ou app de delivery clonado para roubar dados.',
+    tags: ['Maquininha', 'App', 'CDC'],
+    stat: 'CDC obriga estorno',
+  },
+  {
+    Icon: Camera,
+    titulo: 'Sextorsão',
+    href: '/golpes/golpe-sextorsao',
+    urgencia: 'CRÍTICA' as const,
+    desc: 'Chantagem com fotos ou vídeos íntimos — reais ou fabricados. Crime com pena de até 5 anos.',
+    tags: ['Lei 13.718', 'BO', 'Extorsão'],
+    stat: 'NÃO pague — denuncie',
+  },
+  {
+    Icon: Monitor,
+    titulo: 'Falso Suporte Técnico',
+    href: '/golpes/golpe-falso-suporte',
+    urgencia: 'ALTA' as const,
+    desc: 'Golpista liga se passando por suporte de banco ou empresa e pede acesso remoto ao celular.',
+    tags: ['Acesso remoto', 'Banco', 'CDC'],
+    stat: 'Banco nunca pede acesso',
+  },
+  {
+    Icon: CreditCardIcon,
+    titulo: 'Golpe da Maquininha',
+    href: '/golpes/golpe-maquininha',
+    urgencia: 'ALTA' as const,
+    desc: 'Visor quebrado, valor adulterado, cobrança dupla ou troca de maquininha no momento do pagamento.',
+    tags: ['Chargeback', 'CDC', 'Cartão'],
+    stat: 'Contestação em até 120 dias',
+  },
+  {
+    Icon: ArrowLeftRight,
+    titulo: 'Golpe do Pix Errado',
+    href: '/golpes/golpe-pix-errado',
+    urgencia: 'ALTA' as const,
+    desc: 'Golpista envia Pix "por engano", pede devolução para outra conta e depois aciona MED contra você.',
+    tags: ['MED reverso', 'Pix', 'BO'],
+    stat: 'NÃO devolva sem confirmar',
+  },
+  {
+    Icon: PhoneCall,
+    titulo: 'Falso Sequestro',
+    href: '/golpes/golpe-falso-sequestro',
+    urgencia: 'CRÍTICA' as const,
+    desc: 'Ligação simulando sequestro de familiar com choro e pressão para transferência Pix imediata.',
+    tags: ['Extorsão', 'Pix', 'BO'],
+    stat: 'DESLIGUE e confirme',
   },
 ];
 

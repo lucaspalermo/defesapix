@@ -1,63 +1,67 @@
 import Link from 'next/link';
-import { CheckCircle, X, Zap, Shield, Star, ArrowRight } from 'lucide-react';
+import { CheckCircle, X, Zap, Shield, Star, ArrowRight, Scale, Bell } from 'lucide-react';
 
 const PLANS = [
   {
     id: 'free',
     name: 'Gratuito',
     price: 0,
+    priceLabel: '',
     desc: 'Para começar sua defesa agora',
     cta: 'Começar grátis',
     ctaHref: '/ferramentas',
     highlight: false,
     features: [
-      { text: 'Classificação de golpe', included: true },
+      { text: 'Classificação de golpe por IA', included: true },
       { text: 'Plano de ação básico', included: true },
       { text: 'Checklist interativo', included: true },
       { text: 'Guias educativos', included: true },
       { text: 'Simulador de recuperação', included: true },
-      { text: 'Modelo de BO em PDF (gratuito)', included: true },
-      { text: '3 documentos em PDF', included: false },
-      { text: 'Contatos oficiais do banco', included: false },
-      { text: 'Revisão por especialista', included: false },
+      { text: 'Calculadora de prazo MED', included: true },
+      { text: '5 documentos em PDF', included: false },
+      { text: 'Petição para Juizado', included: false },
+      { text: 'Monitoramento de CPF', included: false },
     ],
   },
   {
     id: 'emergencia',
-    name: 'Pacote Emergência',
+    name: 'Kit Completo',
     price: 47,
-    desc: '3 documentos prontos em 15 minutos',
-    cta: 'Acionar agora',
+    priceLabel: 'pagamento único',
+    desc: '5 documentos prontos em 15 minutos',
+    cta: 'Gerar documentos agora',
     ctaHref: '/ferramentas/pacote-completo',
     highlight: true,
     badge: 'Mais popular',
     features: [
       { text: 'Tudo do plano gratuito', included: true },
-      { text: 'Contestação MED em PDF', included: true },
-      { text: 'Notificação bancária em PDF', included: true },
-      { text: 'Contatos oficiais do banco', included: true },
-      { text: 'Lembretes de prazo por e-mail', included: true },
-      { text: 'Download imediato dos 3 PDFs', included: true },
-      { text: 'Revisão por especialista', included: false },
-      { text: 'Indicação de advogado', included: false },
+      { text: 'Contestação MED personalizada', included: true },
+      { text: 'Boletim de Ocorrência completo', included: true },
+      { text: 'Notificação Bancária (CDC)', included: true },
+      { text: 'Reclamação BACEN', included: true },
+      { text: 'Reclamação Procon', included: true },
+      { text: 'Guia pós-compra com passo a passo', included: true },
+      { text: 'Petição para Juizado Especial', included: false },
+      { text: 'Monitoramento de CPF', included: false },
     ],
   },
   {
-    id: 'revisao',
-    name: 'Revisão Especialista',
+    id: 'premium',
+    name: 'Kit Premium',
     price: 97,
-    desc: 'Análise humana do seu caso em 24h',
-    cta: 'Solicitar revisão',
-    ctaHref: '/parceiros',
+    priceLabel: 'pagamento único',
+    desc: 'Processe o banco sem advogado',
+    cta: 'Kit Premium — R$97',
+    ctaHref: '/ferramentas/pacote-completo',
     highlight: false,
-    badge: 'Recomendado',
+    badge: 'Máxima proteção',
     features: [
-      { text: 'Tudo do Pacote Emergência', included: true },
-      { text: 'Análise por especialista em 24h', included: true },
-      { text: 'Relatório personalizado do caso', included: true },
-      { text: 'Histórico completo do caso', included: true },
-      { text: 'Orientação por e-mail', included: true },
-      { text: 'Indicação de advogado parceiro', included: true },
+      { text: 'Tudo do Kit Completo (5 docs)', included: true },
+      { text: 'Petição Inicial para JEC', included: true },
+      { text: 'Fundamentação legal completa', included: true },
+      { text: 'Cálculo de dano moral incluído', included: true },
+      { text: 'Pedido de tutela de urgência', included: true },
+      { text: 'Sem advogado (até 20 SM)', included: true },
       { text: 'Suporte prioritário', included: true },
     ],
   },
@@ -106,8 +110,8 @@ export default function PricingSection() {
                     </>
                   )}
                 </div>
-                {plan.price > 0 && (
-                  <p className="text-xs text-white/40 mt-1">pagamento único</p>
+                {plan.priceLabel && (
+                  <p className="text-xs text-white/40 mt-1">{plan.priceLabel}</p>
                 )}
               </div>
 
@@ -143,8 +147,29 @@ export default function PricingSection() {
           ))}
         </div>
 
+        {/* Assinatura Mensal */}
+        <div className="mt-8 card border-blue-500/20 bg-blue-500/5 flex flex-col md:flex-row items-center gap-6 max-w-3xl mx-auto">
+          <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0">
+            <Bell className="w-6 h-6 text-blue-400" />
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <div className="flex items-center gap-2 mb-1">
+              <h4 className="font-bold text-white">Alerta DefesaPix</h4>
+              <span className="text-xs font-bold text-blue-400 bg-blue-500/20 px-2 py-0.5 rounded-full">R$19/mês</span>
+            </div>
+            <p className="text-sm text-white/60">
+              Monitoramento contínuo do seu CPF + alertas de golpes novos + dicas de prevenção semanais.
+              Proteja-se antes que o golpe aconteça.
+            </p>
+          </div>
+          <Link href="/ferramentas/pacote-completo" className="btn-secondary whitespace-nowrap shrink-0">
+            Assinar
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
         {/* Guarantee */}
-        <div className="mt-12 text-center">
+        <div className="mt-8 text-center">
           <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-2xl px-6 py-4">
             <Shield className="w-6 h-6 text-green-400 shrink-0" />
             <div className="text-left">
@@ -154,20 +179,20 @@ export default function PricingSection() {
           </div>
         </div>
 
-        {/* Partner lawyers banner */}
-        <div className="mt-8 card border-yellow-500/20 flex flex-col md:flex-row items-center gap-6 max-w-3xl mx-auto">
-          <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center shrink-0">
-            <Star className="w-6 h-6 text-yellow-400" />
+        {/* JEC banner */}
+        <div className="mt-6 card border-violet-500/20 flex flex-col md:flex-row items-center gap-6 max-w-3xl mx-auto">
+          <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center shrink-0">
+            <Scale className="w-6 h-6 text-violet-400" />
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h4 className="font-bold text-white mb-1">Precisa de um advogado?</h4>
+            <h4 className="font-bold text-white mb-1">Banco negou? Processe sem advogado.</h4>
             <p className="text-sm text-white/60">
-              Nossa rede de parceiros jurídicos especializados em crimes digitais oferece
-              consulta gratuita de 30 min para casos acima de R$5.000.
+              O Kit Premium inclui a <strong className="text-white">Petição Inicial para o Juizado Especial Cível</strong> —
+              gratuito para causas até 20 salários mínimos, sem precisar de advogado.
             </p>
           </div>
-          <Link href="/parceiros" className="btn-secondary whitespace-nowrap shrink-0">
-            Ver parceiros
+          <Link href="/ferramentas/pacote-completo" className="btn-primary whitespace-nowrap shrink-0">
+            Kit Premium — R$97
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

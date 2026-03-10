@@ -46,7 +46,9 @@ export const ASAAS_PRODUTOS = {
   BO_INDIVIDUAL:     { valor: 19, descricao: 'Boletim de Ocorrência — DefesaPix' },
   MED:               { valor: 29, descricao: 'Contestação MED — DefesaPix' },
   NOTIFICACAO_BANCO: { valor: 29, descricao: 'Notificação Bancária — DefesaPix' },
-  PACOTE_EMERGENCIA: { valor: 47, descricao: 'Pacote Emergência (3 PDFs) — DefesaPix' },
+  PACOTE_EMERGENCIA: { valor: 47, descricao: 'Pacote Emergência (5 PDFs) — DefesaPix' },
+  KIT_PREMIUM:       { valor: 97, descricao: 'Kit Premium + Petição JEC — DefesaPix' },
+  PLANO_MENSAL:      { valor: 19, descricao: 'Assinatura Mensal Alerta DefesaPix' },
 } as const;
 
 export type ProdutoAsaas = keyof typeof ASAAS_PRODUTOS;
