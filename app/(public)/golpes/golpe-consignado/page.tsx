@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertTriangle, Banknote, CheckCircle, FileText, ArrowRight, Shield, Phone } from 'lucide-react';
+import { FileText, Shield, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -19,41 +19,6 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-consignado' },
 };
-
-const STEPS = [
-  {
-    step: '1', urgencia: 'IMEDIATO',
-    title: 'Ligue para o banco que concedeu o empréstimo',
-    desc: 'Solicite o cancelamento imediato e informe que você não autorizou a operação. Peça o protocolo e a cópia do contrato.',
-    icon: Phone,
-    cor: 'red',
-  },
-  {
-    step: '2', urgencia: 'PRIMEIRAS 24H',
-    title: 'Registre o Boletim de Ocorrência',
-    desc: 'Documente a fraude. Informe que houve contratação de empréstimo consignado sem sua autorização.',
-    icon: Shield,
-    cor: 'orange',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '3', urgencia: '48H',
-    title: 'Notifique o banco formalmente',
-    desc: 'Envie notificação extrajudicial exigindo cancelamento do contrato e devolução dos valores descontados.',
-    icon: FileText,
-    cor: 'yellow',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '4', urgencia: '72H',
-    title: 'Registre no INSS e Banco Central',
-    desc: 'Se é aposentado/pensionista, registre reclamação no Meu INSS. Todos devem registrar no BACEN.',
-    icon: Banknote,
-    cor: 'blue',
-  },
-];
 
 const faqItems = [
   {
@@ -108,11 +73,8 @@ export default function GolpeConsignadoPage() {
         description="Passo a passo para cancelar empréstimo consignado contratado sem autorização e recuperar valores descontados."
         totalTime="PT72H"
         steps={[
-          { name: 'Ligue para o banco', text: 'Solicite cancelamento imediato e peça cópia do contrato e protocolo de atendimento.' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude informando que não autorizou a contratação.', url: '/ferramentas/pacote-completo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação exigindo cancelamento e devolução dos valores descontados.', url: '/ferramentas/pacote-completo' },
-          { name: 'Registre no INSS e BACEN', text: 'Reclame no Meu INSS (aposentados) e no Banco Central para pressão regulatória.' },
-          { name: 'Procure o Procon ou advogado', text: 'Se o banco não resolver em 10 dias, acione Procon ou Juizado Especial para indenização.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -179,37 +141,50 @@ export default function GolpeConsignadoPage() {
             </div>
           </section>
 
-          {/* Steps */}
+          {/* Solution Paywall */}
           <section className="mb-12">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer — passo a passo</h2>
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const Icon = step.icon;
-                return (
-                  <div key={step.step} className={`border rounded-2xl p-5 transition-all duration-200 ${step.cor === 'red' ? 'border-red-500/30 bg-red-500/5' : step.cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5' : step.cor === 'yellow' ? 'border-gold-500/30 bg-gold-500/5' : 'border-blue-500/30 bg-blue-500/5'}`}>
-                    <div className="flex items-start gap-4">
-                      <div className="icon-badge icon-badge-ember shrink-0">
-                        <Icon className="w-4 h-4" strokeWidth={1.75} />
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              O consignado fraudulento tem prazos legais curtos para contestacao e exige documentos juridicos especificos para cancelamento e devolucao dos valores. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${step.cor === 'red' ? 'badge-red' : step.cor === 'orange' ? 'badge-yellow' : step.cor === 'yellow' ? 'badge-yellow' : 'badge-blue'}`}>
-                            {step.urgencia}
-                          </span>
-                          <h3 className="font-bold text-white text-sm">Passo {step.step}: {step.title}</h3>
-                        </div>
-                        <p className="text-sm text-white/70 mb-3">{step.desc}</p>
-                        {step.link && (
-                          <Link href={step.link} className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold">
-                            {step.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                );
-              })}
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 

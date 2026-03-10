@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  AlertTriangle, Shield, FileText, ArrowRight, CheckCircle,
-  X, ExternalLink, Phone, Scale, UserX,
+  AlertTriangle, Shield, FileText, Lock,
+  X, UserX,
 } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -31,61 +31,6 @@ const ALERTAS = [
   { sinal: 'O pagamento é para conta pessoal (CPF), não jurídica (CNPJ)', detalhe: 'Escritórios de advocacia recebem em conta jurídica do escritório ou do advogado (que tem CNPJ como autônomo, mas a nota fiscal existe).' },
   { sinal: 'Não apresentou número de registro na OAB quando pedido', detalhe: 'Todo advogado é obrigado a informar seu número de inscrição na OAB. A recusa é sinal certo de fraude.' },
   { sinal: 'Alega ter "contatos internos" no banco ou na Justiça', detalhe: 'Isso não existe em um Estado de Direito. É uma técnica para parecer mais poderoso e confiável.' },
-];
-
-const STEPS = [
-  {
-    n: '1', urgencia: 'IMEDIATO', cor: 'red',
-    title: 'Não faça mais nenhum pagamento',
-    desc: 'Se reconheceu o golpe antes de pagar, ótimo. Se já pagou, pare imediatamente qualquer transferência adicional — o golpista vai pedir "taxas" e "impostos" sucessivamente.',
-  },
-  {
-    n: '2', urgencia: 'AGORA', cor: 'red',
-    title: 'Verifique a inscrição na OAB',
-    desc: 'Todo advogado registrado no Brasil tem inscrição na OAB. A consulta é gratuita e pública. Busque pelo nome, número de OAB ou CPF.',
-    links: [
-      { texto: 'Consultar advogado no CFJ/OAB', href: 'https://cna.oab.org.br' },
-    ],
-  },
-  {
-    n: '3', urgencia: 'PRIMEIRAS 24H', cor: 'orange',
-    title: 'Registre Boletim de Ocorrência',
-    desc: 'Registre BO por estelionato (Art. 171 do Código Penal). Inclua todos os dados: nome do suposto advogado, número de OAB apresentado, contas bancárias usadas, conversas de WhatsApp.',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    n: '4', urgencia: 'PRIMEIRAS 48H', cor: 'orange',
-    title: 'Notifique o banco e acione o MED (se foi Pix)',
-    desc: 'Se o pagamento foi via Pix, o MED pode bloquear os valores ainda na conta do golpista. Aja dentro de 72 horas da transação para melhor resultado.',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    n: '5', urgencia: 'PRIMEIROS 5 DIAS', cor: 'blue',
-    title: 'Denuncie à OAB da sua seccional',
-    desc: 'Se o golpista usou um número de OAB de outra pessoa (roubo de identidade profissional), a OAB pode investigar e alertar outros potenciais vítimas.',
-    links: [
-      { texto: 'OAB nacional — ouvidoria', href: 'https://www.oab.org.br' },
-    ],
-  },
-  {
-    n: '6', urgencia: 'PRIMEIROS 7 DIAS', cor: 'blue',
-    title: 'Denuncie ao PROCON e ao BACEN',
-    desc: 'O PROCON recebe reclamações contra serviços não prestados. O BACEN recebe denúncias sobre transações fraudulentas via Pix.',
-    links: [
-      { texto: 'Meu BC — BACEN', href: 'https://www.bcb.gov.br/meubc' },
-      { texto: 'Consumidor.gov.br', href: 'https://www.consumidor.gov.br' },
-    ],
-  },
-];
-
-const COMO_VERIFICAR = [
-  'Acesse cna.oab.org.br (Cadastro Nacional de Advogados)',
-  'Busque pelo nome completo ou número de inscrição apresentado',
-  'Verifique se a inscrição está ATIVA (não suspensa ou cancelada)',
-  'Confirme o estado de inscrição (cada estado tem sua seccional)',
-  'Se o número de OAB não existir ou for de outra pessoa — é fraude',
 ];
 
 const DIREITOS = [
@@ -158,12 +103,8 @@ export default function GolpeFalsoAdvogadoPage() {
         description="Passo a passo para verificar registro na OAB, denunciar falso advogado e recuperar valores pagos em honorários fraudulentos."
         totalTime="PT168H"
         steps={[
-          { name: 'Não faça mais nenhum pagamento', text: 'Se reconheceu o golpe antes de pagar, ótimo. Se já pagou, pare imediatamente qualquer transferência adicional.' },
-          { name: 'Verifique a inscrição na OAB', text: 'Todo advogado registrado no Brasil tem inscrição na OAB. Acesse cna.oab.org.br e busque pelo nome ou número de OAB.' },
-          { name: 'Registre Boletim de Ocorrência', text: 'Registre BO por estelionato (Art. 171 do CP). Inclua todos os dados: nome do suposto advogado, número de OAB, contas usadas, conversas.', url: '/ferramentas/pacote-completo' },
-          { name: 'Notifique o banco e acione o MED', text: 'Se o pagamento foi via Pix, o MED pode bloquear os valores ainda na conta do golpista. Aja dentro de 72 horas.', url: '/ferramentas/pacote-completo' },
-          { name: 'Denuncie à OAB da sua seccional', text: 'Se o golpista usou um número de OAB de outra pessoa, a OAB pode investigar e alertar outros potenciais vítimas.' },
-          { name: 'Denuncie ao PROCON e ao BACEN', text: 'O PROCON recebe reclamações contra serviços não prestados. O BACEN recebe denúncias sobre transações fraudulentas via Pix.' },
+          { name: 'Identifique o golpe', text: 'Confirme que você foi vítima e reúna todas as evidências disponíveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de ação completo com 5 documentos jurídicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -194,48 +135,14 @@ export default function GolpeFalsoAdvogadoPage() {
 
           <p className="text-lg text-white/70 mb-8 leading-relaxed max-w-2xl">
             Um "advogado" entrou em contato prometendo recuperar seu dinheiro?
-            Antes de pagar, verifique o registro na OAB e leia os sinais de alerta abaixo.
+            Antes de pagar, leia os sinais de alerta abaixo.
           </p>
 
           <div className="flex flex-wrap gap-3">
-            <a
-              href="https://cna.oab.org.br"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
-              <Scale className="w-5 h-5" />
-              Verificar advogado na OAB agora
-              <ExternalLink className="w-4 h-4" />
-            </a>
-            <Link href="/ferramentas/pacote-completo" className="btn-secondary">
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
               <FileText className="w-5 h-5" />
               Kit Completo — R$47
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Verify OAB banner ────────────────────────────────── */}
-      <section className="py-6 bg-blue-950/30 border-y border-blue-500/20">
-        <div className="container max-w-4xl">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Scale className="w-8 h-8 text-blue-400 shrink-0" />
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="font-bold text-white text-sm">Verificação de advogado — gratuita e imediata</h2>
-              <p className="text-xs text-white/60 mt-0.5">
-                Acesse cna.oab.org.br e busque pelo nome ou número de OAB. Se não aparecer, é fraude.
-              </p>
-            </div>
-            <a
-              href="https://cna.oab.org.br"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary shrink-0 text-sm"
-            >
-              Consultar agora
-              <ExternalLink className="w-4 h-4" />
-            </a>
           </div>
         </div>
       </section>
@@ -264,84 +171,50 @@ export default function GolpeFalsoAdvogadoPage() {
             </div>
           </section>
 
-          {/* Como verificar OAB ─────────────────────────────── */}
+          {/* Solution Paywall */}
           <section className="mb-12">
-            <h2 className="font-heading font-bold text-xl text-white mb-5">Como verificar se o advogado é real</h2>
-            <div className="card border-blue-500/20 mb-4">
-              <ol className="space-y-3">
-                {COMO_VERIFICAR.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-sm text-white/70">
-                    <span className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0 text-[0.65rem] font-bold text-blue-400 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ol>
-              <a
-                href="https://cna.oab.org.br"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-semibold mt-4"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Acessar Cadastro Nacional de Advogados →
-              </a>
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
+                </div>
+              ))}
             </div>
-          </section>
-
-          {/* Steps ─────────────────────────────────────────── */}
-          <section className="mb-12">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer — passo a passo</h2>
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const corBorder = step.cor === 'red' ? 'border-red-500/30 bg-red-500/5' :
-                                  step.cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5' :
-                                  'border-blue-500/20 bg-blue-500/5';
-                const badgeCls = step.cor === 'red' ? 'badge-red' : step.cor === 'orange' ? 'badge-yellow' : 'badge-blue';
-                const iconBadge = step.cor === 'red' ? 'icon-badge-red' : step.cor === 'orange' ? 'icon-badge-ember' : 'icon-badge-blue';
-                return (
-                  <div key={step.n} className={`border rounded-2xl p-5 ${corBorder}`}>
-                    <div className="flex items-start gap-4">
-                      <div className={`icon-badge ${iconBadge} shrink-0`}>
-                        <span className="font-heading font-black text-white text-sm">{step.n}</span>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${badgeCls}`}>{step.urgencia}</span>
-                          <h3 className="font-bold text-white text-sm">Passo {step.n}: {step.title}</h3>
-                        </div>
-                        <p className="text-sm text-white/70 mb-3">{step.desc}</p>
-                        {'links' in step && step.links && (
-                          <div className="flex flex-wrap gap-3">
-                            {step.links.map((l) => (
-                              <a
-                                key={l.href}
-                                href={l.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold"
-                              >
-                                {l.texto}
-                                <ExternalLink className="w-3 h-3" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                        {'link' in step && step.link && (
-                          <Link
-                            href={step.link}
-                            className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold"
-                          >
-                            {step.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                );
-              })}
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 

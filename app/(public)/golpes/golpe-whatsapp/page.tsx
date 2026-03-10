@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertTriangle, CheckCircle, FileText, Phone, Shield } from 'lucide-react';
+import { AlertTriangle, CheckCircle, FileText, Shield, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -72,12 +72,8 @@ export default function GolpeWhatsAppPage() {
         description="Passo a passo para recuperar WhatsApp clonado, registrar BO e proteger seus contatos contra golpes."
         totalTime="PT24H"
         steps={[
-          { name: 'Recupere o número imediatamente', text: 'Abra o WhatsApp, insira seu número e solicite novo código. O golpista perde o acesso automaticamente.' },
-          { name: 'Avise seus contatos', text: 'Poste um story ou envie mensagem em grupo avisando sobre a clonagem. Peça para ninguém enviar dinheiro.' },
-          { name: 'Registre Boletim de Ocorrência', text: 'O BO protege você de responsabilidades pelas dívidas criadas pelos golpistas com seu número.', url: '/ferramentas/pacote-completo' },
-          { name: 'Notifique a ANATEL', text: 'Registre reclamação no site da ANATEL sobre o uso indevido do seu número telefônico.' },
-          { name: 'Denuncie ao WhatsApp (Meta)', text: 'No app: Configurações > Ajuda > Fale conosco. Relate a clonagem para bloquear o número fraudulento.' },
-          { name: 'Ative verificação em duas etapas', text: 'Configurações > Conta > Verificação em duas etapas. Isso impede nova clonagem.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -123,34 +119,50 @@ export default function GolpeWhatsAppPage() {
 
       <article className="section">
         <div className="container max-w-4xl space-y-10">
-          <section>
-            <h2 className="font-heading font-bold text-2xl text-white mb-4">Passo a passo: O que fazer agora</h2>
-            <div className="space-y-4">
+          {/* Solution Paywall */}
+          <section className="mb-12">
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { passo: 1, titulo: 'Recupere o número imediatamente', desc: 'Abra o WhatsApp, insira seu número e solicite novo código. O golpista perde o acesso automaticamente.', urgencia: 'IMEDIATO' },
-                { passo: 2, titulo: 'Avise seus contatos', desc: 'Poste um story ou envie mensagem em grupo avisando sobre a clonagem. Peça para ninguém enviar dinheiro.', urgencia: 'URGENTE' },
-                { passo: 3, titulo: 'Registre Boletim de Ocorrência', desc: 'O BO protege você de responsabilidades pelas dívidas criadas pelos golpistas com seu número.', urgencia: 'PRIMEIRAS 4H' },
-                { passo: 4, titulo: 'Notifique a ANATEL', desc: 'Registre reclamação no site da ANATEL sobre o uso indevido do seu número telefônico.', urgencia: '24H' },
-                { passo: 5, titulo: 'Denuncie ao WhatsApp (Meta)', desc: 'No app: Configurações > Ajuda > Fale conosco. Relate a clonagem para bloquear o número fraudulento.', urgencia: '24H' },
-                { passo: 6, titulo: 'Ative verificação em duas etapas', desc: 'Configurações > Conta > Verificação em duas etapas. Isso impede nova clonagem.', urgencia: 'DEPOIS' },
-              ].map((step) => {
-                const isUrgent = ['IMEDIATO', 'URGENTE'].includes(step.urgencia);
-                const isMedium = ['PRIMEIRAS 4H', '24H'].includes(step.urgencia);
-                return (
-                <div key={step.passo} className={`border rounded-xl p-4 transition-all duration-200 ${isUrgent ? 'border-red-500/25 bg-red-500/[0.04] hover:border-red-500/45' : isMedium ? 'border-ember-500/20 bg-ember-500/[0.03] hover:border-ember-500/40' : 'border-white/[0.08] hover:border-white/[0.15]'}`}>
-                  <div className="flex items-start gap-4">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black text-white shrink-0 ${isUrgent ? 'bg-gradient-to-br from-red-500 to-red-700 shadow-[0_0_14px_rgba(239,68,68,0.35)]' : isMedium ? 'bg-gradient-to-br from-ember-500 to-ember-700 shadow-[0_0_14px_rgba(249,115,22,0.3)]' : 'bg-gradient-to-br from-white/20 to-white/10 text-white/60'}`}>{step.passo}</div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="font-bold text-white text-sm">{step.titulo}</h3>
-                        <span className={`badge text-xs ${isUrgent ? 'badge-red' : isMedium ? 'badge-yellow' : 'badge-blue'}`}>{step.urgencia}</span>
-                      </div>
-                      <p className="text-sm text-white/60">{step.desc}</p>
-                    </div>
-                  </div>
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 

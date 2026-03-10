@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertTriangle, Clock, CheckCircle, FileText, ArrowRight, Shield, Phone, ExternalLink } from 'lucide-react';
+import { AlertTriangle, Clock, FileText, ArrowRight, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -20,53 +20,6 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-pix' },
 };
-
-const STEPS = [
-  {
-    step: '1', urgencia: 'IMEDIATO',
-    title: 'Ligue para o SAC do seu banco',
-    desc: 'Relate o golpe e solicite o acionamento do MED (Mecanismo Especial de Devolução). Anote o protocolo.',
-    icon: Phone,
-    cor: 'red',
-  },
-  {
-    step: '2', urgencia: 'PRIMEIRAS 2H',
-    title: 'Gere a Contestação MED',
-    desc: 'Use nossa ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.',
-    icon: FileText,
-    cor: 'orange',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '3', urgencia: 'PRIMEIRAS 4H',
-    title: 'Registre o Boletim de Ocorrência',
-    desc: 'O BO é fundamental para todos os processos subsequentes. Pode ser feito online em qualquer estado.',
-    icon: Shield,
-    cor: 'orange',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '4', urgencia: '24H',
-    title: 'Notifique o banco formalmente',
-    desc: 'Além do SAC, envie notificação formal por escrito gerando protocolo de responsabilidade legal.',
-    icon: FileText,
-    cor: 'yellow',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '5', urgencia: '48H',
-    title: 'Registre no Banco Central',
-    desc: 'Acesse o portal Meu BC e registre reclamação formal. Isso acelera a análise do seu caso.',
-    icon: ExternalLink,
-    cor: 'blue',
-    link: 'https://www.bcb.gov.br/meubc',
-    linkText: 'Acessar Meu BC →',
-    externo: true,
-  },
-];
 
 const faqItems = [
   {
@@ -125,12 +78,8 @@ export default function GolpePixPage() {
         description="Passo a passo completo para recuperar dinheiro após golpe via Pix usando o MED, B.O. e notificação bancária."
         totalTime="PT48H"
         steps={[
-          { name: 'Ligue para o SAC do seu banco', text: 'Relate o golpe e solicite o acionamento do MED (Mecanismo Especial de Devolução). Anote o protocolo.' },
-          { name: 'Gere a Contestação MED', text: 'Use a ferramenta para gerar o documento oficial de contestação MED, já preenchido com seus dados.', url: '/ferramentas/pacote-completo' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'O BO é fundamental para todos os processos. Pode ser feito online em qualquer estado.', url: '/ferramentas/pacote-completo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação formal por escrito gerando protocolo de responsabilidade legal.', url: '/ferramentas/pacote-completo' },
-          { name: 'Registre no Banco Central', text: 'Acesse o portal Meu BC e registre reclamação formal para acelerar a análise.' },
-          { name: 'Registre no Procon', text: 'Registre reclamação no Procon do seu estado para gerar protocolo adicional de pressão.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -171,10 +120,6 @@ export default function GolpePixPage() {
               <FileText className="w-5 h-5" />
               Kit Completo — R$47
             </Link>
-            <Link href="/ferramentas/checklist" className="btn-secondary">
-              <CheckCircle className="w-5 h-5" />
-              Ver checklist completo
-            </Link>
           </div>
         </div>
       </section>
@@ -203,7 +148,7 @@ export default function GolpePixPage() {
           <div className="card mb-12 border-green-500/20">
             <h2 className="font-bold text-white mb-4">Neste guia:</h2>
             <ol className="space-y-2 text-sm">
-              {['O que é golpe via Pix', 'Tipos mais comuns', 'O que fazer imediatamente', 'O que é o MED', 'Seus direitos legais', 'Perguntas frequentes'].map((item, i) => (
+              {['O que é golpe via Pix', 'Tipos mais comuns', 'O que é o MED', 'Seus direitos legais', 'Perguntas frequentes'].map((item, i) => (
                 <li key={item} className="flex items-center gap-2 text-white/60 hover:text-green-400 transition-colors">
                   <span className="text-green-500 font-mono font-bold text-xs">{String(i + 1).padStart(2, '0')}</span>
                   {item}
@@ -253,42 +198,50 @@ export default function GolpePixPage() {
             </div>
           </section>
 
-          {/* Section: What to do */}
+          {/* Solution Paywall */}
           <section className="mb-12">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer imediatamente — passo a passo</h2>
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const Icon = step.icon;
-                const iconBadge = step.cor === 'red' ? 'icon-badge-red' : step.cor === 'orange' ? 'icon-badge-ember' : step.cor === 'yellow' ? 'icon-badge-gold' : 'icon-badge-blue';
-                return (
-                  <div key={step.step} className={`border rounded-2xl p-5 transition-all duration-200 ${step.cor === 'red' ? 'border-red-500/30 bg-red-500/5 hover:border-red-500/50' : step.cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5 hover:border-ember-500/50' : step.cor === 'yellow' ? 'border-gold-500/30 bg-gold-500/5 hover:border-gold-500/50' : 'border-blue-500/30 bg-blue-500/5 hover:border-blue-500/50'}`}>
-                    <div className="flex items-start gap-4">
-                      <div className={`icon-badge ${iconBadge} shrink-0`}>
-                        <Icon className="w-4 h-4" strokeWidth={1.75} />
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${step.cor === 'red' ? 'badge-red' : step.cor === 'orange' ? 'badge-yellow' : step.cor === 'yellow' ? 'badge-yellow' : 'badge-blue'}`}>
-                            {step.urgencia}
-                          </span>
-                          <h3 className="font-bold text-white text-sm">Passo {step.step}: {step.title}</h3>
-                        </div>
-                        <p className="text-sm text-white/70 mb-3">{step.desc}</p>
-                        {step.link && (
-                          <Link
-                            href={step.link}
-                            {...(step.externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                            className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold"
-                          >
-                            {step.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                );
-              })}
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -300,19 +253,6 @@ export default function GolpePixPage() {
               especificamente para casos de fraude via Pix. Ele permite que a instituição bancária
               da vítima solicite o bloqueio cautelar dos valores na conta do destinatário.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-              {[
-                { label: 'Prazo para solicitar', value: '80 dias', desc: 'Após a transação' },
-                { label: 'Análise do banco', value: '7 dias', desc: 'Para decidir sobre o bloqueio' },
-                { label: 'Taxa de sucesso', value: '65%', desc: 'Média nacional (BACEN 2023)' },
-              ].map((item) => (
-                <div key={item.label} className="card text-center border-green-500/20">
-                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
-                  <p className="text-2xl font-bold text-green-400">{item.value}</p>
-                  <p className="text-xs text-white/40">{item.desc}</p>
-                </div>
-              ))}
-            </div>
           </section>
 
           {/* Legal Rights */}
@@ -340,16 +280,10 @@ export default function GolpePixPage() {
             <p className="text-white/70 mb-6">
               Gere todos os documentos necessários em minutos. Contestação MED, BO e notificação bancária.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/pacote-completo" className="btn-primary">
-                <FileText className="w-4 h-4" />
-                Kit Completo — R$47
-              </Link>
-              <Link href="/ferramentas/checklist" className="btn-secondary">
-                <CheckCircle className="w-4 h-4" />
-                Ver checklist completo
-              </Link>
-            </div>
+            <Link href="/ferramentas/pacote-completo" className="btn-primary">
+              <FileText className="w-4 h-4" />
+              Kit Completo — R$47
+            </Link>
           </div>
         </div>
       </article>

@@ -183,15 +183,18 @@ Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação):
     {"question": "...", "answer": "..."},
     {"question": "Como gerar os documentos para resolver meu caso?", "answer": "Na DefesaPix você preenche seus dados uma vez e recebe 5 documentos prontos (Contestação MED, BO, Notificação Bancária, Reclamação BACEN e Procon) por R$47. Acesse defesapix.com.br."}
   ],
-  "conteudo": "Conteúdo Markdown (800-1500 palavras) que: 1) Explica COMO o golpe funciona em detalhes 2) Mostra os direitos da vítima e leis aplicáveis 3) Menciona que precisa de documentos específicos para resolver mas NÃO dá modelos 4) Inclui CTAs para o Kit Completo R$47 da DefesaPix 5) Deixa claro que documentos mal feitos são rejeitados e que a DefesaPix gera tudo corretamente"
+  "conteudo": "Conteúdo Markdown (800-1500 palavras) que: 1) Explica COMO o golpe funciona em detalhes (passo a passo dos criminosos) 2) Mostra os direitos da vítima e leis aplicáveis 3) NÃO explica o que a vítima deve fazer para resolver — apenas diz que EXISTE solução e que os prazos são apertados 4) Inclui CTAs fortes para o Kit Completo R$47 da DefesaPix 5) Deixa claro que para saber exatamente o que fazer e receber os documentos corretos, precisa acessar o Kit R$47"
 }
 
 Regras:
 - Mínimo 5 passos (o último SEMPRE deve ser o CTA para o Kit Completo R$47)
+- IMPORTANTE: Os passos NÃO devem explicar em detalhe o que fazer. Devem ser vagos (ex: 'Aja imediatamente dentro do prazo legal', 'Providencie documentação específica') e SEMPRE direcionar para o Kit R$47
 - Mínimo 4 perguntas FAQ (a última SEMPRE sobre como gerar os documentos na DefesaPix)
-- Cite prazos legais reais (72h MED, 120 dias chargeback, etc)
+- Cite prazos legais reais (72h MED, 120 dias chargeback, etc) para criar urgência
 - NÃO dê modelos de documentos, formulários ou textos prontos para copiar
-- Os passos devem dizer O QUE fazer, mas para o COMO (documentos) direcionar para defesapix.com.br
+- NÃO explique COMO fazer BO, COMO acionar MED, COMO notificar banco — isso só no Kit R$47
+- NÃO inclua links para sites do governo (bcb.gov.br, anatel, etc) — a solução completa está no Kit
+- O conteúdo deve explicar o GOLPE em detalhes (atrair curiosidade) mas a SOLUÇÃO é paga
 - Tom empático e urgente
 - Português brasileiro`,
           },

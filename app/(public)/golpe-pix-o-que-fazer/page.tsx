@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Shield, Zap, Clock, CheckCircle, ArrowRight, FileText, AlertTriangle, Star } from 'lucide-react';
+import { Shield, Zap, CheckCircle, ArrowRight, FileText, Lock, Star } from 'lucide-react';
 import MedCalculator from '@/components/home/MedCalculator';
 
 export const metadata: Metadata = {
@@ -25,36 +25,6 @@ export const metadata: Metadata = {
   },
 };
 
-const PASSOS = [
-  {
-    n: 1,
-    titulo: 'Ligue para o banco AGORA',
-    desc: 'Ligue para o SAC e peça o acionamento do MED (Mecanismo Especial de Devolução). Informe que foi vítima de golpe. O atendente vai registrar a ocorrência e bloquear valores na conta do golpista.',
-    tempo: 'Imediato',
-    icon: Zap,
-  },
-  {
-    n: 2,
-    titulo: 'Registre o Boletim de Ocorrência',
-    desc: 'Faça o B.O. online na Delegacia Eletrônica do seu estado. Inclua: comprovante do Pix, prints de conversas, dados da conta destino. O B.O. é obrigatório para o MED.',
-    tempo: '15 minutos',
-    icon: FileText,
-  },
-  {
-    n: 3,
-    titulo: 'Envie notificação formal ao banco',
-    desc: 'Protocole uma notificação extrajudicial no banco com base no CDC (Art. 14). Isso cria registro oficial e ampara um eventual processo judicial.',
-    tempo: '10 minutos',
-    icon: Shield,
-  },
-  {
-    n: 4,
-    titulo: 'Reclame no Banco Central',
-    desc: 'Acesse o portal Meu BC (bcb.gov.br) e registre reclamação. O BACEN monitora e pode aplicar sanções ao banco que não acionar o MED corretamente.',
-    tempo: '10 minutos',
-    icon: AlertTriangle,
-  },
-];
 
 export default function GolpePixOQueFazerPage() {
   const faqItems = [
@@ -78,13 +48,12 @@ export default function GolpePixOQueFazerPage() {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
     name: 'O que fazer após cair num golpe Pix',
-    description: 'Passo a passo para recuperar dinheiro perdido em golpe via Pix usando o MED.',
+    description: 'Saiba como agir para recuperar dinheiro perdido em golpe via Pix.',
     totalTime: 'PT45M',
-    step: PASSOS.map((p) => ({
-      '@type': 'HowToStep',
-      name: p.titulo,
-      text: p.desc,
-    })),
+    step: [
+      { '@type': 'HowToStep', name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+      { '@type': 'HowToStep', name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.' },
+    ],
   };
 
   return (
@@ -110,7 +79,7 @@ export default function GolpePixOQueFazerPage() {
           </h1>
 
           <p className="text-lg text-white/50 leading-relaxed mb-8 max-w-xl mx-auto">
-            Siga os 4 passos abaixo para maximizar suas chances de recuperar o dinheiro. Cada hora sem agir reduz suas chances.
+            Cada hora sem agir reduz suas chances de recuperacao. O prazo do MED e de 72 horas — nao perca tempo.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -126,31 +95,55 @@ export default function GolpePixOQueFazerPage() {
         </div>
       </section>
 
-      {/* Passos */}
+      {/* Solution Paywall */}
       <section className="section">
         <div className="container max-w-3xl">
-          <h2 className="section-title text-center mb-12">
-            4 passos para recuperar seu dinheiro
+          <h2 className="section-title text-center mb-6">
+            Existe solucao — mas o tempo e limitado
           </h2>
+          <p className="text-white/60 text-center mb-10 max-w-xl mx-auto">
+            Existem documentos juridicos especificos e prazos legais que precisam ser seguidos corretamente. Um erro pode comprometer toda a recuperacao.
+          </p>
 
-          <div className="space-y-6">
-            {PASSOS.map((passo) => {
-              const Icon = passo.icon;
-              return (
-                <div key={passo.n} className="card flex gap-5 items-start">
-                  <div className="step-badge shrink-0">
-                    <span className="font-heading font-black text-white text-sm relative z-10">{String(passo.n).padStart(2, '0')}</span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="font-heading font-bold text-white">{passo.titulo}</h3>
-                      <span className="text-xs text-ember-400 font-bold bg-ember-500/10 border border-ember-500/20 px-2 py-0.5 rounded-full">{passo.tempo}</span>
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {[
+              { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+              { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+              { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+            ].map((item) => (
+              <div key={item.label} className="card text-center border-ember-500/20">
+                <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                <p className="text-xs text-white/40">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                <Lock className="w-6 h-6 text-ember-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                <p className="text-sm text-white/60 mb-4">
+                  No Kit Completo voce recebe o passo a passo detalhado para golpe Pix, com todos os documentos juridicos personalizados:
+                </p>
+                <div className="space-y-2 mb-6">
+                  {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                    <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                      <Lock className="w-3 h-3 text-ember-400/60" />
+                      <span>{doc}</span>
                     </div>
-                    <p className="text-sm text-white/50 leading-relaxed">{passo.desc}</p>
-                  </div>
+                  ))}
                 </div>
-              );
-            })}
+                <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                  <FileText className="w-4 h-4" />
+                  Acessar Kit Completo — R$47
+                </Link>
+                <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

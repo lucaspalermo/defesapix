@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertTriangle, CreditCard, CheckCircle, FileText, ArrowRight, Shield, Phone } from 'lucide-react';
+import { AlertTriangle, CheckCircle, FileText, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -19,41 +19,6 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-cartao' },
 };
-
-const STEPS = [
-  {
-    step: '1', urgencia: 'IMEDIATO',
-    title: 'Bloqueie o cartão pelo app do banco',
-    desc: 'Acesse o app do seu banco e bloqueie o cartão imediatamente. A maioria permite bloqueio temporário ou definitivo com um toque.',
-    icon: CreditCard,
-    cor: 'red',
-  },
-  {
-    step: '2', urgencia: 'PRIMEIRAS 2H',
-    title: 'Ligue para a central do cartão',
-    desc: 'Informe as transações não reconhecidas e solicite a contestação formal (chargeback). Anote o número do protocolo.',
-    icon: Phone,
-    cor: 'orange',
-  },
-  {
-    step: '3', urgencia: 'PRIMEIRAS 24H',
-    title: 'Registre o Boletim de Ocorrência',
-    desc: 'O B.O. é essencial para a contestação formal junto ao banco e para qualquer ação judicial posterior.',
-    icon: Shield,
-    cor: 'orange',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-  {
-    step: '4', urgencia: '48H',
-    title: 'Notifique o banco formalmente por escrito',
-    desc: 'Envie notificação extrajudicial documentando as transações fraudulentas e exigindo o estorno com base no CDC.',
-    icon: FileText,
-    cor: 'yellow',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-];
 
 const faqItems = [
   {
@@ -108,11 +73,8 @@ export default function GolpeCartaoPage() {
         description="Passo a passo para contestar transações fraudulentas no cartão de crédito ou débito e recuperar o valor."
         totalTime="PT48H"
         steps={[
-          { name: 'Bloqueie o cartão pelo app', text: 'Bloqueie imediatamente pelo app do banco para impedir novas transações fraudulentas.' },
-          { name: 'Ligue para a central e conteste', text: 'Informe as transações não reconhecidas e solicite o chargeback. Anote o protocolo.' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente a fraude com todos os detalhes das transações não reconhecidas.', url: '/ferramentas/pacote-completo' },
-          { name: 'Notifique o banco formalmente', text: 'Envie notificação extrajudicial exigindo estorno com base no CDC.', url: '/ferramentas/pacote-completo' },
-          { name: 'Solicite novo cartão', text: 'Peça um cartão novo com número diferente para garantir que os dados antigos não sejam reutilizados.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -185,37 +147,50 @@ export default function GolpeCartaoPage() {
             </div>
           </section>
 
-          {/* Steps */}
+          {/* Solution Paywall */}
           <section className="mb-12">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer — passo a passo</h2>
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const Icon = step.icon;
-                return (
-                  <div key={step.step} className={`border rounded-2xl p-5 transition-all duration-200 ${step.cor === 'red' ? 'border-red-500/30 bg-red-500/5' : step.cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5' : 'border-gold-500/30 bg-gold-500/5'}`}>
-                    <div className="flex items-start gap-4">
-                      <div className="icon-badge icon-badge-ember shrink-0">
-                        <Icon className="w-4 h-4" strokeWidth={1.75} />
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${step.cor === 'red' ? 'badge-red' : 'badge-yellow'}`}>
-                            {step.urgencia}
-                          </span>
-                          <h3 className="font-bold text-white text-sm">Passo {step.step}: {step.title}</h3>
-                        </div>
-                        <p className="text-sm text-white/70 mb-3">{step.desc}</p>
-                        {step.link && (
-                          <Link href={step.link} className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold">
-                            {step.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                );
-              })}
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 

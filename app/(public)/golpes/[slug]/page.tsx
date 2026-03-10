@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  AlertTriangle, Clock, CheckCircle, FileText, ArrowRight,
-  Shield, Phone, ExternalLink, Zap, Smartphone, Heart,
-  Briefcase, BarChart3, Globe, PhoneOff, Scale, CreditCard, Mail,
+  AlertTriangle, CheckCircle, FileText, Lock,
 } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -21,11 +19,6 @@ const STATIC_GOLPE_SLUGS = [
   'golpe-phishing', 'golpe-consignado',
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ICON_MAP: Record<string, any> = {
-  Shield, Phone, FileText, AlertTriangle, Zap, Smartphone, Heart,
-  Briefcase, BarChart3, Globe, PhoneOff, Scale, CreditCard, Mail, ExternalLink,
-};
 
 async function getGuia(slug: string) {
   if (STATIC_GOLPE_SLUGS.includes(slug)) return null; // Let static page handle it
@@ -57,9 +50,6 @@ export default async function GolpeDynamicPage({ params }: { params: Promise<{ s
   const guia = await getGuia(slug);
   if (!guia) notFound();
 
-  let passos: { step: string; urgencia: string; titulo: string; desc: string }[] = [];
-  try { passos = JSON.parse(guia.passos); } catch { /* empty */ }
-
   let faqItems: { question: string; answer: string }[] = [];
   try { faqItems = JSON.parse(guia.faq); } catch { /* empty */ }
 
@@ -82,14 +72,15 @@ export default async function GolpeDynamicPage({ params }: { params: Promise<{ s
   return (
     <>
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe', href: '/golpes' }, { name: guia.titulo }]} />
-      {passos.length > 0 && (
-        <HowToSchema
-          name={`${guia.titulo}: o que fazer`}
-          description={guia.descricao}
-          totalTime="PT2H"
-          steps={passos.map((p) => ({ name: p.titulo, text: p.desc }))}
-        />
-      )}
+      <HowToSchema
+        name={`${guia.titulo}: o que fazer`}
+        description={guia.descricao}
+        totalTime="PT2H"
+        steps={[
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
+        ]}
+      />
       {faqItems.length > 0 && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       )}
@@ -133,57 +124,54 @@ export default async function GolpeDynamicPage({ params }: { params: Promise<{ s
         </div>
       </section>
 
-      {/* Steps */}
-      {passos.length > 0 && (
-        <article className="section">
-          <div className="container max-w-4xl">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer agora — passo a passo</h2>
-            <div className="space-y-4">
-              {passos.map((passo, idx) => {
-                const cor = idx === 0 ? 'red' : idx < 3 ? 'orange' : 'blue';
-                const borderCls = cor === 'red' ? 'border-red-500/30 bg-red-500/5' : cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5' : 'border-blue-500/30 bg-blue-500/5';
-                const badgeCls = cor === 'red' ? 'badge-red' : cor === 'orange' ? 'badge-yellow' : 'badge-blue';
-                return (
-                  <div key={idx} className={`border rounded-2xl p-5 ${borderCls}`}>
-                    <div className="flex items-start gap-4">
-                      <div className="step-badge shrink-0" style={{ marginBottom: 0 }}>
-                        <span className="font-heading font-black text-white text-sm relative z-10">
-                          {String(idx + 1).padStart(2, '0')}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${badgeCls}`}>{passo.urgencia}</span>
-                          <h3 className="font-bold text-white text-sm">{passo.titulo}</h3>
-                        </div>
-                        <p className="text-sm text-white/70">{passo.desc}</p>
-                      </div>
+      {/* Solution Paywall */}
+      <article className="section">
+        <div className="container max-w-4xl">
+          <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+          <p className="text-white/70 leading-relaxed mb-6">
+            Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+          </p>
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {[
+              { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+              { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+              { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+            ].map((item) => (
+              <div key={item.label} className="card text-center border-ember-500/20">
+                <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                <p className="text-xs text-white/40">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+          <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                <Lock className="w-6 h-6 text-ember-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                <p className="text-sm text-white/60 mb-4">
+                  No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                </p>
+                <div className="space-y-2 mb-6">
+                  {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                    <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                      <Lock className="w-3 h-3 text-ember-400/60" />
+                      <span>{doc}</span>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* CTA after steps */}
-            <div className="mt-8 card border-green-500/30 bg-green-500/5 text-center">
-              <h3 className="font-bold text-white text-xl mb-3">Precisa dos documentos?</h3>
-              <p className="text-white/70 mb-6">
-                Gere Contestação MED, Boletim de Ocorrência e Notificação Bancária em 15 minutos.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  ))}
+                </div>
                 <Link href="/ferramentas/pacote-completo" className="btn-primary">
                   <FileText className="w-4 h-4" />
-                  Kit Completo — R$47
+                  Acessar Kit Completo — R$47
                 </Link>
-                <Link href="/ferramentas/diagnostico" className="btn-secondary">
-                  Diagnóstico grátis
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
               </div>
             </div>
           </div>
-        </article>
-      )}
+        </div>
+      </article>
 
       {/* Full content (Markdown) */}
       <section className="section bg-[#0D0D15]">

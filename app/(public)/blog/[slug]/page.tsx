@@ -35,46 +35,19 @@ O MED é um processo que permite ao pagador solicitar a devolução de valores t
 1. **Fraude** (golpe, estelionato, phishing, etc.)
 2. **Operacional** (erro do usuário ao inserir dados, falha técnica)
 
-## Como funciona na prática?
+## Qual e o prazo para acionar o MED?
 
-Quando você solicita a ativação do MED ao seu banco, o seguinte acontece:
+Voce pode solicitar o MED em ate **80 dias apos a data da transacao**. No entanto, a eficacia do MED diminui com o tempo, pois os golpistas tendem a mover os valores rapidamente.
 
-1. Seu banco (banco pagador) envia a solicitação ao banco do destinatário
-2. O banco destinatário tem até **7 dias corridos** para bloquear os valores na conta do golpista
-3. Se o bloqueio ocorrer, os valores ficam retidos por até **96 horas** adicionais
-4. O Banco Central analisa a situação e determina a devolução
-
-## Qual é o prazo para acionar o MED?
-
-Você pode solicitar o MED em até **80 dias após a data da transação**. No entanto, a eficácia do MED diminui com o tempo, pois os golpistas tendem a mover os valores rapidamente.
-
-**Por isso, o ideal é acionar o MED em até 72 horas após o golpe.**
-
-## Quais são os requisitos para o MED?
-
-Para que o MED seja aceito, é necessário:
-
-- Comprovar que a transação foi realizada em decorrência de fraude ou erro
-- Apresentar Boletim de Ocorrência (recomendado)
-- Preencher o formulário específico do seu banco
-- Apresentar evidências da fraude (prints, comprovantes, etc.)
-
-## E se o banco negar o MED?
-
-Se o seu banco negar a solicitação de MED, você pode:
-
-1. **Recorrer à Ouvidoria do banco** com os documentos do caso
-2. **Registrar reclamação no Banco Central** pelo portal Meu BC
-3. **Acionamento do Procon** para mediação
-4. **Ação judicial** no Juizado Especial Cível (JEC) — gratuito para valores até 40 salários mínimos
+**Por isso, o ideal e acionar o MED em ate 72 horas apos o golpe.**
 
 ## Taxa de sucesso do MED
 
-Segundo dados do Banco Central, o MED tem conseguido recuperar valores em aproximadamente 65% dos casos onde é acionado dentro do prazo adequado. Esse percentual cai para menos de 30% quando o MED é solicitado após 30 dias do golpe.
+Segundo dados do Banco Central, o MED tem conseguido recuperar valores em aproximadamente 65% dos casos onde e acionado dentro do prazo adequado. Esse percentual cai para menos de 30% quando o MED e solicitado apos 30 dias do golpe.
 
-## Como gerar o documento de contestação MED?
+## Precisa resolver agora?
 
-Use nossa ferramenta gratuita para gerar o documento oficial de contestação MED, com todos os fundamentos legais e formatação correta para entrega ao seu banco.
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
     `,
   },
   'banco-responsavel-golpe-digital-stj': {
@@ -177,20 +150,13 @@ O criminoso envia um QR Code dizendo que é para "verificação de segurança". 
 - **Confirme por ligação** antes de enviar qualquer valor
 - **Não clique em links suspeitos** recebidos por mensagem
 
-## O que fazer se foi vítima
+## Caiu no golpe do WhatsApp?
 
-1. **Recupere sua conta**: abra o WhatsApp, insira seu número e solicite novo código
-2. **Avise seus contatos** imediatamente através de outra rede social ou telefone
-3. **Registre um Boletim de Ocorrência** — pode ser online na delegacia do seu estado
-4. **Denuncie ao WhatsApp**: Configurações > Ajuda > Fale conosco
-5. **Se houve transferência via Pix**: acione o MED pelo seu banco em até 72 horas
+Se voce ja foi vitima, o tempo e critico — especialmente se houve transferencia via Pix. Existem varios orgaos e documentos envolvidos na recuperacao, e cada um tem prazos e exigencias especificas.
 
-## Denúncia formal
+## Precisa resolver agora?
 
-Além do B.O., você pode denunciar em:
-- **ANATEL**: para uso indevido do número
-- **Procon**: para fraudes envolvendo empresas
-- **Banco Central**: se houve falha do banco na segurança do Pix
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
     `,
   },
   'golpe-investimento-criptomoeda-brasil': {
@@ -230,39 +196,15 @@ Perfis nas redes sociais que ostentam riqueza e prometem ensinar o "método secr
 
 Plataformas de câmbio e forex que não possuem autorização do Banco Central ou CVM para operar no Brasil.
 
-## O que fazer se foi vítima
+## Caiu em golpe de investimento?
 
-### 1. Documente tudo
+A recuperacao de valores perdidos em golpes de investimento e possivel, mas depende da rapidez da acao e dos documentos corretos. O processo envolve varios orgaos — CVM, Policia Federal, Banco Central, Procon — e cada um exige documentacao especifica com fundamentacao legal.
 
-Salve prints de tela da plataforma, comprovantes de transferências, conversas com o "consultor", e-mails e qualquer material promocional.
+Quanto mais rapido voce age, maiores as chances. Transferencias via Pix recentes tem taxa de recuperacao significativamente maior do que casos antigos.
 
-### 2. Registre Boletim de Ocorrência
+## Precisa resolver agora?
 
-O B.O. é essencial para qualquer ação judicial posterior. Tipifique como estelionato (art. 171 do Código Penal).
-
-### 3. Denuncie à CVM
-
-A Comissão de Valores Mobiliários tem canal específico para denúncias: acesse o site da CVM e registre a denúncia com todos os documentos.
-
-### 4. Denuncie à Polícia Federal
-
-Se o golpe envolver criptomoedas ou operações internacionais, a Polícia Federal tem competência para investigar.
-
-### 5. Acione o MED se foi via Pix
-
-Se as transferências foram feitas via Pix, acione o MED pelo seu banco imediatamente.
-
-### 6. Registre no Procon e Banco Central
-
-Múltiplos registros criam pressão institucional e ajudam nas investigações.
-
-## Chances de recuperação
-
-As chances dependem do tipo de golpe e da rapidez da ação:
-- **Pix recente (< 72h)**: MED tem taxa de 65% de sucesso
-- **Transferência bancária**: contestação junto ao banco pode funcionar
-- **Criptomoeda**: recuperação mais difícil, mas não impossível via ação judicial
-- **Ação judicial**: Juizado Especial Cível para valores até 40 salários mínimos
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
 
 ## Como verificar se um investimento é legítimo
 
@@ -290,52 +232,9 @@ O Boletim de Ocorrência é o documento mais importante na recuperação de valo
 - **Base** para ações judiciais contra o banco ou golpista
 - **Proteção** contra responsabilização por dívidas criadas em seu nome
 
-## Passo a passo para registrar o BO online
+## Precisa resolver agora?
 
-### 1. Acesse a Delegacia Eletrônica do seu estado
-
-Todos os estados brasileiros já possuem delegacias eletrônicas que permitem o registro de B.O. online para crimes digitais.
-
-### 2. Selecione o tipo de ocorrência
-
-Escolha a categoria que melhor se aplica ao seu caso:
-- **Estelionato (art. 171, CP)** — para golpes em geral
-- **Fraude eletrônica (art. 171, §2º-A, CP)** — específico para golpes digitais
-- **Invasão de dispositivo (art. 154-A, CP)** — para clonagem de WhatsApp
-
-### 3. Preencha os dados do fato
-
-Informe com o máximo de detalhes:
-- **Data e hora** exata do golpe
-- **Valor** total transferido
-- **Chave Pix** ou dados bancários do golpista
-- **Como o golpe aconteceu** (descrição detalhada)
-- **Meios utilizados** (WhatsApp, Instagram, telefone, e-mail)
-
-### 4. Anexe evidências
-
-Os seguintes documentos fortalecem seu B.O.:
-- Prints de conversas com o golpista
-- Comprovantes de transferência (Pix, TED, boleto)
-- Screenshots do perfil do golpista
-- E-mails ou mensagens recebidas
-- Número de protocolo do MED (se já acionado)
-
-### 5. Revise e protocole
-
-Após o envio, você receberá um número de protocolo. Guarde esse número — ele será necessário para todos os processos posteriores.
-
-## Dicas para um B.O. eficaz
-
-- **Seja detalhista**: quanto mais informações, melhor para a investigação
-- **Use termos técnicos**: mencione "Pix", "MED", "chave aleatória" quando aplicável
-- **Inclua valores exatos**: some todas as transferências
-- **Mencione testemunhas**: se alguém presenciou o golpe ou pode confirmar
-- **Tipifique corretamente**: estelionato digital (art. 171, §2º-A) tem pena maior
-
-## Prazo para registrar
-
-Não há prazo máximo para registrar um B.O., mas quanto mais rápido, melhor. Para acionar o MED do Banco Central, o ideal é registrar em até 72 horas após o golpe.
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
 
 ## O B.O. sozinho não resolve — você precisa de mais documentos
 
@@ -374,68 +273,32 @@ Quando você é vítima de um golpe digital envolvendo bancos, duas reclamaçõe
 - O banco se recusa a fornecer informações sobre a transação
 - Você quer registrar uma reclamação formal que fica no histórico regulatório do banco
 
-### Como fazer
+### Por que e eficaz
+O Banco Central monitora ativamente as reclamacoes e usa esses dados para fiscalizar instituicoes financeiras, aplicar multas e sancoes, e publicar o ranking de reclamacoes (que afeta a reputacao do banco). O banco tem **10 dias uteis** para responder.
 
-1. Acesse o portal **Meu BC** (meubc.bcb.gov.br)
-2. Faça login com sua conta Gov.br
-3. Selecione "Registrar reclamação"
-4. Escolha a instituição financeira
-5. Descreva detalhadamente o problema
-6. Anexe documentos relevantes
-
-### Prazo de resposta
-O banco tem **10 dias úteis** para responder à reclamação via BACEN. Se não responder, isso conta negativamente no ranking de reclamações do Banco Central.
-
-### Por que é eficaz
-O Banco Central monitora ativamente as reclamações e usa esses dados para:
-- Fiscalizar as instituições financeiras
-- Aplicar multas e sanções
-- Publicar o ranking de reclamações (que afeta a reputação do banco)
-
-## Reclamação no Procon
+## Reclamacao no Procon
 
 ### Quando usar
 - O banco se recusa a devolver valores indevidamente
-- Houve **falha na prestação do serviço** bancário
-- Você quer uma **mediação** entre você e o banco
-- Você precisa de um protocolo adicional para ação judicial
-
-### Como fazer
-
-1. Acesse o **Procon do seu estado** (presencial ou online)
-2. Reúna documentos: B.O., comprovantes, protocolo do MED
-3. Preencha o formulário de reclamação
-4. Detalhe o problema e o que você deseja como resolução
-5. Acompanhe o andamento pelo número de protocolo
-
-### Prazo de resposta
-O Procon notifica a empresa, que tem em média **10 a 30 dias** para se manifestar, dependendo do estado.
+- Houve **falha na prestacao do servico** bancario
+- Voce quer uma **mediacao** entre voce e o banco
+- Voce precisa de um protocolo adicional para acao judicial
 
 ### Base legal
-O Procon atua com base no **Código de Defesa do Consumidor (CDC)**:
-- **Art. 14**: responsabilidade objetiva do fornecedor por falhas no serviço
-- **Art. 6º, VI**: direito à prevenção e reparação de danos
-- **Art. 39**: práticas abusivas vedadas
+O Procon atua com base no **Codigo de Defesa do Consumidor (CDC)**:
+- **Art. 14**: responsabilidade objetiva do fornecedor por falhas no servico
+- **Art. 6o, VI**: direito a prevencao e reparacao de danos
+- **Art. 39**: praticas abusivas vedadas
 
-## Estratégia combinada
+## Por que usar ambos ao mesmo tempo?
 
-A melhor estratégia é usar **ambos** ao mesmo tempo:
+Cada protocolo gerado (MED, B.O., BACEN, Procon) fortalece seu caso. Em uma eventual acao judicial, o juiz vera que voce esgotou todas as vias administrativas antes de recorrer a Justica — isso aumenta significativamente suas chances de ganhar.
 
-1. **Primeiro**: acione o MED pelo banco (dentro de 72h)
-2. **Segundo**: registre o B.O. (mesmo dia ou dia seguinte)
-3. **Terceiro**: registre reclamação no BACEN (se o banco negar ou demorar)
-4. **Quarto**: registre no Procon (para pressão adicional e mediação)
-5. **Quinto**: se nada funcionar, Juizado Especial Cível (gratuito até 20 salários mínimos)
+Porem, preencher reclamacoes no BACEN, Procon e banco com a fundamentacao legal correta pode levar horas — e erros de redacao fazem o banco ignorar sua solicitacao.
 
-## Dica importante
+## Precisa resolver agora?
 
-Cada protocolo gerado (MED, B.O., BACEN, Procon) fortalece seu caso. Em uma eventual ação judicial, o juiz verá que você esgotou todas as vias administrativas antes de recorrer à Justiça — isso aumenta significativamente suas chances de ganhar.
-
-## Não perca tempo redigindo cada documento separadamente
-
-Preencher reclamações no BACEN, Procon e banco com a fundamentação legal correta pode levar horas — e erros de redação fazem o banco ignorar sua solicitação.
-
-Na **DefesaPix**, você preenche seus dados **uma única vez** e recebe os 5 documentos prontos: B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Reclamação Procon. Tudo personalizado, com fundamentação legal e pronto para protocolar. **R$47 — sem mensalidade, sem advogado.** Acesse **defesapix.com.br**.
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
     `,
   },
   'como-proteger-idoso-golpe-digital': {
@@ -741,38 +604,15 @@ O Banco Central anunciou melhorias no Mecanismo Especial de Devolução para 202
 ### Limites Pix
 Desde 2024, os limites noturnos são obrigatórios e os bancos devem oferecer personalização de limites por tipo de transação.
 
-## O passo a passo atualizado
+## A recuperacao e possivel — mas o tempo e critico
 
-### Primeiras 2 horas (CRÍTICO)
-1. Ligue para o SAC do banco e peça o MED
-2. Anote o protocolo
-3. Bloqueie a chave Pix usada na fraude
+Os dados mostram que quanto mais rapido voce age, maiores as chances. Quem aciona os mecanismos corretos nas primeiras 72 horas tem chances significativamente maiores de recuperar o valor. Apos 30 dias, as chances caem drasticamente.
 
-### Primeiras 24 horas
-4. Registre B.O. na delegacia eletrônica
-5. Gere a contestação MED formal com nossa ferramenta
-6. Envie notificação formal ao banco
+O processo envolve varios orgaos (banco, Banco Central, Procon, delegacia) e cada um exige documentos especificos com fundamentacao legal correta. Documentos mal redigidos sao rejeitados ou ignorados.
 
-### Primeira semana
-7. Registre reclamação no Banco Central (Meu BC)
-8. Registre no Procon do seu estado
-9. Acompanhe o andamento do MED
+## Precisa resolver agora?
 
-### Se o banco negar
-10. Recorra à Ouvidoria do banco (prazo de resposta: 10 dias)
-11. Acione Procon para mediação
-12. Avalie ação no Juizado Especial Cível
-
-## Estatísticas de recuperação
-
-- MED acionado em até 72h: **65% de sucesso**
-- MED acionado em até 7 dias: **45% de sucesso**
-- MED acionado após 30 dias: **menos de 20%**
-- Ação judicial (JEC): **70-80% favorável ao consumidor**
-
-## Documentos essenciais
-
-Use nossas ferramentas para gerar todos os documentos necessários em minutos, com fundamentação legal atualizada.
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
     `,
   },
   'golpe-qr-code-pix-como-funciona': {
@@ -962,55 +802,19 @@ Golpistas criam sites que imitam leilões oficiais da Receita Federal, DETRAN ou
 
 Após roubo de celular, cada minuto conta. Golpistas começam a acessar apps bancários em segundos.
 
-## Passo 1: Ligue para o banco (IMEDIATO)
+## O que pode acontecer apos o roubo
 
-Ligue para a central do banco e peça:
-- Bloqueio temporário da conta
-- Bloqueio de todos os dispositivos móveis
-- Redução do limite de Pix para zero
+O maior prejuizo de um celular roubado hoje nao e o aparelho em si — sao as transacoes financeiras. Golpistas conseguem acessar apps de banco, fazer transferencias Pix para contas laranjas, contratar emprestimos e alterar senhas de e-mail e redes sociais em questao de minutos.
 
-## Passo 2: Bloqueie o chip (IMEDIATO)
-
-Ligue para a operadora e peça o bloqueio do SIM:
-- **Vivo**: 1058
-- **Claro**: 1052
-- **TIM**: 1056
-- **Oi**: 1057
-
-## Passo 3: Bloqueie o IMEI
-
-O IMEI (número do celular) pode ser bloqueado para que o aparelho não funcione com nenhum chip:
-- Registre o B.O. com o número IMEI
-- Ligue para a operadora com o número do B.O.
-- A operadora bloqueia o IMEI em até 24h
-
-**Como descobrir seu IMEI**: disque *#06# no celular, ou verifique na caixa do aparelho.
-
-## Passo 4: Acesse remotamente
-
-- **Android**: acessar android.com/find e apagar dados remotamente
-- **iPhone**: acessar icloud.com/find e ativar "Apagar iPhone"
-
-## Passo 5: Desconecte contas
-
-Acesse por outro dispositivo e desconecte sessões:
-- WhatsApp Web: desconectar dispositivos
-- Google: Minha Conta > Segurança > Gerenciar dispositivos
-- Redes sociais: altere senhas e desconecte sessões
-
-## Passo 6: Registre o B.O.
-
-O B.O. com o IMEI é necessário para o bloqueio oficial e para qualquer contestação bancária posterior.
+Por isso, agir rapidamente e fundamental. Voce precisa bloquear o chip, o IMEI, os apps bancarios e desconectar suas contas — tudo em uma sequencia especifica e com os documentos corretos.
 
 ## Dica preventiva
 
 Anote seu IMEI AGORA e guarde em local seguro. Disque *#06# no celular.
 
-## Acessaram seus apps bancários após o roubo?
+## Precisa resolver agora?
 
-Se o ladrão fez transferências Pix ou compras usando seus apps, você precisa de documentação legal para contestar: B.O. detalhado, Contestação MED, Notificação Bancária e reclamações no BACEN e Procon.
-
-Na **DefesaPix**, gere todos os 5 documentos em 15 minutos por **R$47** — prontos para protocolar. Acesse **defesapix.com.br**.
+Nao perca tempo tentando montar os documentos sozinho — erros podem comprometer sua recuperacao. No Kit Completo da DefesaPix voce recebe o passo a passo personalizado + 5 documentos juridicos prontos por R$47. [Acesse agora](https://defesapix.com.br/ferramentas/pacote-completo).
     `,
   },
   'engenharia-social-o-que-e-como-se-proteger': {

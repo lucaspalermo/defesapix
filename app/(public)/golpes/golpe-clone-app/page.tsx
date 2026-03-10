@@ -58,11 +58,8 @@ export default function GolpeCloneAppPage() {
         description="Passo a passo de emergência para proteger sua conta bancária após acessar app ou site falso de banco."
         totalTime="PT24H"
         steps={[
-          { name: 'Bloqueie todos os cartões', text: 'Ligue para o banco ou use o app oficial (se não comprometido) e bloqueie todos os cartões imediatamente.' },
-          { name: 'Troque todas as senhas', text: 'Senha do app, senha do internet banking, senha do cartão. Faça isso de outro dispositivo se possível.' },
-          { name: 'Acione o MED se houver Pix perdido', text: 'Se houve transferência Pix fraudulenta, acione o MED pelo SAC do banco imediatamente.', url: '/ferramentas/pacote-completo' },
-          { name: 'Registre o Boletim de Ocorrência', text: 'Documente o acidente com detalhes: URL do site falso, prints, valor perdido.', url: '/ferramentas/pacote-completo' },
-          { name: 'Denuncie à empresa responsável', text: 'Reporte o app falso à App Store/Google Play e o site à SaferNet Brasil.' },
+          { name: 'Identifique o golpe', text: 'Confirme que você foi vítima e reúna todas as evidências disponíveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de ação completo com 5 documentos jurídicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
@@ -95,45 +92,52 @@ export default function GolpeCloneAppPage() {
 
       <article className="section">
         <div className="container max-w-4xl space-y-10">
-          <section>
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">Ações imediatas — faça agora</h2>
-            <div className="space-y-3">
+          {/* Solution Paywall */}
+          <section className="mb-12">
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { step: 1, titulo: 'Bloqueie todos os cartões', desc: 'Ligue para o banco ou use o app oficial (se não comprometido) e bloqueie todos os cartões imediatamente.', urgencia: 'AGORA' },
-                { step: 2, titulo: 'Troque todas as senhas', desc: 'Senha do app, senha do internet banking, senha do cartão. Faça isso de outro dispositivo se possível.', urgencia: 'AGORA' },
-                { step: 3, titulo: 'Acione o MED se houver Pix perdido', desc: 'Se houve transferência Pix fraudulenta, acione o MED pelo SAC do banco imediatamente.', urgencia: 'URGENTE' },
-                { step: 4, titulo: 'Registre o Boletim de Ocorrência', desc: 'Documente o acidente com detalhes: URL do site falso, prints, valor perdido.', urgencia: '4H' },
-                { step: 5, titulo: 'Denuncie à empresa responsável', desc: 'Reporte o app falso à App Store/Google Play e o site à SaferNet Brasil.', urgencia: '24H' },
-              ].map((item) => {
-                const isCritical = item.urgencia === 'AGORA';
-                const isUrgent   = item.urgencia === 'URGENTE';
-                return (
-                <div key={item.step} className={`border rounded-xl p-4 transition-all duration-200 ${isCritical ? 'border-red-500/30 bg-red-500/5 hover:border-red-500/50' : isUrgent ? 'border-ember-500/25 bg-ember-500/[0.04] hover:border-ember-500/45' : 'border-white/[0.08] hover:border-white/[0.16]'}`}>
-                  <div className="flex items-start gap-4">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black text-white shrink-0 ${isCritical ? 'bg-gradient-to-br from-red-500 to-red-700 shadow-[0_0_14px_rgba(239,68,68,0.35)]' : isUrgent ? 'bg-gradient-to-br from-ember-500 to-ember-700 shadow-[0_0_14px_rgba(249,115,22,0.3)]' : 'bg-gradient-to-br from-white/20 to-white/10 text-white/60'}`}>{item.step}</div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="font-bold text-white text-sm">{item.titulo}</h3>
-                        <span className={`badge text-xs ${item.urgencia === 'AGORA' ? 'badge-red' : 'badge-yellow'}`}>{item.urgencia}</span>
-                      </div>
-                      <p className="text-sm text-white/60">{item.desc}</p>
-                    </div>
-                  </div>
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
                 </div>
-              );
-              })}
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
-
-          <div className="card border-green-500/30 bg-green-500/5 text-center">
-            <Lock className="w-12 h-12 text-green-400 mx-auto mb-3" />
-            <h3 className="font-heading font-bold text-white text-xl mb-3">Proteja-se agora</h3>
-            <p className="text-white/70 mb-6">Gere o MED e o BO para os documentos mais críticos do seu caso.</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/ferramentas/pacote-completo" className="btn-primary text-sm">Kit Completo — R$47</Link>
-              <Link href="/ferramentas/pacote-completo" className="btn-secondary text-sm">Kit Completo — R$47</Link>
-            </div>
-          </div>
         </div>
       </article>
 

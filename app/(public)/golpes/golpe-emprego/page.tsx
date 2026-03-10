@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Briefcase, FileText, CheckCircle, ExternalLink } from 'lucide-react';
+import { FileText, CheckCircle, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -58,10 +58,8 @@ export default function GolpeEmpregoPage() {
         description="Passo a passo para denunciar vaga de emprego falsa e recuperar taxas pagas indevidamente."
         totalTime="PT72H"
         steps={[
-          { name: 'Registre Boletim de Ocorrência', text: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', url: '/ferramentas/pacote-completo' },
-          { name: 'Denuncie ao Ministério do Trabalho (MTE)', text: 'Denuncie vagas falsas e cobrança ilegal de candidatos ao emprego no portal do MTE.' },
-          { name: 'Registre reclamação no Procon', text: 'Relação de consumo indevida — cobrança abusiva de taxas de candidatura é ilegal.' },
-          { name: 'Denuncie à Polícia Federal', text: 'Se a empresa falsa atua em vários estados ou há suspeita de organização criminosa.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <section className="bg-hero-gradient py-16 bg-grid-pattern">
@@ -88,36 +86,50 @@ export default function GolpeEmpregoPage() {
 
       <article className="section">
         <div className="container max-w-4xl space-y-10">
-          <section>
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">Onde denunciar</h2>
-            <div className="space-y-3">
+          {/* Solution Paywall */}
+          <section className="mb-12">
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Vagas falsas configuram estelionato e voce tem direito a recuperar taxas pagas e denunciar nos orgaos corretos. Existem prazos e documentos especificos que precisam ser protocolados corretamente.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { org: 'Polícia Civil (BO)',           desc: 'Estelionato — Art. 171 CP. Registre BO com dados da empresa falsa e comprovante de pagamento.', href: '/ferramentas/pacote-completo', interno: true,  badge: 'red'    },
-                { org: 'Ministério do Trabalho (MTE)', desc: 'Denuncie vagas falsas e cobrança ilegal de candidatos ao emprego.', href: 'https://www.gov.br/trabalho-e-previdencia', interno: false, badge: 'ember'  },
-                { org: 'Procon',                       desc: 'Relação de consumo indevida — cobrança abusiva de taxas de candidatura.', href: 'https://www.procon.sp.gov.br', interno: false, badge: 'gold'   },
-                { org: 'Polícia Federal',               desc: 'Se a empresa falsa atua em vários estados ou suspeita de organização criminosa.', href: 'https://www.gov.br/pf', interno: false, badge: 'blue'   },
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
               ].map((item) => (
-                <div key={item.org} className="card group hover:border-white/[0.12] transition-all duration-200">
-                  <div className="flex items-start justify-between gap-3 flex-wrap">
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <div className={`icon-badge icon-badge-${item.badge} shrink-0 group-hover:scale-105 transition-transform`}>
-                        <FileText className="w-4 h-4" strokeWidth={1.75} />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="font-heading font-bold text-white mb-1 text-sm">{item.org}</h3>
-                        <p className="text-sm text-white/60">{item.desc}</p>
-                      </div>
-                    </div>
-                    {item.interno ? (
-                      <Link href={item.href} className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap shrink-0">Acessar →</Link>
-                    ) : (
-                      <a href={item.href} target="_blank" rel="noopener noreferrer" className="btn-secondary text-xs py-1.5 px-3 whitespace-nowrap shrink-0">
-                        <ExternalLink className="w-3 h-3" />Acessar
-                      </a>
-                    )}
-                  </div>
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
                 </div>
               ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
         </div>

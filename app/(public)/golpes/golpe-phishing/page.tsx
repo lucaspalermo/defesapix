@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertTriangle, Mail, CheckCircle, FileText, ArrowRight, Shield, Globe, Lock } from 'lucide-react';
+import { AlertTriangle, Mail, CheckCircle, FileText, Shield, Globe, Lock } from 'lucide-react';
 import FAQSection from '@/components/home/FAQSection';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
@@ -19,39 +19,6 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-phishing' },
 };
-
-const STEPS = [
-  {
-    step: '1', urgencia: 'IMEDIATO',
-    title: 'Não clique em mais nada',
-    desc: 'Se você clicou em um link suspeito, feche a página imediatamente. Não insira nenhum dado pessoal, senha ou código.',
-    icon: Shield,
-    cor: 'red',
-  },
-  {
-    step: '2', urgencia: 'PRIMEIRAS 30MIN',
-    title: 'Troque suas senhas',
-    desc: 'Se você inseriu dados em um site falso, troque imediatamente a senha do banco, e-mail e redes sociais. Use senhas únicas e fortes.',
-    icon: Lock,
-    cor: 'red',
-  },
-  {
-    step: '3', urgencia: 'PRIMEIRAS 2H',
-    title: 'Ligue para o banco',
-    desc: 'Informe que seus dados podem ter sido comprometidos. Solicite bloqueio de transações suspeitas e monitoramento da conta.',
-    icon: Globe,
-    cor: 'orange',
-  },
-  {
-    step: '4', urgencia: '24H',
-    title: 'Registre o Boletim de Ocorrência',
-    desc: 'Documente o golpe com prints do e-mail/SMS falso, URL do site e quaisquer dados que foram expostos.',
-    icon: FileText,
-    cor: 'yellow',
-    link: '/ferramentas/pacote-completo',
-    linkText: 'Kit Completo — R$47 →',
-  },
-];
 
 const faqItems = [
   {
@@ -106,11 +73,8 @@ export default function GolpePhishingPage() {
         description="Passo a passo para proteger suas contas e dados após cair em golpe de phishing por e-mail, SMS ou site falso."
         totalTime="PT24H"
         steps={[
-          { name: 'Não clique em mais nada', text: 'Feche a página falsa imediatamente. Não insira nenhum dado adicional.' },
-          { name: 'Troque suas senhas', text: 'Altere a senha do banco, e-mail e redes sociais. Ative autenticação em dois fatores.' },
-          { name: 'Ligue para o banco', text: 'Informe o ocorrido e solicite monitoramento da conta e bloqueio de transações suspeitas.' },
-          { name: 'Registre o B.O.', text: 'Documente o golpe com prints do e-mail/SMS falso e URL do site.', url: '/ferramentas/pacote-completo' },
-          { name: 'Denuncie o site falso', text: 'Denuncie em SaferNet, Google Safe Browsing e diretamente ao banco imitado.' },
+          { name: 'Identifique o golpe', text: 'Confirme que voce foi vitima e reuna todas as evidencias disponiveis.' },
+          { name: 'Acesse o Kit Completo DefesaPix', text: 'Em defesapix.com.br, preencha seus dados e receba o plano de acao completo com 5 documentos juridicos por R$47.', url: '/ferramentas/pacote-completo' },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -217,37 +181,50 @@ export default function GolpePhishingPage() {
             </div>
           </section>
 
-          {/* Steps */}
+          {/* Solution Paywall */}
           <section className="mb-12">
-            <h2 className="font-heading font-bold text-2xl text-white mb-6">O que fazer se caiu em phishing</h2>
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const Icon = step.icon;
-                return (
-                  <div key={step.step} className={`border rounded-2xl p-5 transition-all duration-200 ${step.cor === 'red' ? 'border-red-500/30 bg-red-500/5' : step.cor === 'orange' ? 'border-ember-500/30 bg-ember-500/5' : 'border-gold-500/30 bg-gold-500/5'}`}>
-                    <div className="flex items-start gap-4">
-                      <div className="icon-badge icon-badge-ember shrink-0">
-                        <Icon className="w-4 h-4" strokeWidth={1.75} />
+            <h2 className="font-heading font-bold text-2xl text-white mb-4">Caiu nesse golpe? Existe solucao.</h2>
+            <p className="text-white/70 leading-relaxed mb-6">
+              Existem prazos legais que nao podem ser perdidos e documentos juridicos especificos que voce precisa protocolar corretamente. Um erro no documento pode comprometer toda a sua recuperacao.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { label: 'Documentos', value: '5', sub: 'prontos para protocolar' },
+                { label: 'Tempo', value: '15 min', sub: 'para gerar tudo' },
+                { label: 'Investimento', value: 'R$47', sub: 'pagamento unico' },
+              ].map((item) => (
+                <div key={item.label} className="card text-center border-ember-500/20">
+                  <p className="text-xs text-white/50 mb-1">{item.label}</p>
+                  <p className="text-2xl font-bold text-ember-400">{item.value}</p>
+                  <p className="text-xs text-white/40">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+            <div className="card border-ember-500/30 bg-gradient-to-br from-ember-500/[0.08] to-red-500/[0.05]">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0">
+                  <Lock className="w-6 h-6 text-ember-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading font-bold text-white text-lg mb-2">Plano de Acao Completo + 5 Documentos</h3>
+                  <p className="text-sm text-white/60 mb-4">
+                    No Kit Completo voce recebe o passo a passo detalhado e personalizado para o seu tipo de golpe, com todos os documentos juridicos prontos:
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {['Contestacao MED personalizada', 'Boletim de Ocorrencia completo', 'Notificacao Bancaria formal', 'Reclamacao BACEN', 'Reclamacao Procon'].map((doc) => (
+                      <div key={doc} className="flex items-center gap-2 text-sm text-white/40">
+                        <Lock className="w-3 h-3 text-ember-400/60" />
+                        <span>{doc}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className={`badge text-xs ${step.cor === 'red' ? 'badge-red' : 'badge-yellow'}`}>
-                            {step.urgencia}
-                          </span>
-                          <h3 className="font-bold text-white text-sm">Passo {step.step}: {step.title}</h3>
-                        </div>
-                        <p className="text-sm text-white/70 mb-3">{step.desc}</p>
-                        {step.link && (
-                          <Link href={step.link} className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-semibold">
-                            {step.linkText}
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                );
-              })}
+                  <Link href="/ferramentas/pacote-completo" className="btn-primary">
+                    <FileText className="w-4 h-4" />
+                    Acessar Kit Completo — R$47
+                  </Link>
+                  <p className="text-xs text-white/30 mt-3">Preencha seus dados uma vez. Receba tudo pronto em 15 minutos.</p>
+                </div>
+              </div>
             </div>
           </section>
 
