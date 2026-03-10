@@ -89,7 +89,7 @@ export default function HomePage() {
                 Ative o MED em até 72h — cada hora conta
               </div>
 
-              <h1 className="font-heading text-[clamp(2.4rem,5vw,4rem)] font-black leading-[1.05] tracking-[-0.03em] text-white mb-6">
+              <h1 className="font-heading text-[clamp(2.2rem,5vw,3.5rem)] font-extrabold leading-[1.2] tracking-[-0.01em] text-white mb-6">
                 Sofreu um{' '}
                 <span className="gradient-text">Golpe Digital</span>?
                 <br />
@@ -592,7 +592,7 @@ export default function HomePage() {
             Não perca mais tempo
           </div>
 
-          <h2 className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-black text-white leading-[1.05] tracking-tight mb-5">
+          <h2 className="font-heading text-[clamp(1.75rem,4vw,3rem)] font-extrabold text-white leading-[1.2] tracking-[-0.01em] mb-5">
             Cada hora sem agir<br />
             <span className="gradient-text">reduz suas chances</span>
           </h2>

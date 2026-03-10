@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Syne } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import CookieBanner from '@/components/layout/CookieBanner';
@@ -10,7 +10,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-const syne = Syne({
+const heading = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-syne',
   weight: ['400', '500', '600', '700', '800'],
@@ -117,7 +117,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="pt-BR" className={`${inter.variable} ${heading.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer=window.dataLayer||[];
