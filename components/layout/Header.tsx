@@ -131,10 +131,18 @@ export default function Header() {
                   className="relative"
                   onMouseEnter={() => link.children && setActiveDropdown(link.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
+                  onFocus={() => link.children && setActiveDropdown(link.label)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                      setActiveDropdown(null);
+                    }
+                  }}
                 >
                   <Link
                     href={link.href}
                     className="flex items-center gap-1 px-3.5 py-2 rounded-lg text-[0.875rem] font-medium text-white/50 hover:text-white hover:bg-white/[0.06] transition-all duration-200"
+                    aria-expanded={link.children ? activeDropdown === link.label : undefined}
+                    aria-haspopup={link.children ? 'true' : undefined}
                   >
                     {link.label}
                     {link.children && (
@@ -185,7 +193,7 @@ export default function Header() {
             {/* MOBILE TOGGLE */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/[0.07] transition-all"
+              className="lg:hidden p-2.5 rounded-xl text-white/50 hover:text-white hover:bg-white/[0.07] transition-all min-w-[44px] min-h-[44px] flex items-center justify-center"
               aria-label="Menu"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

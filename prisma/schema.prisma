@@ -113,6 +113,10 @@ model Caso {
   documentos Documento[]
   acoes      AcaoCaso[]
 
+  @@index([userId])
+  @@index([emailVitima])
+  @@index([status])
+  @@index([createdAt])
   @@map("casos")
 }
 
@@ -148,6 +152,8 @@ model Documento {
   caso    Caso?    @relation(fields: [casoId], references: [id], onDelete: SetNull)
   payment Payment? @relation(fields: [paymentId], references: [id])
 
+  @@index([userId])
+  @@index([casoId])
   @@map("documentos")
 }
 
@@ -167,6 +173,7 @@ model Payment {
   user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
   documentos Documento[]
 
+  @@index([userId])
   @@map("payments")
 }
 

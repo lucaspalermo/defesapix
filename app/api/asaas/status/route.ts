@@ -6,12 +6,20 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verificarPagamento } from '@/lib/asaas';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
+  // Rate limit: 60 polls por 5 min por IP
+  const ip = getClientIp(req);
+  const rl = rateLimit(`asaas-status:${ip}`, { max: 60, windowSec: 300 });
+  if (!rl.allowed) {
+    return NextResponse.json({ error: 'Rate limit', status: 'PENDING', pago: false }, { status: 429 });
+  }
+
   const id = req.nextUrl.searchParams.get('id');
 
-  if (!id) {
-    return NextResponse.json({ error: 'id obrigatório' }, { status: 400 });
+  if (!id || !/^pay_[a-zA-Z0-9_]+$/.test(id)) {
+    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
   }
 
   try {
@@ -22,9 +30,8 @@ export async function GET(req: NextRequest) {
       pago:   payment.status === 'RECEIVED' || payment.status === 'CONFIRMED',
     });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : 'Erro ao verificar pagamento';
-    console.error('[ASAAS] Erro ao verificar status:', msg);
-    return NextResponse.json({ error: msg, status: 'PENDING', pago: false }, { status: 200 });
+    console.error('[ASAAS] Erro ao verificar status');
+    return NextResponse.json({ error: 'Erro ao verificar', status: 'PENDING', pago: false }, { status: 200 });
     // Retorna 200 mesmo em erro para o polling continuar sem travar
   }
 }

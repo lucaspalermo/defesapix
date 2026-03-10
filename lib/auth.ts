@@ -4,9 +4,38 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
+// Extensão de tipos do NextAuth
+declare module 'next-auth' {
+  interface User {
+    role?: string;
+  }
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name?: string | null;
+      role: string;
+    };
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string;
+    role: string;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
-  session: { strategy: 'jwt' },
+  session: {
+    strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 24 horas
+    updateAge: 60 * 60,   // Refresh a cada 1 hora
+  },
+  jwt: {
+    maxAge: 24 * 60 * 60, // 24 horas
+  },
 
   providers: [
     CredentialsProvider({
@@ -41,14 +70,14 @@ export const authOptions: NextAuthOptions = {
     jwt({ token, user }) {
       if (user) {
         token.id   = user.id;
-        token.role = (user as any).role;
+        token.role = user.role ?? 'USER';
       }
       return token;
     },
     session({ session, token }) {
       if (session.user) {
-        (session.user as any).id   = token.id;
-        (session.user as any).role = token.role;
+        session.user.id   = token.id;
+        session.user.role = token.role;
       }
       return session;
     },

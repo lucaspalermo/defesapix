@@ -1,11 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { escapeHtml, isValidEmail } from '@/lib/sanitize';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit: 10 docs por IP por hora
+    const ip = getClientIp(req);
+    const rl = rateLimit(`email-docs:${ip}`, { max: 10, windowSec: 3600 });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Muitas requisições' }, { status: 429 });
+    }
+
     const { email, nome, documento, titulo } = await req.json();
     if (!email || !documento) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 });
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: 'Email inválido' }, { status: 400 });
     }
 
     if (process.env.SMTP_PASS) {
@@ -19,23 +32,33 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      const tituloSafe = escapeHtml(((titulo as string) ?? 'Documento').slice(0, 200));
+
       await transporter.sendMail({
         from: `"Central de Defesa Digital" <${process.env.EMAIL_FROM ?? 'noreply@defesapix.com.br'}>`,
         to: email,
-        subject: `📄 Seu documento: ${titulo} — Central de Defesa Digital`,
-        html: templateDocumento(nome ?? 'Cliente', titulo, documento),
+        subject: `Seu documento: ${tituloSafe} — Central de Defesa Digital`,
+        html: templateDocumento(
+          escapeHtml(((nome as string) ?? 'Cliente').slice(0, 100)),
+          tituloSafe,
+          documento as string,
+        ),
       });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('[EMAIL_DOCS]', error);
+    console.error('[EMAIL_DOCS] Erro ao enviar documento');
     return NextResponse.json({ success: true });
   }
 }
 
 function templateDocumento(nome: string, titulo: string, documento: string): string {
-  const docHtml = documento.replace(/\n/g, '<br>').replace(/━+/g, '<hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:12px 0">');
+  // Escapar HTML do conteúdo do documento para prevenir XSS
+  const docEscaped = escapeHtml(documento);
+  const docHtml = docEscaped
+    .replace(/\n/g, '<br>')
+    .replace(/━+/g, '<hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:12px 0">');
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -55,7 +78,7 @@ function templateDocumento(nome: string, titulo: string, documento: string): str
     </div>
 
     <div style="background:#1a1a2e;border:1px solid rgba(249,115,22,0.3);border-radius:12px;padding:16px;margin:0 0 24px">
-      <p style="color:#F97316;margin:0 0 8px;font-weight:bold;font-size:14px">⚠️ Próximos passos</p>
+      <p style="color:#F97316;margin:0 0 8px;font-weight:bold;font-size:14px">Próximos passos</p>
       <ol style="color:rgba(255,255,255,0.7);padding-left:20px;margin:0;font-size:13px;line-height:1.9">
         <li>Registre o B.O. na Delegacia Eletrônica do seu estado</li>
         <li>Ligue para o SAC do banco e peça a contestação</li>
@@ -65,7 +88,7 @@ function templateDocumento(nome: string, titulo: string, documento: string): str
 
     <a href="https://defesapix.com.br/ferramentas"
        style="display:inline-block;background:#F97316;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px">
-      Ver guia completo →
+      Ver guia completo
     </a>
 
     <p style="color:rgba(255,255,255,0.25);font-size:11px;margin-top:36px;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px">

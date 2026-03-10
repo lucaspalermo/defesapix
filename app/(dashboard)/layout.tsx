@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   const user = await prisma.user.findUnique({
-    where: { id: (session.user as any).id },
+    where: { id: session.user.id },
     select: { name: true, plan: true, role: true },
   });
 

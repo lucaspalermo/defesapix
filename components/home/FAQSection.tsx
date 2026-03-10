@@ -36,6 +36,8 @@ export default function FAQSection({ items }: { items: FAQItem[] }) {
               <button
                 onClick={() => setOpen(open === idx ? null : idx)}
                 className="w-full flex items-center justify-between gap-4 p-5 text-left"
+                aria-expanded={open === idx}
+                aria-controls={`faq-answer-${idx}`}
               >
                 <span className="font-semibold text-white text-sm md:text-base">{item.question}</span>
                 <ChevronDown
@@ -46,7 +48,7 @@ export default function FAQSection({ items }: { items: FAQItem[] }) {
                 />
               </button>
               {open === idx && (
-                <div className="px-5 pb-5">
+                <div id={`faq-answer-${idx}`} role="region" className="px-5 pb-5">
                   <p className="text-white/70 text-sm leading-relaxed">{item.answer}</p>
                 </div>
               )}

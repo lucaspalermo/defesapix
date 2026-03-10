@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 const SYSTEM_PROMPT = `Você é um advogado especialista em direito do consumidor e crimes digitais no Brasil. Sua tarefa é aprimorar o texto jurídico de um documento de vítima de fraude/golpe para torná-lo:
 
@@ -32,15 +33,34 @@ Regras:
 - Mantenha TODOS os fatos relatados pela vítima — não invente dados
 - Retorne APENAS a descrição melhorada, sem explicações`;
 
+const VALID_TIPOS = ['bo', 'med', 'notificacao', 'bacen', 'procon', 'descricao'] as const;
+
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit: 10 melhorias por IP por hora
+    const ip = getClientIp(req);
+    const rl = rateLimit(`melhorar-texto:${ip}`, { max: 10, windowSec: 3600 });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Muitas requisições. Aguarde antes de tentar novamente.' }, { status: 429 });
+    }
+
     if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json({ error: 'Serviço de IA indisponível' }, { status: 503 });
     }
 
     const { texto, tipo } = await req.json();
+
     if (!texto || typeof texto !== 'string') {
       return NextResponse.json({ error: 'Texto não fornecido' }, { status: 400 });
+    }
+
+    // Limite de tamanho: máximo 10.000 caracteres
+    if (texto.length > 10_000) {
+      return NextResponse.json({ error: 'Texto muito longo. Máximo 10.000 caracteres.' }, { status: 400 });
+    }
+
+    if (texto.length < 20) {
+      return NextResponse.json({ error: 'Texto muito curto. Mínimo 20 caracteres.' }, { status: 400 });
     }
 
     const isDescricao = tipo === 'descricao';
@@ -55,14 +75,14 @@ export async function POST(req: NextRequest) {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
     const message = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 4000,
+      max_tokens: 2000,
       system: isDescricao ? DESCRICAO_SYSTEM_PROMPT : SYSTEM_PROMPT,
       messages: [
         {
           role: 'user',
           content: isDescricao
-            ? `Melhore esta descrição de golpe/fraude para que fique clara, detalhada e cronológica:\n\n${texto}`
-            : `Aprimore o seguinte ${tipoLabel}:\n\n${texto}`,
+            ? `Melhore esta descrição de golpe/fraude para que fique clara, detalhada e cronológica:\n\n---\n${texto}\n---`
+            : `Aprimore o seguinte ${tipoLabel}:\n\n---\n${texto}\n---`,
         },
       ],
     });
@@ -75,8 +95,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ textoMelhorado });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : String(error);
-    console.error('[MELHORAR_TEXTO]', msg, error);
-    return NextResponse.json({ error: msg || 'Erro ao processar texto' }, { status: 500 });
+    console.error('[MELHORAR_TEXTO] Erro ao processar texto');
+    return NextResponse.json({ error: 'Erro ao processar texto. Tente novamente.' }, { status: 500 });
   }
 }

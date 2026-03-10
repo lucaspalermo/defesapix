@@ -16,8 +16,8 @@ export function track(
   }).catch(() => {}); // silent
 
   // Também envia para GA4 se disponível
-  if (typeof (window as Record<string, unknown>).gtag === 'function') {
-    const gtag = (window as Record<string, unknown>).gtag as (...args: unknown[]) => void;
+  if (typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
+    const gtag = (window as unknown as Record<string, unknown>).gtag as (...args: unknown[]) => void;
     gtag('event', tipo, dados ?? {});
   }
 }

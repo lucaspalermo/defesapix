@@ -10,12 +10,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { ASAAS_PRODUTOS } from '@/lib/asaas';
 import nodemailer from 'nodemailer';
 
-const ADMIN_EMAIL = 'l.simports@hotmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL ?? 'admin@defesapix.com.br';
 
 async function notificarVenda(valor: number, produto: string, paymentId: string) {
-  if (!process.env.SMTP_PASS) return; // skip if SMTP not configured
+  if (!process.env.SMTP_PASS) return;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -34,7 +35,7 @@ async function notificarVenda(valor: number, produto: string, paymentId: string)
     await transporter.sendMail({
       from: `"DefesaPix" <${process.env.EMAIL_FROM ?? 'noreply@defesapix.com.br'}>`,
       to: ADMIN_EMAIL,
-      subject: `💰 Nova venda! ${valorFmt} — ${produto}`,
+      subject: `Nova venda! ${valorFmt} — ${produto}`,
       html: `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><title>Nova Venda</title></head>
@@ -65,12 +66,6 @@ async function notificarVenda(valor: number, produto: string, paymentId: string)
       </tr>
     </table>
 
-    <div style="margin-top:24px;text-align:center">
-      <a href="https://defesapix.com.br/admin" style="display:inline-block;background:#F97316;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:14px">
-        Ver no Painel Admin
-      </a>
-    </div>
-
     <p style="color:rgba(255,255,255,0.2);font-size:11px;text-align:center;margin-top:24px">
       Email automático do sistema DefesaPix
     </p>
@@ -78,19 +73,22 @@ async function notificarVenda(valor: number, produto: string, paymentId: string)
 </body>
 </html>`,
     });
-
-    console.log(`[WEBHOOK] Email de venda enviado para ${ADMIN_EMAIL}`);
   } catch (emailErr) {
-    console.error('[WEBHOOK] Falha ao enviar email de venda:', emailErr);
+    console.error('[WEBHOOK] Falha ao enviar email de venda');
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeader = req.headers.get('asaas-access-token');
+    // Validação OBRIGATÓRIA do token de webhook
     const expectedToken = process.env.ASAAS_WEBHOOK_TOKEN;
+    if (!expectedToken) {
+      console.error('[WEBHOOK] ASAAS_WEBHOOK_TOKEN não configurado');
+      return NextResponse.json({ error: 'Webhook não configurado' }, { status: 500 });
+    }
 
-    if (expectedToken && authHeader !== expectedToken) {
+    const authHeader = req.headers.get('asaas-access-token');
+    if (authHeader !== expectedToken) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -100,7 +98,9 @@ export async function POST(req: NextRequest) {
       payment: { id: string; status: string; value: number; externalReference?: string };
     };
 
-    console.log('[ASAAS WEBHOOK]', event, payment?.id, payment?.status);
+    if (!event || !payment?.id) {
+      return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
+    }
 
     if (event === 'PAYMENT_RECEIVED' || event === 'PAYMENT_CONFIRMED') {
       // Extract produto from externalReference (format: cdd-PRODUTO-timestamp)
@@ -117,6 +117,12 @@ export async function POST(req: NextRequest) {
         produto = 'PACOTE_EMERGENCIA';
       }
 
+      // Verificar se o valor é compatível com o produto
+      const produtoInfo = ASAAS_PRODUTOS[produto as keyof typeof ASAAS_PRODUTOS];
+      if (produtoInfo && Math.abs(payment.value - produtoInfo.valor) > 1) {
+        console.error(`[WEBHOOK] Valor incompatível: esperado R$${produtoInfo.valor}, recebido R$${payment.value}`);
+      }
+
       try {
         await prisma.payment.upsert({
           where: { gatewayId: payment.id },
@@ -128,7 +134,6 @@ export async function POST(req: NextRequest) {
           },
           update: { status: 'PAID' },
         });
-        console.log(`[ASAAS WEBHOOK] Payment saved: R$${payment.value} — ID: ${payment.id}`);
 
         // Track analytics event
         await prisma.evento.create({
@@ -141,13 +146,13 @@ export async function POST(req: NextRequest) {
         // Notify admin by email
         await notificarVenda(payment.value, produto, payment.id);
       } catch (dbError) {
-        console.error('[ASAAS WEBHOOK] DB error:', dbError);
+        console.error('[WEBHOOK] Erro no banco de dados');
       }
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('[ASAAS WEBHOOK] Error:', error);
+    console.error('[WEBHOOK] Erro ao processar webhook');
     return NextResponse.json({ received: true });
   }
 }

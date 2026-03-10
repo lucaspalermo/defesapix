@@ -8,11 +8,22 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie_consent');
-    if (!consent) setVisible(true);
+    if (!consent) {
+      setVisible(true);
+    } else if (consent === 'accepted' && typeof (window as any).gtag === 'function') {
+      // Restaura consentimento de sessão anterior
+      (window as any).gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
   }, []);
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');
+    // Atualiza consentimento do GA4
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('consent', 'update', {
+        analytics_storage: 'granted',
+      });
+    }
     setVisible(false);
   }
 
@@ -20,7 +31,12 @@ export default function CookieBanner() {
     localStorage.setItem('cookie_consent', 'declined');
     // Desabilita GA4 quando o usuário recusa
     if (typeof window !== 'undefined') {
-      (window as Record<string, unknown>)['ga-disable-G-VN5PQZYBCD'] = true;
+      (window as unknown as Record<string, unknown>)['ga-disable-G-VN5PQZYBCD'] = true;
+      if (typeof (window as any).gtag === 'function') {
+        (window as any).gtag('consent', 'update', {
+          analytics_storage: 'denied',
+        });
+      }
     }
     setVisible(false);
   }

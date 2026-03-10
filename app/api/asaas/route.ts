@@ -1,7 +1,7 @@
 /**
  * POST /api/asaas
  * Cria cobrança PIX no Asaas e retorna QR code + copia-e-cola.
- * Body: { produto, nome, email }
+ * Body: { produto, nome, email, cpf }
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,9 +12,18 @@ import {
   ASAAS_PRODUTOS,
   type ProdutoAsaas,
 } from '@/lib/asaas';
+import { isValidCPF, isValidEmail } from '@/lib/sanitize';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit: 5 pagamentos por IP por hora
+    const ip = getClientIp(req);
+    const rl = rateLimit(`asaas-post:${ip}`, { max: 5, windowSec: 3600 });
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Muitas tentativas. Aguarde antes de tentar novamente.' }, { status: 429 });
+    }
+
     const { produto, nome, email, cpf } = await req.json() as {
       produto: ProdutoAsaas;
       nome?: string;
@@ -30,14 +39,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'CPF é obrigatório para pagamento via PIX' }, { status: 400 });
     }
 
-    // 1. Criar cliente no Asaas
-    const cliente = await criarCliente(
-      nome  || 'Cliente',
-      email || `cliente-${Date.now()}@defesapix.com.br`,
-      cpf,
-    );
+    // Validar CPF
+    if (!isValidCPF(cpf)) {
+      return NextResponse.json({ error: 'CPF inválido' }, { status: 400 });
+    }
 
-    // 2. Criar cobrança PIX
+    // Validar email se fornecido
+    if (email && !isValidEmail(email)) {
+      return NextResponse.json({ error: 'Email inválido' }, { status: 400 });
+    }
+
+    // Sanitizar nome
+    const nomeCliente = (nome || 'Cliente').slice(0, 100).replace(/[<>"']/g, '');
+    const emailCliente = email || `cliente-${Date.now()}@defesapix.com.br`;
+
+    // 1. Criar cliente no Asaas
+    const cliente = await criarCliente(nomeCliente, emailCliente, cpf);
+
+    // 2. Criar cobrança PIX (preço definido server-side pelo produto)
     const cobranca = await criarCobrancaPIX(cliente.id, produto);
 
     // 3. Obter QR code PIX
@@ -45,14 +64,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       paymentId:     cobranca.id,
-      pixQrCode:     pix.encodedImage,   // base64 PNG
-      pixCopiaECola: pix.payload,        // copia-e-cola string
+      pixQrCode:     pix.encodedImage,
+      pixCopiaECola: pix.payload,
       valor:         ASAAS_PRODUTOS[produto].valor,
       expiresAt:     pix.expirationDate,
     });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : 'Erro ao criar pagamento';
-    console.error('[ASAAS] Erro ao criar cobrança:', msg);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error('[ASAAS] Erro ao criar cobrança');
+    return NextResponse.json({ error: 'Erro ao criar pagamento. Tente novamente.' }, { status: 500 });
   }
 }
