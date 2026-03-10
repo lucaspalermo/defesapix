@@ -4,8 +4,8 @@
  *
  * Configurar no painel Asaas:
  *   URL: https://defesapix.com.br/api/asaas/webhook
- *   Eventos: PAYMENT_RECEIVED, PAYMENT_CONFIRMED
- *   Token: valor definido em ASAAS_WEBHOOK_TOKEN
+ *   Eventos: PAYMENT_RECEIVED, PAYMENT_CONFIRMED, PAYMENT_OVERDUE
+ *   Token: valor definido em ASAAS_WEBHOOK_TOKEN (mesmo token configurado no painel Asaas)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      const validProdutos = ['BO_INDIVIDUAL', 'MED', 'NOTIFICACAO_BANCO', 'PACOTE_EMERGENCIA', 'REVISAO_ESPECIALISTA', 'PLANO_MENSAL'];
+      const validProdutos = ['BO_INDIVIDUAL', 'MED', 'NOTIFICACAO_BANCO', 'PACOTE_EMERGENCIA', 'KIT_PREMIUM', 'REVISAO_ESPECIALISTA', 'PLANO_MENSAL'];
       if (!validProdutos.includes(produto)) {
         produto = 'PACOTE_EMERGENCIA';
       }

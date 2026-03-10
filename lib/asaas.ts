@@ -127,3 +127,58 @@ export async function obterPixQrCode(paymentId: string): Promise<AsaasPixQrCode>
 export async function verificarPagamento(paymentId: string): Promise<AsaasPayment> {
   return asaasRequest<AsaasPayment>(`/payments/${paymentId}`);
 }
+
+// ─── Assinaturas ──────────────────────────────────────────────────────────────
+
+export interface AsaasSubscription {
+  id: string;
+  status: string;
+  value: number;
+  cycle: string;
+  nextDueDate: string;
+  externalReference?: string;
+}
+
+/**
+ * Cria assinatura mensal no Asaas (ciclo MONTHLY, cobrança via PIX).
+ * A primeira cobrança é gerada imediatamente.
+ */
+export async function criarAssinatura(
+  customerId: string,
+  produto: ProdutoAsaas = 'PLANO_MENSAL',
+): Promise<AsaasSubscription> {
+  const { valor, descricao } = ASAAS_PRODUTOS[produto];
+
+  const nextDueDate = new Date();
+  nextDueDate.setDate(nextDueDate.getDate() + 1);
+  const dueDateStr = nextDueDate.toISOString().split('T')[0];
+
+  return asaasRequest<AsaasSubscription>('/subscriptions', 'POST', {
+    customer:          customerId,
+    billingType:       'PIX',
+    value:             valor,
+    cycle:             'MONTHLY',
+    nextDueDate:       dueDateStr,
+    description:       descricao,
+    externalReference: `cdd-${produto}-${Date.now()}`,
+  });
+}
+
+/**
+ * Obtém o QR Code PIX da primeira cobrança de uma assinatura.
+ */
+export async function obterPrimeiraCobrancaAssinatura(subscriptionId: string): Promise<{
+  payment: AsaasPayment;
+  pix: AsaasPixQrCode;
+}> {
+  // Listar cobranças da assinatura (a primeira é a mais recente)
+  const data = await asaasRequest<{ data: AsaasPayment[] }>(
+    `/subscriptions/${subscriptionId}/payments?limit=1`,
+  );
+
+  const payment = data.data?.[0];
+  if (!payment) throw new Error('Nenhuma cobrança encontrada para a assinatura');
+
+  const pix = await obterPixQrCode(payment.id);
+  return { payment, pix };
+}
