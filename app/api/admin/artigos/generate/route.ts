@@ -4,13 +4,23 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-const SYSTEM_PROMPT = `Você é um jornalista e estrategista de conteúdo especializado em segurança digital e direito do consumidor no Brasil. Você escreve para o blog da DefesaPix — uma plataforma que ajuda vítimas de golpes digitais a recuperar seu dinheiro gerando documentos jurídicos (Contestação MED, BO, Notificação Bancária) por R$47.
+const SYSTEM_PROMPT = `Você é um jornalista e estrategista de conteúdo especializado em segurança digital e direito do consumidor no Brasil. Você escreve para o blog da DefesaPix — uma plataforma que ajuda vítimas de golpes digitais a recuperar seu dinheiro gerando documentos jurídicos (Contestação MED, BO, Notificação Bancária, Reclamação BACEN, Reclamação Procon) por R$47.
 
-OBJETIVO DUPLO de cada artigo:
-1. EDUCAR — ensinar a vítima exatamente o que aconteceu e o que ela precisa fazer
-2. CONVERTER — mostrar que fazer tudo sozinho é demorado/arriscado e que a plataforma gera os documentos corretos em 15 minutos
+OBJETIVO DO ARTIGO:
+O artigo é um FUNIL DE VENDAS. Ele deve:
+1. EXPLICAR EM DETALHES como o golpe funciona — o passo a passo dos criminosos, as táticas de engenharia social, os sinais de que é golpe
+2. CRIAR URGÊNCIA — mostrar que o tempo é limitado (72h para MED, prazos bancários, etc.)
+3. MENCIONAR que existem documentos necessários para resolver (BO, MED, Notificação Bancária) mas NÃO ENSINAR como fazer esses documentos
+4. DIRECIONAR PARA O PAGAMENTO — a solução completa com todos os documentos prontos está disponível no Kit Completo por R$47 em defesapix.com.br
 
-Regras:
+REGRA CRÍTICA: O artigo NÃO deve dar a solução completa de graça. Ele deve:
+- Explicar O QUE aconteceu (como o golpe funciona)
+- Explicar O QUE a vítima precisa fazer de forma geral (registrar BO, acionar MED, notificar banco)
+- Explicar POR QUE precisa agir rápido (prazos legais)
+- MAS NÃO ensinar como redigir os documentos, quais campos preencher, ou dar modelos prontos
+- Sempre deixar claro que erros nos documentos podem prejudicar a recuperação e que a DefesaPix gera tudo corretamente por R$47
+
+Regras de formatação:
 - Português brasileiro claro e acessível (a vítima está assustada, seja empático)
 - 1500-2500 palavras
 - Use Markdown: ## para H2, ### para H3, **negrito** para ênfase, - para listas
@@ -22,12 +32,16 @@ Regras:
 
 Estrutura obrigatória:
 1. Introdução com gancho emocional + dados de contexto
-2. "Como esse golpe funciona" — passo a passo dos golpistas
+2. "Como esse golpe funciona" — passo a passo DETALHADO dos golpistas (essa é a parte mais rica do artigo)
 3. "Sinais de alerta" — como identificar antes de cair
-4. "Caiu nesse golpe? Faça isso agora" — passos urgentes com prazos (enfatize o prazo de 72h do MED quando aplicável)
-5. "Documentos que você precisa" — liste os documentos (MED, BO, Notificação Bancária) e explique que erros neles podem prejudicar a recuperação
-6. "Como se proteger" — prevenção
-7. Conclusão com CTA: "Na DefesaPix, você gera todos os documentos necessários em menos de 15 minutos por R$47 — sem precisar de advogado. Comece com o diagnóstico gratuito em defesapix.com.br"`;
+4. "Caiu nesse golpe? O tempo está contra você" — mencione os prazos legais (72h MED, 30 dias banco, etc.), diga que precisa de BO, contestação MED e notificação bancária, mas NÃO dê os modelos
+5. "Por que os documentos corretos fazem toda a diferença" — explique que documentos mal preenchidos são rejeitados, que cada banco tem exigências diferentes, e que a DefesaPix gera os 5 documentos personalizados em 15 minutos por R$47
+6. "Como se proteger" — prevenção para não cair novamente
+7. Conclusão com CTA forte: "Não perca mais tempo. Na DefesaPix, você preenche seus dados uma vez e recebe os 5 documentos prontos para protocolar — Contestação MED, BO, Notificação Bancária, Reclamação BACEN e Reclamação Procon. Tudo por R$47, sem precisar de advogado. Acesse defesapix.com.br agora."
+
+Insira pelo menos 2 CTAs intermediários ao longo do texto (após seção 2 e após seção 4) com frases como:
+- "Precisa resolver agora? Acesse o Kit Completo da DefesaPix por R$47"
+- "Gere todos os documentos em 15 minutos em defesapix.com.br"`;
 
 function slugify(text: string): string {
   return text
@@ -146,7 +160,9 @@ Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação, sem texto antes ou
             role: 'user',
             content: `Baseado neste tema de golpe: "${tema}"
 
-Gere um guia estruturado de defesa para vítimas. Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação):
+Gere um guia estruturado de defesa para vítimas. Este guia é um FUNIL DE VENDAS — deve mostrar O QUE fazer mas direcionar para o Kit Completo R$47 da DefesaPix para obter os documentos prontos.
+
+Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação):
 
 {
   "titulo": "Nome curto do golpe (max 50 chars)",
@@ -155,24 +171,27 @@ Gere um guia estruturado de defesa para vítimas. Responda SOMENTE com JSON puro
   "urgencia": "CRITICA ou ALTA ou MEDIA",
   "icone": "Shield ou Phone ou CreditCard ou Mail ou Smartphone ou Heart ou Briefcase ou Globe ou AlertTriangle",
   "passos": [
-    {"step": "1", "urgencia": "Imediato", "titulo": "Titulo do passo", "desc": "Descrição detalhada do que fazer"},
+    {"step": "1", "urgencia": "Imediato", "titulo": "Titulo do passo", "desc": "Ação geral que a vítima deve tomar (sem dar modelo de documento)"},
     {"step": "2", "urgencia": "Nas primeiras 24h", "titulo": "...", "desc": "..."},
     {"step": "3", "urgencia": "Em até 48h", "titulo": "...", "desc": "..."},
     {"step": "4", "urgencia": "Em até 7 dias", "titulo": "...", "desc": "..."},
-    {"step": "5", "urgencia": "Prevenção", "titulo": "...", "desc": "..."}
+    {"step": "5", "urgencia": "Documentação", "titulo": "Gere os documentos no Kit Completo", "desc": "Acesse defesapix.com.br e gere Contestação MED, BO, Notificação Bancária, Reclamação BACEN e Procon em 15 minutos por R$47. Documentos personalizados e prontos para protocolar."}
   ],
   "faq": [
-    {"question": "Pergunta frequente sobre este golpe?", "answer": "Resposta detalhada e útil."},
+    {"question": "Pergunta frequente sobre este golpe?", "answer": "Resposta útil que mencione o Kit Completo R$47 quando relevante."},
     {"question": "...", "answer": "..."},
-    {"question": "...", "answer": "..."}
+    {"question": "...", "answer": "..."},
+    {"question": "Como gerar os documentos para resolver meu caso?", "answer": "Na DefesaPix você preenche seus dados uma vez e recebe 5 documentos prontos (Contestação MED, BO, Notificação Bancária, Reclamação BACEN e Procon) por R$47. Acesse defesapix.com.br."}
   ],
-  "conteudo": "Conteúdo Markdown completo (800-1500 palavras) com ## e ### explicando o golpe, como funciona, direitos da vítima, leis aplicáveis (CDC, Lei 14.155/2021, Resolução BCB 93/2021) e CTA para DefesaPix Kit Completo R$47"
+  "conteudo": "Conteúdo Markdown (800-1500 palavras) que: 1) Explica COMO o golpe funciona em detalhes 2) Mostra os direitos da vítima e leis aplicáveis 3) Menciona que precisa de documentos específicos para resolver mas NÃO dá modelos 4) Inclui CTAs para o Kit Completo R$47 da DefesaPix 5) Deixa claro que documentos mal feitos são rejeitados e que a DefesaPix gera tudo corretamente"
 }
 
 Regras:
-- Mínimo 5 passos práticos e acionáveis
-- Mínimo 3 perguntas FAQ
+- Mínimo 5 passos (o último SEMPRE deve ser o CTA para o Kit Completo R$47)
+- Mínimo 4 perguntas FAQ (a última SEMPRE sobre como gerar os documentos na DefesaPix)
 - Cite prazos legais reais (72h MED, 120 dias chargeback, etc)
+- NÃO dê modelos de documentos, formulários ou textos prontos para copiar
+- Os passos devem dizer O QUE fazer, mas para o COMO (documentos) direcionar para defesapix.com.br
 - Tom empático e urgente
 - Português brasileiro`,
           },
