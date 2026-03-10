@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('[EMAIL_DOCS] Erro ao enviar documento');
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ error: 'Erro ao enviar documento' }, { status: 500 });
   }
 }
 

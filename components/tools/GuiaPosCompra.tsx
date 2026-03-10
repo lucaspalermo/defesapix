@@ -103,11 +103,12 @@ export default function GuiaPosCompra({ textoDocumento, nomeArquivoPDF, tituloPD
   const handleEnviarEmail = async () => {
     setSendingEmail(true);
     try {
-      await fetch('/api/email/documentos', {
+      const res = await fetch('/api/email/documentos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailVitima, nome: nomeVitima, documento: textoAtivo, titulo: tituloPDF }),
       });
+      if (!res.ok) throw new Error('Falha no envio');
       setEmailSent(true);
       toast.success(`Documento enviado para ${emailVitima}`);
     } catch {

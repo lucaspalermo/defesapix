@@ -137,7 +137,7 @@ export default async function MeusCasosPage() {
                       {[
                         { label: 'B.O.', done: caso.boRegistrado },
                         { label: 'MED', done: caso.medAcionado },
-                        { label: 'Banco notificado', done: caso.bancioNotificado },
+                        { label: 'Banco notificado', done: caso.bancoNotificado },
                         { label: 'PROCON', done: caso.proconAcionado },
                       ].map((item) => (
                         <span

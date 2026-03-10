@@ -8,13 +8,17 @@ const BASE_URL =
     ? 'https://sandbox.asaas.com/api/v3'
     : 'https://api.asaas.com/v3';
 
-const API_KEY = process.env.ASAAS_API_KEY!;
+const API_KEY = process.env.ASAAS_API_KEY;
+if (!API_KEY) {
+  console.error('[ASAAS] ASAAS_API_KEY não configurada');
+}
 
 async function asaasRequest<T = unknown>(
   path: string,
   method: 'GET' | 'POST' | 'PUT' = 'GET',
   body?: object,
 ): Promise<T> {
+  if (!API_KEY) throw new Error('Chave de API do Asaas não configurada');
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
     headers: {

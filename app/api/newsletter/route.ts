@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    return NextResponse.json({ ok: true });
+    console.error('[NEWSLETTER] Erro ao salvar inscrição');
+    return NextResponse.json({ error: 'Erro ao processar inscrição' }, { status: 500 });
   }
 }

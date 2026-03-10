@@ -14,6 +14,7 @@ import {
 } from '@/lib/asaas';
 import { isValidCPF, isValidEmail } from '@/lib/sanitize';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
   try {
@@ -61,6 +62,16 @@ export async function POST(req: NextRequest) {
 
     // 3. Obter QR code PIX
     const pix = await obterPixQrCode(cobranca.id);
+
+    // Salvar payment no banco com status PENDING para o webhook poder linkar depois
+    await prisma.payment.create({
+      data: {
+        gatewayId: cobranca.id,
+        amount: ASAAS_PRODUTOS[produto].valor,
+        status: 'PENDING',
+        produto: produto as any,
+      },
+    }).catch(() => {}); // se já existir, ignora
 
     return NextResponse.json({
       paymentId:     cobranca.id,

@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
             status: 'PAID',
             produto: produto as any,
           },
-          update: { status: 'PAID' },
+          update: { status: 'PAID', amount: payment.value },
         });
 
         // Track analytics event

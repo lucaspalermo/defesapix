@@ -101,7 +101,7 @@ model Caso {
   // Tracking
   boRegistrado    Boolean      @default(false)
   medAcionado     Boolean      @default(false)
-  bancioNotificado Boolean     @default(false)
+  bancoNotificado Boolean      @default(false)
   proconAcionado  Boolean      @default(false)
   // Metadata
   ipAddress       String?

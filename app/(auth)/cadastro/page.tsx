@@ -18,7 +18,10 @@ export default function CadastroPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!terms) { setError('Aceite os termos para continuar.'); return; }
-    if (password.length < 6) { setError('A senha deve ter ao menos 6 caracteres.'); return; }
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
+      setError('A senha deve ter ao menos 8 caracteres, com maiúscula, minúscula e número.');
+      return;
+    }
 
     setLoading(true);
     setError('');
@@ -125,11 +128,11 @@ export default function CadastroPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Mín. 8 caracteres (maiúscula + número)"
                   className="input pl-10"
                   autoComplete="new-password"
                   required
-                  minLength={6}
+                  minLength={8}
                 />
               </div>
             </div>
