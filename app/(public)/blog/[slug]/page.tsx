@@ -337,9 +337,20 @@ Após o envio, você receberá um número de protocolo. Guarde esse número — 
 
 Não há prazo máximo para registrar um B.O., mas quanto mais rápido, melhor. Para acionar o MED do Banco Central, o ideal é registrar em até 72 horas após o golpe.
 
-## E se eu registrar pessoalmente?
+## O B.O. sozinho não resolve — você precisa de mais documentos
 
-Se preferir ir à delegacia, leve todos os documentos impressos. Algumas delegacias especializadas em crimes cibernéticos podem oferecer investigação mais aprofundada.
+O Boletim de Ocorrência é apenas o primeiro passo. Para maximizar suas chances de recuperação, você também precisa de:
+
+- **Contestação MED** — documento formal para acionar o Mecanismo Especial de Devolução
+- **Notificação Bancária** — notificação extrajudicial ao banco com fundamentação no CDC
+- **Reclamação BACEN** — pressão regulatória no Banco Central
+- **Reclamação Procon** — mediação oficial do órgão de defesa do consumidor
+
+Cada um desses documentos tem exigências específicas de formato, fundamentação legal e linguagem. **Documentos mal redigidos são rejeitados ou ignorados pelos bancos.**
+
+## Gere todos os documentos em 15 minutos
+
+Na **DefesaPix**, você preenche seus dados uma vez e recebe os 5 documentos prontos para protocolar — B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Reclamação Procon. Tudo por **R$47**, sem precisar de advogado. Acesse **defesapix.com.br** agora.
     `,
   },
   'procon-banco-central-reclamacao-golpe': {
@@ -419,6 +430,12 @@ A melhor estratégia é usar **ambos** ao mesmo tempo:
 ## Dica importante
 
 Cada protocolo gerado (MED, B.O., BACEN, Procon) fortalece seu caso. Em uma eventual ação judicial, o juiz verá que você esgotou todas as vias administrativas antes de recorrer à Justiça — isso aumenta significativamente suas chances de ganhar.
+
+## Não perca tempo redigindo cada documento separadamente
+
+Preencher reclamações no BACEN, Procon e banco com a fundamentação legal correta pode levar horas — e erros de redação fazem o banco ignorar sua solicitação.
+
+Na **DefesaPix**, você preenche seus dados **uma única vez** e recebe os 5 documentos prontos: B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Reclamação Procon. Tudo personalizado, com fundamentação legal e pronto para protocolar. **R$47 — sem mensalidade, sem advogado.** Acesse **defesapix.com.br**.
     `,
   },
   'como-proteger-idoso-golpe-digital': {
@@ -463,7 +480,13 @@ Ligação oferecendo "suporte técnico" para instalar programa que dá acesso re
 1. Acione o MED pelo banco imediatamente (se foi via Pix)
 2. Registre B.O. na delegacia eletrônica
 3. Ligue para o 135 (INSS) se for golpe de consignado
-4. Documente tudo com nossas ferramentas gratuitas
+4. Gere os documentos necessários para a recuperação
+
+## Seu familiar já caiu? Aja rápido
+
+Se o golpe já aconteceu, o tempo é crítico — especialmente o prazo de **72 horas do MED** para golpes via Pix. Os documentos necessários (B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Procon) precisam estar corretos para serem aceitos.
+
+Na **DefesaPix**, você gera os 5 documentos personalizados em 15 minutos por **R$47** — sem precisar de advogado. Ideal para ajudar seu familiar a resolver rapidamente. Acesse **defesapix.com.br**.
     `,
   },
   'golpe-falso-funcionario-banco': {
@@ -502,6 +525,12 @@ O golpista liga para a vítima se identificando como funcionário do banco. Usa 
 ## Responsabilidade do banco
 
 O STJ entende que bancos são responsáveis quando golpistas usam dados que deveriam ser protegidos pelo sistema bancário. Se o golpe foi facilitado por vazamento de dados do banco, você tem direito a ressarcimento.
+
+## Caiu no golpe do falso funcionário? Não perca tempo
+
+Se você já transferiu dinheiro ou deu acesso ao golpista, precisa agir nas próximas horas. O **prazo do MED é de 72 horas** e cada documento (B.O., Contestação MED, Notificação Bancária) precisa estar correto para o banco aceitar.
+
+Na **DefesaPix**, gere todos os 5 documentos em 15 minutos por **R$47**. Documentos personalizados com fundamentação legal, prontos para protocolar. Acesse **defesapix.com.br**.
     `,
   },
   'pix-agendado-golpe-comprovante-falso': {
@@ -537,6 +566,12 @@ Outra variação: o golpista edita uma imagem de comprovante Pix com dados falso
 ## Se caiu no golpe
 
 Se você entregou um produto baseado em comprovante falso, registre B.O. com prints do comprovante falso e dados do golpista. Se houve Pix reverso (MED acionado contra você de forma fraudulenta), conteste com o banco imediatamente.
+
+## Precisa dos documentos corretos para contestar?
+
+Registrar o B.O. é apenas o primeiro passo. Para recuperar o valor, você precisa de Contestação MED, Notificação Bancária e reclamações no BACEN e Procon — todos com fundamentação legal correta.
+
+Na **DefesaPix**, gere os 5 documentos personalizados em 15 minutos por **R$47**. Acesse **defesapix.com.br**.
     `,
   },
   'lei-14155-2021-fraude-digital-penas': {
@@ -970,6 +1005,12 @@ O B.O. com o IMEI é necessário para o bloqueio oficial e para qualquer contest
 ## Dica preventiva
 
 Anote seu IMEI AGORA e guarde em local seguro. Disque *#06# no celular.
+
+## Acessaram seus apps bancários após o roubo?
+
+Se o ladrão fez transferências Pix ou compras usando seus apps, você precisa de documentação legal para contestar: B.O. detalhado, Contestação MED, Notificação Bancária e reclamações no BACEN e Procon.
+
+Na **DefesaPix**, gere todos os 5 documentos em 15 minutos por **R$47** — prontos para protocolar. Acesse **defesapix.com.br**.
     `,
   },
   'engenharia-social-o-que-e-como-se-proteger': {
@@ -1018,6 +1059,12 @@ Engenharia social é a técnica de manipulação psicológica usada para enganar
 - 90% dos golpes digitais usam engenharia social como vetor principal
 - O Brasil é o 2º país com mais ataques de phishing no mundo
 - Prejuízos com golpes digitais no Brasil: R$2,5 bilhões em 2023
+
+## Já caiu em um golpe de engenharia social?
+
+Se você foi manipulado e transferiu dinheiro, o tempo é essencial. O prazo do MED é de **72 horas** e os documentos precisam ter fundamentação legal correta para o banco aceitar a contestação.
+
+Na **DefesaPix**, gere B.O., Contestação MED, Notificação Bancária, Reclamação BACEN e Procon em 15 minutos por **R$47**. Acesse **defesapix.com.br**.
     `,
   },
   'conta-laranja-pix-consequencias-legais': {
@@ -1066,6 +1113,12 @@ Mesmo não sabendo, o titular da conta pode ser responsabilizado. Os bancos e a 
 - **Desconfie de ofertas** de dinheiro fácil
 - **Monitore suas contas** regularmente
 - **Se descobrir conta** aberta em seu nome: registre B.O. e conteste no banco
+
+## Sua conta foi usada como laranja sem seu conhecimento?
+
+Se você descobriu que sua conta foi usada para receber valores de golpes, precisa agir imediatamente para se proteger criminalmente. Um B.O. bem redigido e uma notificação bancária com fundamentação legal são essenciais.
+
+Na **DefesaPix**, gere os documentos necessários em 15 minutos por **R$47**. Proteja-se legalmente. Acesse **defesapix.com.br**.
     `,
   },
 };
