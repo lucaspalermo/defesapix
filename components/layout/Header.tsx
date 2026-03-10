@@ -42,6 +42,7 @@ const NAV_LINKS = [
       { label: 'Contestação MED', href: '/ferramentas/gerador-contestacao-med', desc: 'Bloqueio cautelar de valores via Pix' },
       { label: 'Boletim de Ocorrência', href: '/ferramentas/gerador-bo', desc: 'Modelo profissional para delegacia' },
       { label: 'Notificação Bancária', href: '/ferramentas/notificacao-banco', desc: 'Notificação formal com base no CDC' },
+      { label: 'Calculadora Prazo MED', href: '/calculadora-med', desc: 'Descubra se ainda está no prazo' },
     ],
   },
   { label: 'Blog', href: '/blog' },

@@ -3,6 +3,8 @@ import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import CookieBanner from '@/components/layout/CookieBanner';
+import WhatsAppButton from '@/components/layout/WhatsAppButton';
+import LeadCapturePopup from '@/components/home/LeadCapturePopup';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -132,6 +134,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans antialiased bg-navy-900 text-white">
         {children}
+        <WhatsAppButton />
+        <LeadCapturePopup />
         <CookieBanner />
         <Toaster
           position="top-right"

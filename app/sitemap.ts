@@ -25,6 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/ferramentas/notificacao-banco`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/checklist`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/pacote-completo`, priority: 0.85, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/calculadora-med`, priority: 0.9, changeFrequency: 'monthly' as const },
+    { url: `${BASE_URL}/golpe-pix-o-que-fazer`, priority: 0.95, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/blog`, priority: 0.7, changeFrequency: 'daily' as const },
     { url: `${BASE_URL}/educacao`, priority: 0.7, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/parceiros`, priority: 0.6, changeFrequency: 'weekly' as const },

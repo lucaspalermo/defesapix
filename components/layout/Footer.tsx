@@ -18,6 +18,7 @@ const FOOTER_LINKS = {
     { label: 'Contestação MED (Pix)',    href: '/ferramentas/gerador-contestacao-med' },
     { label: 'Boletim de Ocorrência',    href: '/ferramentas/gerador-bo' },
     { label: 'Notificação Bancária',     href: '/ferramentas/notificacao-banco' },
+    { label: 'Calculadora Prazo MED',  href: '/calculadora-med' },
   ],
   Empresa: [
     { label: 'Sobre Nós',          href: '/sobre' },

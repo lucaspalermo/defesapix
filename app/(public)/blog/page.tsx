@@ -306,16 +306,48 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Newsletter CTA */}
-          <div className="mt-16 card border-green-500/20 text-center">
-            <h3 className="font-bold text-white text-xl mb-2">Receba novos artigos por e-mail</h3>
-            <p className="text-white/60 mb-6">1 e-mail por semana. Zero spam. Cancele quando quiser.</p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input type="email" placeholder="seu@email.com.br" className="input flex-1" />
-              <button type="submit" className="btn-primary whitespace-nowrap">
-                Quero receber
-              </button>
-            </form>
+          {/* Internal Links — SEO */}
+          <div className="mt-16 border-t border-white/10 pt-10">
+            <h2 className="text-xl font-bold text-white mb-6">Navegue por tipo de golpe</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { label: 'Golpe Pix', href: '/golpes/golpe-pix' },
+                { label: 'WhatsApp Clonado', href: '/golpes/golpe-whatsapp' },
+                { label: 'Boleto Falso', href: '/golpes/golpe-boleto' },
+                { label: 'Investimento Falso', href: '/golpes/golpe-investimento' },
+                { label: 'Golpe do Amor', href: '/golpes/golpe-romance' },
+                { label: 'Emprego Falso', href: '/golpes/golpe-emprego' },
+                { label: 'Roubo de Celular', href: '/golpes/roubo-celular' },
+                { label: 'Falso Advogado', href: '/golpes/golpe-falso-advogado' },
+              ].map((g) => (
+                <Link
+                  key={g.href}
+                  href={g.href}
+                  className="text-sm text-white/50 hover:text-ember-400 transition-colors p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-ember-500/20 text-center"
+                >
+                  {g.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Ferramentas Links — SEO */}
+          <div className="mt-8">
+            <h2 className="text-xl font-bold text-white mb-6">Ferramentas úteis</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <Link href="/ferramentas/diagnostico" className="card hover:border-green-500/30 group text-center">
+                <h3 className="font-semibold text-white text-sm group-hover:text-green-400 transition-colors">Diagnóstico Gratuito</h3>
+                <p className="text-xs text-white/40 mt-1">Descubra sua chance de recuperação em 30s</p>
+              </Link>
+              <Link href="/ferramentas/gerador-contestacao-med" className="card hover:border-green-500/30 group text-center">
+                <h3 className="font-semibold text-white text-sm group-hover:text-green-400 transition-colors">Gerar Contestação MED</h3>
+                <p className="text-xs text-white/40 mt-1">Documento oficial para o banco</p>
+              </Link>
+              <Link href="/ferramentas/pacote-completo" className="card hover:border-ember-500/30 group text-center">
+                <h3 className="font-semibold text-white text-sm group-hover:text-ember-400 transition-colors">Kit Completo — R$47</h3>
+                <p className="text-xs text-white/40 mt-1">3 documentos prontos em 15 min</p>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

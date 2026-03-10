@@ -14,6 +14,7 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 import StatsSection from '@/components/home/StatsSection';
 import FAQSection from '@/components/home/FAQSection';
 import ReviewSchema from '@/components/seo/ReviewSchema';
+import MedCalculator from '@/components/home/MedCalculator';
 
 export const metadata: Metadata = {
   title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro',
@@ -566,6 +567,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ══ MED CALCULATOR ══════════════════════════════════════ */}
+      <MedCalculator />
 
       {/* ══ SOCIAL PROOF + PRICING + FAQ ═══════════════════════ */}
       <ReviewSchema reviews={[
