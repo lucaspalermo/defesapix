@@ -71,6 +71,14 @@ const GOLPES: Record<string, GolpeDiag> = {
     prazoChave: 'Denúncia à CVM — sem prazo, mas aja rápido',
     caminhos: ['BO por estelionato', 'Notificação ao banco de origem', 'Denúncia à CVM', 'Reclamação BACEN', 'Ação judicial'],
   },
+  INVASAO_CONTA: {
+    label: 'Invasão de Conta / Rede Social',
+    base: 35,
+    docs: ['Boletim de Ocorrência', 'Reclamação Procon'],
+    prazoChave: 'Recuperação de conta — imediato',
+    caminhos: ['BO por invasão de dispositivo informático (Art. 154-A CP)', 'Recuperação via suporte da plataforma', 'Procon contra a plataforma', 'Juizado Especial (se houve prejuízo financeiro)'],
+    alertaUrgente: 'Troque TODAS as senhas de e-mails e redes sociais vinculados. Ative a verificação em duas etapas.',
+  },
   ROUBO_CELULAR: {
     label: 'Roubo/Furto de Celular',
     base: 30,

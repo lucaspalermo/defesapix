@@ -51,6 +51,7 @@ const TIPOS_GOLPE = [
   'Golpe por Telefone',
   'Fraude em Cartão',
   'Investimento Fraudulento',
+  'Invasão de Conta / Rede Social',
   'Roubo/Furto de Celular',
   'Outro',
 ];
@@ -130,6 +131,15 @@ const GOLPE_CONFIG: Record<string, GolpeConfig> = {
     infratorPlaceholder: 'Nome do site, perfil no Instagram, promessas feitas...',
     descPlaceholder: 'Como conheceu a plataforma, o que prometeram, quanto investiu, quando parou de receber...',
     docs: ['bo', 'notificacao', 'bacen', 'procon'],
+  },
+  'Invasão de Conta / Rede Social': {
+    showBanco: false, showAgenciaConta: false, showValor: true,
+    bancoLabel: '',
+    valorLabel: 'Valor do prejuízo financeiro (R$)',
+    infratorLabel: 'Dados da conta invadida e do golpista',
+    infratorPlaceholder: '@seu_usuario, rede social (Instagram, Facebook, etc.), perfil do golpista...',
+    descPlaceholder: 'Qual rede social, como perdeu o acesso, se o golpista pediu dinheiro a seus contatos, se houve prejuízo financeiro...',
+    docs: ['bo', 'procon'],
   },
   'Roubo/Furto de Celular': {
     showBanco: false, showAgenciaConta: false, showValor: false,

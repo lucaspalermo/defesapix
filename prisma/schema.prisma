@@ -203,6 +203,32 @@ model Artigo {
   @@map("artigos")
 }
 
+// ─── GUIAS DE GOLPE ─────────────────────────────────────────────────────────
+
+model GuiaGolpe {
+  id           String   @id @default(cuid())
+  slug         String   @unique  // ex: "golpe-instagram"
+  titulo       String             // "Golpe de Perda de Conta do Instagram"
+  subtitulo    String?            // "Como funciona, como recuperar e como se proteger"
+  descricao    String   @db.Text  // meta description
+  conteudo     String   @db.Text  // Markdown com o guia completo
+  passos       String   @db.Text  // JSON com array de passos [{step, urgencia, titulo, desc}]
+  faq          String   @db.Text  // JSON com array de perguntas [{question, answer}]
+  categoria    String             // "Redes Sociais", "Pix", "WhatsApp", etc.
+  tags         String[]
+  urgencia     String   @default("ALTA") // CRITICA, ALTA, MEDIA
+  icone        String   @default("Shield") // nome do ícone Lucide
+  publicado    Boolean  @default(false)
+  publishedAt  DateTime?
+  artigoSlug   String?  // link para o artigo do blog relacionado
+  seoTitle     String?
+  seoDesc      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("guias_golpe")
+}
+
 // ─── TESTIMONIALS ────────────────────────────────────────────────────────────
 
 model Depoimento {
@@ -298,6 +324,7 @@ enum TipoGolpe {
   PHISHING
   CARTAO
   CONSIGNADO
+  INVASAO_CONTA
   OUTRO
 }
 
