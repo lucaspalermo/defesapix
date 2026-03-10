@@ -135,6 +135,85 @@ Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação, sem texto antes ou
       },
     });
 
+    // Generate GuiaGolpe (step-by-step guide page) alongside the blog article
+    let guia = null;
+    try {
+      const guiaMsg = await anthropic.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 3000,
+        messages: [
+          {
+            role: 'user',
+            content: `Baseado neste tema de golpe: "${tema}"
+
+Gere um guia estruturado de defesa para vítimas. Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação):
+
+{
+  "titulo": "Nome curto do golpe (max 50 chars)",
+  "subtitulo": "Frase de apoio explicando o guia (max 100 chars)",
+  "descricao": "Meta description SEO com 150-160 chars",
+  "urgencia": "CRITICA ou ALTA ou MEDIA",
+  "icone": "Shield ou Phone ou CreditCard ou Mail ou Smartphone ou Heart ou Briefcase ou Globe ou AlertTriangle",
+  "passos": [
+    {"step": "1", "urgencia": "Imediato", "titulo": "Titulo do passo", "desc": "Descrição detalhada do que fazer"},
+    {"step": "2", "urgencia": "Nas primeiras 24h", "titulo": "...", "desc": "..."},
+    {"step": "3", "urgencia": "Em até 48h", "titulo": "...", "desc": "..."},
+    {"step": "4", "urgencia": "Em até 7 dias", "titulo": "...", "desc": "..."},
+    {"step": "5", "urgencia": "Prevenção", "titulo": "...", "desc": "..."}
+  ],
+  "faq": [
+    {"question": "Pergunta frequente sobre este golpe?", "answer": "Resposta detalhada e útil."},
+    {"question": "...", "answer": "..."},
+    {"question": "...", "answer": "..."}
+  ],
+  "conteudo": "Conteúdo Markdown completo (800-1500 palavras) com ## e ### explicando o golpe, como funciona, direitos da vítima, leis aplicáveis (CDC, Lei 14.155/2021, Resolução BCB 93/2021) e CTA para DefesaPix Kit Completo R$47"
+}
+
+Regras:
+- Mínimo 5 passos práticos e acionáveis
+- Mínimo 3 perguntas FAQ
+- Cite prazos legais reais (72h MED, 120 dias chargeback, etc)
+- Tom empático e urgente
+- Português brasileiro`,
+          },
+        ],
+      });
+
+      const guiaText = guiaMsg.content[0]?.type === 'text' ? guiaMsg.content[0].text : '';
+      const guiaJsonMatch = guiaText.match(/\{[\s\S]*\}/);
+      if (guiaJsonMatch) {
+        const guiaData = JSON.parse(guiaJsonMatch[0]);
+        const guiaSlug = slugify(guiaData.titulo || tema);
+
+        // Check for duplicate slug in guias
+        const existingGuia = await prisma.guiaGolpe.findUnique({ where: { slug: guiaSlug } });
+        const finalGuiaSlug = existingGuia ? `${guiaSlug}-${Date.now().toString(36)}` : guiaSlug;
+
+        guia = await prisma.guiaGolpe.create({
+          data: {
+            slug: finalGuiaSlug,
+            titulo: guiaData.titulo || tema.slice(0, 50),
+            subtitulo: guiaData.subtitulo || null,
+            descricao: guiaData.descricao || meta.resumo || tema.slice(0, 155),
+            conteudo: guiaData.conteudo || '',
+            passos: JSON.stringify(Array.isArray(guiaData.passos) ? guiaData.passos : []),
+            faq: JSON.stringify(Array.isArray(guiaData.faq) ? guiaData.faq : []),
+            categoria: categoria || 'Golpes',
+            tags: Array.isArray(meta.tags) ? meta.tags : (tags || []),
+            urgencia: ['CRITICA', 'ALTA', 'MEDIA'].includes(guiaData.urgencia) ? guiaData.urgencia : 'ALTA',
+            icone: guiaData.icone || 'Shield',
+            publicado: false,
+            artigoSlug: finalSlug,
+            seoTitle: `${guiaData.titulo}: O Que Fazer | DefesaPix`.slice(0, 60),
+            seoDesc: guiaData.descricao || meta.seoDesc || null,
+          },
+        });
+      }
+    } catch (guiaError) {
+      console.error('[ARTIGOS] Erro ao gerar guia de golpe:', guiaError);
+      // Non-fatal: article was already saved
+    }
+
     return NextResponse.json({
       success: true,
       artigo: {
@@ -145,6 +224,12 @@ Responda SOMENTE com JSON puro (sem \`\`\`, sem explicação, sem texto antes ou
         tempoLeitura: artigo.tempoLeitura,
         publicado: artigo.publicado,
       },
+      guia: guia ? {
+        id: guia.id,
+        slug: guia.slug,
+        titulo: guia.titulo,
+        publicado: guia.publicado,
+      } : null,
     });
   } catch (error: unknown) {
     console.error('[ARTIGOS] Erro ao gerar artigo:', error);

@@ -4,8 +4,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   FileText, Plus, Zap, Eye, EyeOff, Trash2, CheckCircle,
-  Clock, ArrowLeft, Loader2, Sparkles, Tag,
+  Clock, ArrowLeft, Loader2, Sparkles, Tag, Shield,
 } from 'lucide-react';
+
+interface Guia {
+  id: string;
+  slug: string;
+  titulo: string;
+  descricao: string;
+  categoria: string;
+  tags: string[];
+  urgencia: string;
+  publicado: boolean;
+  publishedAt: string | null;
+  artigoSlug: string | null;
+  createdAt: string;
+}
 
 interface Artigo {
   id: string;
@@ -38,6 +52,7 @@ const CATEGORIAS = ['Golpes', 'Pix & MED', 'Direito Digital', 'Prevenção', 'Tu
 
 export default function AdminArtigosPage() {
   const [artigos, setArtigos] = useState<Artigo[]>([]);
+  const [guias, setGuias] = useState<Guia[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -45,6 +60,7 @@ export default function AdminArtigosPage() {
   const [categoria, setCategoria] = useState('Golpes');
   const [tagsInput, setTagsInput] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [activeTab, setActiveTab] = useState<'artigos' | 'guias'>('artigos');
 
   const fetchArtigos = async () => {
     try {
@@ -57,7 +73,40 @@ export default function AdminArtigosPage() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchArtigos(); }, []);
+  const fetchGuias = async () => {
+    try {
+      const res = await fetch('/api/admin/guias');
+      if (res.ok) {
+        const data = await res.json();
+        setGuias(data.guias);
+      }
+    } catch { /* silent */ }
+  };
+
+  const toggleGuiaPublish = async (id: string, publicado: boolean) => {
+    try {
+      const res = await fetch('/api/admin/guias', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, publicado: !publicado }),
+      });
+      if (res.ok) fetchGuias();
+    } catch { /* silent */ }
+  };
+
+  const deleteGuia = async (id: string, titulo: string) => {
+    if (!confirm(`Deletar guia "${titulo}"?`)) return;
+    try {
+      const res = await fetch('/api/admin/guias', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) fetchGuias();
+    } catch { /* silent */ }
+  };
+
+  useEffect(() => { fetchArtigos(); fetchGuias(); }, []);
 
   const generateArticle = async () => {
     if (!tema || tema.length < 10) {
@@ -81,7 +130,8 @@ export default function AdminArtigosPage() {
 
       const data = await res.json();
       if (res.ok) {
-        setMessage({ type: 'success', text: `Artigo "${data.artigo.titulo}" gerado como rascunho!` });
+        const guiaInfo = data.guia ? ` + Guia "/golpes/${data.guia.slug}" criado!` : '';
+        setMessage({ type: 'success', text: `Artigo "${data.artigo.titulo}" gerado como rascunho!${guiaInfo}` });
         setTema('');
         setTagsInput('');
         setShowForm(false);
@@ -229,8 +279,85 @@ export default function AdminArtigosPage() {
         </div>
       )}
 
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => setActiveTab('artigos')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'artigos' ? 'bg-ember-500/20 text-ember-400 border border-ember-500/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+        >
+          <FileText className="w-4 h-4 inline mr-1.5" />
+          Artigos ({artigos.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('guias')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'guias' ? 'bg-ember-500/20 text-ember-400 border border-ember-500/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+        >
+          <Shield className="w-4 h-4 inline mr-1.5" />
+          Guias de Golpe ({guias.length})
+        </button>
+      </div>
+
+      {/* Guias List */}
+      {activeTab === 'guias' && (
+        <div className="space-y-3">
+          {guias.length === 0 ? (
+            <div className="text-center py-20">
+              <Shield className="w-12 h-12 text-white/10 mx-auto mb-4" />
+              <p className="text-white/30">Nenhum guia ainda. Gere um artigo e o guia será criado automaticamente.</p>
+            </div>
+          ) : (
+            guias.map((guia) => (
+              <div key={guia.id} className="card flex flex-col sm:flex-row gap-4 items-start">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                      guia.publicado ? 'bg-green-500/15 text-green-400' : 'bg-amber-500/15 text-amber-400'
+                    }`}>
+                      {guia.publicado ? 'Publicado' : 'Rascunho'}
+                    </span>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                      guia.urgencia === 'CRITICA' ? 'bg-red-500/15 text-red-400' : guia.urgencia === 'ALTA' ? 'bg-amber-500/15 text-amber-400' : 'bg-blue-500/15 text-blue-400'
+                    }`}>
+                      {guia.urgencia}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold text-white text-sm truncate">{guia.titulo}</h3>
+                  <p className="text-xs text-white/40 mt-1 line-clamp-1">{guia.descricao}</p>
+                  <div className="flex items-center gap-4 mt-2 text-xs text-white/30">
+                    <span>/golpes/{guia.slug}</span>
+                    {guia.artigoSlug && <span>Blog: /blog/{guia.artigoSlug}</span>}
+                    <span>{new Date(guia.createdAt).toLocaleDateString('pt-BR')}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  {guia.publicado && (
+                    <a href={`/golpes/${guia.slug}`} target="_blank" className="p-2 rounded-lg hover:bg-white/5 text-white/30 hover:text-white transition-colors" title="Ver guia">
+                      <Eye className="w-4 h-4" />
+                    </a>
+                  )}
+                  <button
+                    onClick={() => toggleGuiaPublish(guia.id, guia.publicado)}
+                    className={`p-2 rounded-lg transition-colors ${guia.publicado ? 'hover:bg-amber-500/10 text-amber-400/60 hover:text-amber-400' : 'hover:bg-green-500/10 text-green-400/60 hover:text-green-400'}`}
+                    title={guia.publicado ? 'Despublicar' : 'Publicar'}
+                  >
+                    {guia.publicado ? <EyeOff className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={() => deleteGuia(guia.id, guia.titulo)}
+                    className="p-2 rounded-lg hover:bg-red-500/10 text-red-400/60 hover:text-red-400 transition-colors"
+                    title="Deletar"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
       {/* Articles List */}
-      {loading ? (
+      {activeTab === 'artigos' && (loading ? (
         <div className="text-center py-20 text-white/30">
           <Loader2 className="w-6 h-6 animate-spin mx-auto mb-3" />
           Carregando artigos...
@@ -276,7 +403,7 @@ export default function AdminArtigosPage() {
             </div>
           )}
         </div>
-      )}
+      ))}
     </div>
   );
 }

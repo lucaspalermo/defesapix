@@ -3,9 +3,18 @@ import Link from 'next/link';
 import {
   Zap, Smartphone, FileText, Heart, Briefcase, BarChart3,
   Globe, PhoneOff, Scale, ArrowRight, Shield, AlertTriangle,
-  CreditCard, Mail, Banknote,
+  CreditCard, Mail, Banknote, Phone, ExternalLink,
 } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { prisma } from '@/lib/prisma';
+
+export const revalidate = 3600;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ICON_MAP: Record<string, any> = {
+  Shield, Phone, FileText, AlertTriangle, Zap, Smartphone, Heart,
+  Briefcase, BarChart3, Globe, PhoneOff, Scale, CreditCard, Mail, ExternalLink, Banknote,
+};
 
 export const metadata: Metadata = {
   title: 'Tipos de Golpe Digital: Guias Completos',
@@ -139,7 +148,21 @@ const urgMap = {
   MÉDIA:   { badge: 'badge-blue',   border: 'hover:border-blue-500/25',    glow: 'group-hover:shadow-[0_0_40px_rgba(59,130,246,0.09)]' },
 };
 
-export default function GolpesIndexPage() {
+export default async function GolpesIndexPage() {
+  // Fetch DB-based guides
+  let dbGuias: { slug: string; titulo: string; descricao: string; urgencia: string; icone: string; tags: string[]; categoria: string }[] = [];
+  try {
+    dbGuias = await prisma.guiaGolpe.findMany({
+      where: { publicado: true },
+      select: { slug: true, titulo: true, descricao: true, urgencia: true, icone: true, tags: true, categoria: true },
+      orderBy: { publishedAt: 'desc' },
+    });
+  } catch { /* DB unavailable */ }
+
+  // Filter out any DB guides whose slug matches a static one
+  const staticHrefs = new Set(GOLPES.map(g => g.href));
+  const dynamicGuias = dbGuias.filter(g => !staticHrefs.has(`/golpes/${g.slug}`));
+
   return (
     <>
       <BreadcrumbSchema items={[{ name: 'Tipos de Golpe' }]} />
@@ -221,6 +244,51 @@ export default function GolpesIndexPage() {
               );
             })}
           </div>
+
+          {/* Dynamic DB-based guides */}
+          {dynamicGuias.length > 0 && (
+            <>
+              <h2 className="font-heading font-bold text-white text-xl mt-12 mb-6">Outros golpes identificados</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {dynamicGuias.map((g) => {
+                  const Icon = ICON_MAP[g.icone] || Shield;
+                  const urgLabel = g.urgencia === 'CRITICA' ? 'CRÍTICA' : g.urgencia === 'ALTA' ? 'ALTA' : 'MÉDIA';
+                  const u = urgMap[urgLabel] || urgMap['MÉDIA'];
+                  return (
+                    <Link
+                      key={g.slug}
+                      href={`/golpes/${g.slug}`}
+                      className={`card group flex flex-col transition-all duration-300 hover:-translate-y-1 ${u.border} ${u.glow}`}
+                    >
+                      <div className="flex items-start justify-between mb-5">
+                        <div className="icon-badge icon-badge-ember group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-5 h-5" strokeWidth={1.75} />
+                        </div>
+                        <span className={`badge ${u.badge}`}>{urgLabel}</span>
+                      </div>
+                      <h2 className="font-heading font-bold text-white mb-2 text-[0.95rem] group-hover:text-ember-300 transition-colors leading-snug">
+                        {g.titulo}
+                      </h2>
+                      <p className="text-sm text-white/40 mb-4 leading-relaxed flex-1">{g.descricao.slice(0, 120)}</p>
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {g.tags.slice(0, 3).map((tag) => (
+                          <span key={tag} className="text-[0.62rem] font-semibold bg-white/[0.05] border border-white/[0.07] text-white/30 px-2 py-0.5 rounded-md">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between pt-3 border-t border-white/[0.05]">
+                        <span className="text-[0.78rem] font-semibold text-ember-400/50 group-hover:text-ember-400 transition-colors">
+                          Ver guia completo
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-ember-400/40 group-hover:text-ember-400 group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </>
+          )}
 
           {/* CTA */}
           <div className="mt-14 card border-ember-500/25 bg-ember-500/5 text-center">

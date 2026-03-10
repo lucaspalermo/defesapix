@@ -89,9 +89,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // DB unavailable — only static pages
   }
 
+  // Dynamic golpe guide pages from database
+  let dbGuiaPages: MetadataRoute.Sitemap = [];
+  try {
+    const dbGuias = await prisma.guiaGolpe.findMany({
+      where: { publicado: true },
+      select: { slug: true, updatedAt: true },
+    });
+    dbGuiaPages = dbGuias.map((g) => ({
+      url: `${BASE_URL}/golpes/${g.slug}`,
+      priority: 0.8 as const,
+      changeFrequency: 'monthly' as const,
+      lastModified: g.updatedAt,
+    }));
+  } catch {
+    // DB unavailable
+  }
+
   return [
     ...staticPages.map((p) => ({ ...p, lastModified: new Date() })),
     ...staticBlogPages,
     ...dbBlogPages,
+    ...dbGuiaPages,
   ];
 }
