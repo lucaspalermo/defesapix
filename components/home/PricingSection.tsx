@@ -162,7 +162,7 @@ export default function PricingSection() {
               Proteja-se antes que o golpe aconteça.
             </p>
           </div>
-          <Link href="/ferramentas/pacote-completo" className="btn-secondary whitespace-nowrap shrink-0">
+          <Link href="/assinar" className="btn-secondary whitespace-nowrap shrink-0">
             Assinar
             <ArrowRight className="w-4 h-4" />
           </Link>

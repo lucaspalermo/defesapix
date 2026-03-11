@@ -18,6 +18,8 @@ import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
 import { track } from '@/lib/track';
 
+type PlanoKit = 'PACOTE_EMERGENCIA' | 'KIT_PREMIUM';
+
 interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
 
 const schema = z.object({
@@ -183,6 +185,7 @@ export default function PacoteCompleto() {
   const [payment, setPayment] = useState<PaymentData | null>(null);
   const [valorDisplay, setValorDisplay] = useState('');
   const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
+  const [plano, setPlano] = useState<PlanoKit>('PACOTE_EMERGENCIA');
 
   const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -288,13 +291,13 @@ export default function PacoteCompleto() {
     return { texts, docList, data, valorNum };
   };
 
-  const startPayment = async (data: FormData) => {
+  const startPayment = async (data: FormData, produto: PlanoKit = plano) => {
     setPaying(true);
     try {
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: 'PACOTE_EMERGENCIA', nome: data.nome, email: data.email, cpf: data.cpf.replace(/\D/g, '') }),
+        body: JSON.stringify({ produto, nome: data.nome, email: data.email, cpf: data.cpf.replace(/\D/g, '') }),
       });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error ?? 'Erro ao criar pagamento');
@@ -476,9 +479,61 @@ export default function PacoteCompleto() {
           )}
         </div>
 
-        {/* ── CTA: Pagar + gerar ── */}
+        {/* ── Seleção de plano ── */}
         {config && (
-          <div className="space-y-3">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
+                className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
+                  plano === 'PACOTE_EMERGENCIA'
+                    ? 'border-green-500/60 bg-green-500/10'
+                    : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                }`}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold text-white">Kit Completo</span>
+                  <span className="text-lg font-black text-white">R$47</span>
+                </div>
+                <ul className="space-y-1">
+                  {['BO', 'Contestação MED', 'Notificação Bancária', 'Reclamação BACEN', 'Reclamação Procon'].map((d) => (
+                    <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
+                      <CheckCircle className="w-3 h-3 text-green-400 shrink-0" />{d}
+                    </li>
+                  ))}
+                </ul>
+              </button>
+
+              <button type="button" onClick={() => setPlano('KIT_PREMIUM')}
+                className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
+                  plano === 'KIT_PREMIUM'
+                    ? 'border-violet-500/60 bg-violet-500/10'
+                    : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                }`}>
+                <div className="absolute -top-2.5 right-3 bg-violet-500 text-white text-[0.6rem] font-bold px-2 py-0.5 rounded-full">
+                  Recomendado
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold text-white">Kit Premium</span>
+                  <span className="text-lg font-black text-white">R$97</span>
+                </div>
+                <ul className="space-y-1">
+                  {['Tudo do Kit Completo (5 docs)', 'Petição Inicial JEC', 'Fundamentação legal completa', 'Cálculo de dano moral', 'Processe sem advogado'].map((d) => (
+                    <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
+                      <CheckCircle className="w-3 h-3 text-violet-400 shrink-0" />{d}
+                    </li>
+                  ))}
+                </ul>
+              </button>
+            </div>
+
+            {plano === 'KIT_PREMIUM' && (
+              <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-3 flex items-start gap-3">
+                <Scale className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                <p className="text-xs text-white/60">
+                  <strong className="text-white">Banco negou a devolução?</strong> O Kit Premium inclui a Petição Inicial para o Juizado Especial Cível — gratuito para causas até 20 salários mínimos, sem advogado.
+                </p>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-2 justify-center">
               {['Documentos jurídicos prontos', 'Guia passo a passo', 'Melhoria com IA', 'Garantia 7 dias'].map((t) => (
                 <span key={t} className="text-[0.65rem] px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
@@ -487,10 +542,12 @@ export default function PacoteCompleto() {
               ))}
             </div>
             <button type="submit" disabled={paying}
-              className="btn-primary w-full justify-center py-4 text-base disabled:opacity-60">
+              className={`w-full justify-center py-4 text-base disabled:opacity-60 font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+              }`}>
               {paying
                 ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
-                : <><Lock className="w-5 h-5" /> Pagar R$47 — gerar {docCount} documento{docCount > 1 ? 's' : ''}</>}
+                : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} — gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''}</>}
             </button>
             <p className="text-xs text-white/30 text-center">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
           </div>
@@ -563,10 +620,12 @@ export default function PacoteCompleto() {
           </ul>
 
           <button onClick={() => startPayment(docs.data)} disabled={paying}
-            className="btn-primary w-full justify-center py-4 text-base mb-3 disabled:opacity-60">
+            className={`w-full justify-center py-4 text-base mb-3 disabled:opacity-60 font-semibold rounded-xl transition-all flex items-center gap-2 ${
+              plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+            }`}>
             {paying
               ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
-              : <><Lock className="w-5 h-5" /> Pagar R$47 via Pix</>}
+              : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} via Pix</>}
           </button>
           <p className="text-xs text-white/30">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
         </div>

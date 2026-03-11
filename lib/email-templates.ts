@@ -218,6 +218,71 @@ export function templateFollowUp72h(nome: string, tipo: string): string {
 </html>`;
 }
 
+export function templateIndicacao(nome: string, codigoRef: string): string {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Indique e ganhe — DefesaPix</title></head>
+<body style="margin:0;padding:0;background:#09090F;font-family:Arial,Helvetica,sans-serif">
+  <div style="max-width:600px;margin:0 auto;padding:32px 24px">
+    <div style="border-bottom:2px solid #F97316;padding-bottom:16px;margin-bottom:28px">
+      <p style="margin:0;color:#F97316;font-size:18px;font-weight:bold">CENTRAL DE DEFESA DIGITAL</p>
+      <p style="margin:4px 0 0;color:rgba(255,255,255,0.4);font-size:12px">defesapix.com.br</p>
+    </div>
+    <h2 style="color:#fff;font-size:20px;margin:0 0 12px">${nome}, ajude quem precisa e ganhe desconto!</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin:0 0 20px">
+      Conhece alguém que caiu em golpe? Compartilhe seu link exclusivo e ajude outra vítima a resolver a situação.
+    </p>
+    <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:20px;margin:0 0 24px;text-align:center">
+      <p style="color:rgba(255,255,255,0.5);margin:0 0 8px;font-size:13px">Seu link de indicação:</p>
+      <p style="color:#10B981;margin:0;font-size:16px;font-weight:bold;word-break:break-all">
+        defesapix.com.br/?ref=${codigoRef}
+      </p>
+    </div>
+    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0 0 24px">
+      Compartilhe no WhatsApp, redes sociais ou por mensagem. Cada pessoa que você ajudar fortalece a luta contra golpes digitais no Brasil.
+    </p>
+    <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
+      DefesaPix · defesapix.com.br
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
+export function templatePedidoReview(nome: string): string {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Como foi sua experiência? — DefesaPix</title></head>
+<body style="margin:0;padding:0;background:#09090F;font-family:Arial,Helvetica,sans-serif">
+  <div style="max-width:600px;margin:0 auto;padding:32px 24px">
+    <div style="border-bottom:2px solid #F97316;padding-bottom:16px;margin-bottom:28px">
+      <p style="margin:0;color:#F97316;font-size:18px;font-weight:bold">CENTRAL DE DEFESA DIGITAL</p>
+      <p style="margin:4px 0 0;color:rgba(255,255,255,0.4);font-size:12px">defesapix.com.br</p>
+    </div>
+    <h2 style="color:#fff;font-size:20px;margin:0 0 12px">${nome}, como foi sua experiência?</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin:0 0 20px">
+      Já faz uma semana que você usou a DefesaPix. Gostaríamos de saber: conseguiu resolver seu caso?
+    </p>
+    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin:0 0 20px">
+      Seu depoimento ajuda outras vítimas a confiarem que existe solução. Leva menos de 1 minuto.
+    </p>
+    <div style="text-align:center;margin:0 0 24px">
+      <a href="https://defesapix.com.br/depoimento"
+         style="display:inline-block;background:#F97316;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:15px">
+        Deixar meu depoimento
+      </a>
+    </div>
+    <p style="color:rgba(255,255,255,0.5);font-size:13px;margin:0 0 24px;text-align:center">
+      Sua identidade pode ser mantida anônima se preferir.
+    </p>
+    <p style="color:rgba(255,255,255,0.3);font-size:11px;margin-top:24px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px">
+      DefesaPix · defesapix.com.br
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
 export function templateLembrete48h(nome: string, tipo: string): string {
   return `<!DOCTYPE html>
 <html lang="pt-BR">

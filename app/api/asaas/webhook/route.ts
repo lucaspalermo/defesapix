@@ -10,10 +10,92 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { ASAAS_PRODUTOS } from '@/lib/asaas';
+import { ASAAS_PRODUTOS, verificarPagamento } from '@/lib/asaas';
 import nodemailer from 'nodemailer';
 
 const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL ?? 'admin@defesapix.com.br';
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://defesapix.com.br';
+
+/**
+ * Dispara sequência de emails pós-venda:
+ * - Imediato: "Seus documentos estão prontos"
+ * - 24h: "Já usou seus documentos?"
+ * - 72h: "Hora de intensificar a pressão"
+ * - 5 dias: "Indique um amigo"
+ * - 7 dias: "Como foi sua experiência?" (review)
+ */
+async function dispararEmailsPosVenda(paymentId: string, produto: string) {
+  try {
+    // Buscar dados do pagamento no Asaas para obter customer email
+    const paymentData = await verificarPagamento(paymentId) as any;
+    if (!paymentData?.customer) return;
+
+    // Buscar customer data
+    const API_KEY = process.env.ASAAS_API_KEY;
+    const baseUrl = process.env.ASAAS_ENV === 'sandbox'
+      ? 'https://sandbox.asaas.com/api/v3'
+      : 'https://api.asaas.com/v3';
+
+    const customerRes = await fetch(`${baseUrl}/customers/${paymentData.customer}`, {
+      headers: { access_token: API_KEY!, 'Content-Type': 'application/json' },
+    });
+    const customer = await customerRes.json();
+    if (!customer?.email) return;
+
+    const emailPayload = {
+      email: customer.email,
+      nome: customer.name || 'Cliente',
+      produto,
+      paymentId,
+    };
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'x-internal-token': process.env.ASAAS_WEBHOOK_TOKEN!,
+    };
+
+    // Email imediato: documentos entregues
+    await fetch(`${BASE_URL}/api/email/pos-venda`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ ...emailPayload, tipo: 'imediato' }),
+    }).catch(() => {});
+
+    // Agendar emails futuros via eventos no banco (cron-like)
+    const agendamentos = [
+      { tipo: 'followup_24h', delay: '24h', emailTipo: '24h' },
+      { tipo: 'followup_72h', delay: '72h', emailTipo: '72h' },
+      { tipo: 'indicacao', delay: '5d', emailTipo: 'indicacao' },
+      { tipo: 'review', delay: '7d', emailTipo: 'review' },
+    ];
+
+    for (const ag of agendamentos) {
+      await prisma.evento.create({
+        data: {
+          tipo: `email_agendado_${ag.tipo}`,
+          dados: JSON.stringify({
+            ...emailPayload,
+            emailTipo: ag.emailTipo,
+            delay: ag.delay,
+            enviarEm: getEnviarEm(ag.delay),
+            enviado: false,
+          }),
+        },
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.error('[WEBHOOK] Erro ao disparar emails pós-venda:', err);
+  }
+}
+
+function getEnviarEm(delay: string): string {
+  const now = new Date();
+  if (delay === '24h') now.setHours(now.getHours() + 24);
+  else if (delay === '72h') now.setHours(now.getHours() + 72);
+  else if (delay === '5d') now.setDate(now.getDate() + 5);
+  else if (delay === '7d') now.setDate(now.getDate() + 7);
+  return now.toISOString();
+}
 
 async function notificarVenda(valor: number, produto: string, paymentId: string) {
   if (!process.env.SMTP_PASS) return;
@@ -145,6 +227,12 @@ export async function POST(req: NextRequest) {
 
         // Notify admin by email
         await notificarVenda(payment.value, produto, payment.id);
+
+        // Disparar sequência de emails pós-venda para o cliente
+        // Buscar email do cliente via Asaas payment customer
+        if (produto !== 'PLANO_MENSAL') {
+          dispararEmailsPosVenda(payment.id, produto).catch(() => {});
+        }
       } catch (dbError) {
         console.error('[WEBHOOK] Erro no banco de dados');
       }
