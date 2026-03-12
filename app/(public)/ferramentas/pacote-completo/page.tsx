@@ -82,6 +82,12 @@ export default function PacoteCompletoPage() {
       <section className="section">
         <div className="container max-w-3xl">
           <PacoteCompleto />
+
+          {/* Disclaimer — compliance Google Ads */}
+          <p className="text-[0.65rem] text-white/20 leading-relaxed text-center mt-8 max-w-2xl mx-auto">
+            Os documentos gerados são modelos orientativos baseados na legislação vigente (CDC, Resolução BCB 93/2021, Lei 14.155/2021)
+            e não substituem aconselhamento jurídico profissional. Resultados podem variar. Garantia de 7 dias para reembolso integral.
+          </p>
         </div>
       </section>
     </>

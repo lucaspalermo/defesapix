@@ -161,11 +161,14 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Disclaimer */}
-        <p className="mt-5 text-[0.65rem] text-white/12 leading-relaxed text-center max-w-3xl mx-auto">
-          A DefesaPix não é um escritório de advocacia e não presta serviços jurídicos.
-          Os documentos gerados são modelos orientativos e não substituem aconselhamento jurídico profissional.
-        </p>
+        {/* Disclaimer — visível para compliance Google Ads */}
+        <div className="mt-6 border-t border-white/[0.04] pt-5">
+          <p className="text-[0.7rem] text-white/25 leading-relaxed text-center max-w-3xl mx-auto">
+            <strong className="text-white/35">Aviso importante:</strong> A DefesaPix não é um escritório de advocacia e não presta serviços jurídicos.
+            Os documentos gerados são modelos orientativos baseados na legislação vigente e não substituem aconselhamento jurídico profissional.
+            Os resultados podem variar conforme cada caso. Garantia de 7 dias para reembolso integral.
+          </p>
+        </div>
       </div>
     </footer>
   );

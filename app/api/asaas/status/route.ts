@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
       pago,
     });
   } catch (error: unknown) {
-    console.error('[ASAAS] Erro ao verificar status');
-    return NextResponse.json({ error: 'Erro ao verificar', status: 'PENDING', pago: false }, { status: 200 });
+    console.error('[ASAAS] Erro ao verificar status:', error instanceof Error ? error.message : error);
+    return NextResponse.json({ error: 'Erro temporário', status: 'PENDING', pago: false });
   }
 }

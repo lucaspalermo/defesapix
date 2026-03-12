@@ -15,7 +15,7 @@ const inter = Inter({
 const heading = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-syne',
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['600', '700', '800'],
   display: 'swap',
 });
 
@@ -135,7 +135,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}} />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN5PQZYBCD" />
         {/* Meta Pixel */}
-        ${process.env.NEXT_PUBLIC_META_PIXEL_ID ? '' : ''}
         <script dangerouslySetInnerHTML={{ __html: `
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
