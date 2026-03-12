@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { CheckCircle, Copy, Clock, X, Loader2, AlertTriangle, QrCode } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { track } from '@/lib/track';
+import { track, trackPaymentModalShown, trackPixCopied } from '@/lib/track';
 
 interface Props {
   paymentId: string;
@@ -25,6 +25,12 @@ export default function PaymentModal({
   const [copied, setCopied]         = useState(false);
   const [timeLeft, setTimeLeft]     = useState(EXPIRY_SECS);
   const calledOnPaid                = useRef(false);
+
+  /* ── Track modal shown ── */
+  useEffect(() => {
+    trackPaymentModalShown(produto, valor);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* ── Countdown ── */
   useEffect(() => {
@@ -64,6 +70,7 @@ export default function PaymentModal({
     try {
       await navigator.clipboard.writeText(pixCopiaECola);
       setCopied(true);
+      trackPixCopied();
       toast.success('Código copiado! Cole no seu banco.');
       setTimeout(() => setCopied(false), 3000);
     } catch {

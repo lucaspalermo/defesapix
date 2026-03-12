@@ -121,14 +121,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${inter.variable} ${heading.variable}`}>
       <head>
+        {/* Google Ads Conversion ID — configurar via env */}
+        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
+          <meta name="google-ads-conversion" content={`${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/purchase`} />
+        )}
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer=window.dataLayer||[];
           function gtag(){dataLayer.push(arguments);}
-          gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied'});
+          gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
           gtag('js',new Date());
           gtag('config','G-VN5PQZYBCD',{anonymize_ip:true});
+          ${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ? `gtag('config','${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');` : ''}
         `}} />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN5PQZYBCD" />
+        {/* Meta Pixel */}
+        ${process.env.NEXT_PUBLIC_META_PIXEL_ID ? '' : ''}
+        <script dangerouslySetInnerHTML={{ __html: `
+          !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+          n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+          document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          ${process.env.NEXT_PUBLIC_META_PIXEL_ID ? `fbq('init','${process.env.NEXT_PUBLIC_META_PIXEL_ID}');fbq('track','PageView');` : '// Meta Pixel ID não configurado'}
+        `}} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>

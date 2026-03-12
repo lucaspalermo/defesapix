@@ -15,10 +15,16 @@ export function track(
     }),
   }).catch(() => {}); // silent
 
-  // Também envia para GA4 se disponível
+  // Envia para GA4 se disponível
   if (typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
     const gtag = (window as unknown as Record<string, unknown>).gtag as (...args: unknown[]) => void;
     gtag('event', tipo, dados ?? {});
+  }
+
+  // Envia para Meta Pixel se disponível
+  if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
+    const fbq = (window as unknown as Record<string, unknown>).fbq as (...args: unknown[]) => void;
+    fbq('trackCustom', tipo, dados ?? {});
   }
 }
 
@@ -30,16 +36,46 @@ export function trackCTA(label: string, destination?: string) {
 /** Trackeia início de pagamento */
 export function trackCheckoutStart(produto: string, valor: number) {
   track('checkout_start', { produto, valor });
+  // Google Ads conversion — início de checkout
+  if (typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
+    const gtag = (window as unknown as Record<string, unknown>).gtag as (...args: unknown[]) => void;
+    gtag('event', 'begin_checkout', { currency: 'BRL', value: valor, items: [{ item_name: produto }] });
+  }
+  // Meta Pixel — InitiateCheckout
+  if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
+    const fbq = (window as unknown as Record<string, unknown>).fbq as (...args: unknown[]) => void;
+    fbq('track', 'InitiateCheckout', { currency: 'BRL', value: valor, content_name: produto });
+  }
 }
 
-/** Trackeia pagamento confirmado */
+/** Trackeia pagamento confirmado — CONVERSÃO PRINCIPAL */
 export function trackPurchase(produto: string, valor: number, paymentId?: string) {
   track('purchase', { produto, valor, paymentId });
+  // Google Ads conversion — compra
+  if (typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
+    const gtag = (window as unknown as Record<string, unknown>).gtag as (...args: unknown[]) => void;
+    gtag('event', 'purchase', { transaction_id: paymentId, currency: 'BRL', value: valor, items: [{ item_name: produto }] });
+    // Conversão Google Ads (ID será configurado na env)
+    const adsConversionId = (typeof document !== 'undefined' && document.querySelector('meta[name="google-ads-conversion"]')?.getAttribute('content')) || '';
+    if (adsConversionId) {
+      gtag('event', 'conversion', { send_to: adsConversionId, value: valor, currency: 'BRL', transaction_id: paymentId });
+    }
+  }
+  // Meta Pixel — Purchase
+  if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
+    const fbq = (window as unknown as Record<string, unknown>).fbq as (...args: unknown[]) => void;
+    fbq('track', 'Purchase', { currency: 'BRL', value: valor, content_name: produto });
+  }
 }
 
 /** Trackeia diagnóstico gratuito concluído */
 export function trackDiagnostico(tipoGolpe: string) {
   track('diagnostico_completo', { tipoGolpe });
+  // Meta Pixel — Lead
+  if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
+    const fbq = (window as unknown as Record<string, unknown>).fbq as (...args: unknown[]) => void;
+    fbq('track', 'Lead', { content_name: tipoGolpe });
+  }
 }
 
 /** Trackeia download/geração de PDF */
@@ -50,4 +86,24 @@ export function trackPDFGerado(tipo: string) {
 /** Trackeia lead capturado (email) */
 export function trackLead(origem: string) {
   track('lead_capturado', { origem });
+  // Meta Pixel — CompleteRegistration
+  if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
+    const fbq = (window as unknown as Record<string, unknown>).fbq as (...args: unknown[]) => void;
+    fbq('track', 'CompleteRegistration', { content_name: origem });
+  }
+}
+
+/** Trackeia quando modal de pagamento é exibido */
+export function trackPaymentModalShown(produto: string, valor: number) {
+  track('payment_modal_shown', { produto, valor });
+}
+
+/** Trackeia quando código PIX é copiado */
+export function trackPixCopied() {
+  track('pix_code_copied');
+}
+
+/** Trackeia formulário iniciado */
+export function trackFormStarted(formulario: string) {
+  track('form_started', { formulario });
 }

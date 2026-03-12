@@ -16,7 +16,7 @@ import CountdownMED from './CountdownMED';
 import PaymentModal from '@/components/tools/PaymentModal';
 import GuiaPosCompra from '@/components/tools/GuiaPosCompra';
 import toast from 'react-hot-toast';
-import { track } from '@/lib/track';
+import { track, trackCheckoutStart, trackPurchase, trackFormStarted } from '@/lib/track';
 
 type PlanoKit = 'PACOTE_EMERGENCIA' | 'KIT_PREMIUM';
 
@@ -187,9 +187,20 @@ export default function PacoteCompleto() {
   const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
   const [plano, setPlano] = useState<PlanoKit>('PACOTE_EMERGENCIA');
 
+  const [formStarted, setFormStarted] = useState(false);
+
   const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
+    mode: 'onBlur',
   });
+
+  // Track quando o usuário começa a preencher o form
+  const handleFormInteraction = () => {
+    if (!formStarted) {
+      setFormStarted(true);
+      trackFormStarted('pacote_completo');
+    }
+  };
 
   const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, '');
@@ -312,6 +323,8 @@ export default function PacoteCompleto() {
   const onSubmit = async (data: FormData) => {
     const newDocs = gerarDocs(data);
     setDocs(newDocs);
+    const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
+    trackCheckoutStart(plano, valorProduto);
     track('pagamento_iniciado', { golpe: data.tipoGolpe, docs: newDocs.docList.length });
     await startPayment(data);
   };
@@ -321,7 +334,7 @@ export default function PacoteCompleto() {
     const docCount = config?.docs.length ?? 0;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" onFocus={handleFormInteraction}>
         {isPix && dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
 
         <div className="card border-orange-500/20">
@@ -560,7 +573,11 @@ export default function PacoteCompleto() {
             pixCopiaECola={payment.pixCopiaECola}
             valor={payment.valor}
             produto={`Kit ${config?.docs.length ?? 0} Documento${(config?.docs.length ?? 0) > 1 ? 's' : ''}`}
-            onPaid={() => { setPaid(true); setPayment(null); }}
+            onPaid={() => {
+              trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+              setPaid(true);
+              setPayment(null);
+            }}
             onClose={() => setPayment(null)}
           />
         )}
@@ -641,7 +658,11 @@ export default function PacoteCompleto() {
             pixCopiaECola={payment.pixCopiaECola}
             valor={payment.valor}
             produto={`Kit ${docCount} Documento${docCount > 1 ? 's' : ''}`}
-            onPaid={() => { setPaid(true); setPayment(null); }}
+            onPaid={() => {
+              trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+              setPaid(true);
+              setPayment(null);
+            }}
             onClose={() => setPayment(null)}
           />
         )}

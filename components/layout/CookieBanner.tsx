@@ -11,17 +11,23 @@ export default function CookieBanner() {
     if (!consent) {
       setVisible(true);
     } else if (consent === 'accepted' && typeof (window as any).gtag === 'function') {
-      // Restaura consentimento de sessão anterior
-      (window as any).gtag('consent', 'update', { analytics_storage: 'granted' });
+      (window as any).gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      });
     }
   }, []);
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');
-    // Atualiza consentimento do GA4
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
       (window as any).gtag('consent', 'update', {
         analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
       });
     }
     setVisible(false);

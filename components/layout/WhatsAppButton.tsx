@@ -2,7 +2,7 @@
 
 import { MessageCircle } from 'lucide-react';
 
-const WHATSAPP_NUMBER = '5511999999999';
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5565999585783';
 const WHATSAPP_MESSAGE = encodeURIComponent(
   'Olá! Sofri um golpe digital e preciso de ajuda para recuperar meu dinheiro.'
 );
