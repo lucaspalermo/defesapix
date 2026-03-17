@@ -26,6 +26,7 @@ const FOOTER_LINKS = {
     { label: 'Educação Digital',   href: '/educacao' },
     { label: 'Parceiros Jurídicos',href: '/parceiros' },
     { label: 'Planos e Preços',    href: '/#precos' },
+    { label: 'Documind — Contratos com IA', href: 'https://documind.com.br' },
   ],
   Legal: [
     { label: 'Termos de Uso',            href: '/termos' },
