@@ -3,10 +3,14 @@
 import { useState } from 'react';
 import {
   Search, ArrowRight, AlertTriangle, Clock, Shield, FileText,
-  CheckCircle, Zap, Lock, ChevronRight,
+  CheckCircle, Zap, Lock, ChevronRight, Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { track } from '@/lib/track';
+import toast from 'react-hot-toast';
+import { track, trackCheckoutStart, trackPurchase } from '@/lib/track';
+import PaymentModal from '@/components/tools/PaymentModal';
+
+interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
 
 /* ── Config por tipo de golpe ───────────────────────────────────────────── */
 interface GolpeDiag {
@@ -145,9 +149,16 @@ export default function DiagnosticoGratuito() {
   const [valor, setValor] = useState('');
   const [valorDisplay, setValorDisplay] = useState('');
   const [tempo, setTempo] = useState('');
+  const [cpf, setCpf] = useState('');
   const [result, setResult] = useState<DiagResult | null>(null);
   const [email, setEmail] = useState('');
   const [emailSalvo, setEmailSalvo] = useState(false);
+
+  // Payment state
+  const [plano, setPlano] = useState<'PACOTE_EMERGENCIA' | 'KIT_PREMIUM'>('PACOTE_EMERGENCIA');
+  const [paying, setPaying] = useState(false);
+  const [payment, setPayment] = useState<PaymentData | null>(null);
+  const [paid, setPaid] = useState(false);
 
   const handleValor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, '');
@@ -160,9 +171,41 @@ export default function DiagnosticoGratuito() {
 
   const handleDiagnosticar = () => {
     if (!tipo || !tempo) return;
+    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) {
+      toast.error('Informe seu CPF para continuar');
+      return;
+    }
     const res = calcular(tipo, valor, tempo);
     setResult(res);
     track('diagnostico_completo', { golpe: res.golpe.label, prob: res.prob, valor: res.valorNum });
+  };
+
+  const handleQuickPay = async () => {
+    setPaying(true);
+    const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
+    trackCheckoutStart(plano, valorProduto);
+    track('pagamento_iniciado_diagnostico', { plano, golpe: result?.golpe.label });
+
+    try {
+      const res = await fetch('/api/asaas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ produto: plano, nome: 'Cliente DefesaPix', cpf: cpf.replace(/\D/g, '') }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
+      setPayment({ paymentId: data.paymentId, pixQrCode: data.pixQrCode, pixCopiaECola: data.pixCopiaECola, valor: data.valor });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao iniciar pagamento');
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  const handlePaid = () => {
+    if (payment) trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+    setPaid(true);
+    setPayment(null);
   };
 
   const handleSalvarEmail = async () => {
@@ -232,6 +275,20 @@ export default function DiagnosticoGratuito() {
                   <option key={t.value} value={t.value}>{t.label}</option>
                 ))}
               </select>
+            </div>
+
+            {/* CPF */}
+            <div>
+              <label className="label">Seu CPF</label>
+              <input
+                type="text"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                placeholder="000.000.000-00"
+                className="input"
+                inputMode="numeric"
+              />
+              <p className="text-xs text-white/30 mt-1">Necessario para gerar o pagamento via Pix</p>
             </div>
 
             <button
@@ -377,15 +434,77 @@ export default function DiagnosticoGratuito() {
             ))}
           </div>
 
-          <Link href="/ferramentas/pacote-completo" className="btn-primary w-full justify-center py-4 text-base">
-            <Zap className="w-5 h-5" />
-            Desbloquear plano completo — R$47
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+          {!paid ? (
+            <>
+              {/* Plan selection */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
+                  className={`rounded-xl p-3 text-left transition-all border-2 ${
+                    plano === 'PACOTE_EMERGENCIA'
+                      ? 'border-green-500/60 bg-green-500/10'
+                      : 'border-white/10 bg-white/[0.03]'
+                  }`}>
+                  <span className="text-xs text-white/60 block">Kit Completo</span>
+                  <span className="text-lg font-black text-white">R$47</span>
+                  <span className="text-[0.6rem] text-white/40 block">5 documentos</span>
+                </button>
+                <button type="button" onClick={() => setPlano('KIT_PREMIUM')}
+                  className={`rounded-xl p-3 text-left transition-all border-2 relative ${
+                    plano === 'KIT_PREMIUM'
+                      ? 'border-violet-500/60 bg-violet-500/10'
+                      : 'border-white/10 bg-white/[0.03]'
+                  }`}>
+                  <span className="absolute -top-2 right-2 bg-violet-500 text-white text-[0.5rem] font-bold px-1.5 py-0.5 rounded-full">Recomendado</span>
+                  <span className="text-xs text-white/60 block">Kit Premium</span>
+                  <span className="text-lg font-black text-white">R$97</span>
+                  <span className="text-[0.6rem] text-white/40 block">5 docs + peticao JEC</span>
+                </button>
+              </div>
 
-          <p className="text-xs text-white/30 mt-3">
-            Pagamento único via Pix. Sem mensalidade. Garantia de 7 dias.
-          </p>
+              <button
+                onClick={handleQuickPay}
+                disabled={paying}
+                className={`w-full justify-center py-4 text-base font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                  plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+                }`}
+              >
+                {paying
+                  ? <><Loader2 className="w-5 h-5 animate-spin" /> Gerando QR Code...</>
+                  : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} via Pix</>}
+              </button>
+
+              <p className="text-xs text-white/30 mt-3">
+                Pagamento unico via Pix. Sem mensalidade. Garantia de 7 dias.
+              </p>
+            </>
+          ) : (
+            <div className="text-center">
+              <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+              <h4 className="font-bold text-white text-lg mb-2">Pagamento confirmado!</h4>
+              <p className="text-sm text-white/60 mb-4">
+                Agora preencha seus dados para gerar os documentos personalizados.
+              </p>
+              <Link
+                href={`/ferramentas/pacote-completo?pago=1&plano=${plano}`}
+                className="btn-primary w-full justify-center py-4 text-base font-semibold"
+              >
+                <FileText className="w-5 h-5" />
+                Preencher dados e gerar documentos
+              </Link>
+            </div>
+          )}
+
+          {payment && (
+            <PaymentModal
+              paymentId={payment.paymentId}
+              pixQrCode={payment.pixQrCode}
+              pixCopiaECola={payment.pixCopiaECola}
+              valor={payment.valor}
+              produto={plano === 'KIT_PREMIUM' ? 'Kit Premium' : 'Kit Completo'}
+              onPaid={handlePaid}
+              onClose={() => setPayment(null)}
+            />
+          )}
         </div>
       </div>
 
