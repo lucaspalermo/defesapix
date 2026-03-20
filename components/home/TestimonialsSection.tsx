@@ -1,4 +1,5 @@
-import { Star, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Star, CheckCircle, ArrowRight, Shield } from 'lucide-react';
 
 const TESTIMONIALS = [
   {
@@ -109,10 +110,15 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="mt-10 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-white/40 text-sm mb-8">
             Nomes e dados foram alterados para proteger a identidade das vítimas.
             Depoimentos verificados pela nossa equipe.
           </p>
+          <Link href="/ferramentas/pacote-completo" className="btn-primary inline-flex text-base px-8 py-4">
+            <Shield className="w-5 h-5" />
+            Gerar 5 documentos — R$47
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
     </section>

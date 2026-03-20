@@ -186,10 +186,11 @@ export default function PacoteCompleto() {
   const [valorDisplay, setValorDisplay] = useState('');
   const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
   const [plano, setPlano] = useState<PlanoKit>('PACOTE_EMERGENCIA');
+  const [step, setStep] = useState(1);
 
   const [formStarted, setFormStarted] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, watch, getValues, setValue, trigger } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
   });
@@ -320,6 +321,22 @@ export default function PacoteCompleto() {
     }
   };
 
+  const salvarDocsNoBanco = (paymentId: string, docsData: Docs) => {
+    const docEntries = docsData.docList
+      .filter((key) => docsData.texts[key])
+      .map((key) => ({ key, texto: docsData.texts[key]! }));
+    fetch('/api/documentos/salvar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        paymentId,
+        documentos: docEntries,
+        email: docsData.data.email,
+        nome: docsData.data.nome,
+      }),
+    }).catch(() => {});
+  };
+
   const onSubmit = async (data: FormData) => {
     const newDocs = gerarDocs(data);
     setDocs(newDocs);
@@ -329,7 +346,16 @@ export default function PacoteCompleto() {
     await startPayment(data);
   };
 
-  // ─── VIEW: FORM ──────────────────────────────────────────────────────────────
+  const handleNextStep = async (nextStep: number) => {
+    if (step === 1) {
+      const valid = await trigger(['tipoGolpe', 'dataOcorrencia']);
+      if (!valid) return;
+    }
+    setStep(nextStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // ─── VIEW: FORM (MULTI-STEP WIZARD) ────────────────────────────────────────
   if (!docs) {
     const docCount = config?.docs.length ?? 0;
 
@@ -337,69 +363,201 @@ export default function PacoteCompleto() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" onFocus={handleFormInteraction}>
         {isPix && dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
 
-        <div className="card border-orange-500/20">
-          <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-orange-400" />
-            Kit de Recuperação
-          </h2>
-
-          {/* ── Seus dados ── */}
-          <div className="space-y-4 mb-6">
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Seus dados</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="label">Nome completo *</label>
-                <input {...register('nome')} className="input" placeholder="Nome completo" />
-                {errors.nome && <p className="text-red-400 text-xs mt-1">{errors.nome.message}</p>}
-              </div>
-              <div>
-                <label className="label">CPF *</label>
-                <input {...register('cpf')} className="input" placeholder="000.000.000-00" />
-                {errors.cpf && <p className="text-red-400 text-xs mt-1">{errors.cpf.message}</p>}
-              </div>
-              <div>
-                <label className="label">E-mail *</label>
-                <input {...register('email')} type="email" className="input" placeholder="seu@email.com" />
-                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-              </div>
-              <div>
-                <label className="label">Telefone *</label>
-                <input {...register('telefone')} className="input" placeholder="(11) 99999-9999" />
-                {errors.telefone && <p className="text-red-400 text-xs mt-1">{errors.telefone.message}</p>}
-              </div>
+        {/* ── Progress bar ── */}
+        <div className="flex items-center gap-2 mb-2">
+          {[1, 2, 3].map((s) => (
+            <div key={s} className="flex-1 flex items-center gap-2">
+              <div className={`h-1.5 rounded-full flex-1 transition-all ${s <= step ? 'bg-orange-500' : 'bg-white/10'}`} />
             </div>
-            <div>
-              <label className="label">Endereço completo (opcional — para o BO)</label>
-              <input {...register('endereco')} className="input" placeholder="Rua, número, bairro, cidade — UF" />
-            </div>
-          </div>
+          ))}
+          <span className="text-xs text-white/40 ml-1">Passo {step}/3</span>
+        </div>
 
-          {/* ── Tipo de golpe ── */}
-          <div className="space-y-4 mb-6">
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">O que aconteceu?</h3>
-            <div>
-              <label className="label">Tipo de golpe *</label>
-              <select {...register('tipoGolpe')} className="select">
-                <option value="">Selecione o que aconteceu...</option>
-                {TIPOS_GOLPE.map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
-              {errors.tipoGolpe && <p className="text-red-400 text-xs mt-1">{errors.tipoGolpe.message}</p>}
+        {/* ════════════════════════════════════════════════════════════════════════
+            STEP 1: O que aconteceu? (tipo golpe + valor + data)
+           ════════════════════════════════════════════════════════════════════════ */}
+        {step === 1 && (
+          <div className="card border-orange-500/20">
+            <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-orange-400" />
+              O que aconteceu?
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="label">Tipo de golpe *</label>
+                <select {...register('tipoGolpe')} className="select">
+                  <option value="">Selecione o que aconteceu...</option>
+                  {TIPOS_GOLPE.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+                {errors.tipoGolpe && <p className="text-red-400 text-xs mt-1">{errors.tipoGolpe.message}</p>}
+              </div>
+
+              {config && (
+                <div className="flex flex-wrap gap-2">
+                  {config.docs.map((key) => (
+                    <span key={key} className="text-[0.65rem] px-2 py-1 rounded-full bg-white/5 text-white/50 border border-white/10">
+                      {DOC_META[key].label}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {config?.showValor && (
+                <div>
+                  <label className="label">{config.valorLabel}</label>
+                  <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
+                </div>
+              )}
+
+              <div>
+                <label className="label">Data da ocorrência *</label>
+                <input {...register('dataOcorrencia')} type="date" className="input" />
+                {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
+              </div>
             </div>
 
             {config && (
-              <div className="flex flex-wrap gap-2">
-                {config.docs.map((key) => (
-                  <span key={key} className="text-[0.65rem] px-2 py-1 rounded-full bg-white/5 text-white/50 border border-white/10">
-                    {DOC_META[key].label}
+              <button type="button" onClick={() => handleNextStep(2)}
+                className="w-full mt-6 btn-primary justify-center py-4 text-base font-semibold rounded-xl flex items-center gap-2">
+                Ver preço e continuar
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* ════════════════════════════════════════════════════════════════════════
+            STEP 2: Escolha do plano (mostrar preço cedo)
+           ════════════════════════════════════════════════════════════════════════ */}
+        {step === 2 && config && (
+          <div className="space-y-4">
+            <div className="card border-orange-500/20">
+              <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-orange-400" />
+                Escolha seu Kit de Recuperação
+              </h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
+                  className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
+                    plano === 'PACOTE_EMERGENCIA'
+                      ? 'border-green-500/60 bg-green-500/10'
+                      : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                  }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold text-white">Kit Completo</span>
+                    <span className="text-lg font-black text-white">R$47</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {['BO', 'Contestação MED', 'Notificação Bancária', 'Reclamação BACEN', 'Reclamação Procon'].map((d) => (
+                      <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
+                        <CheckCircle className="w-3 h-3 text-green-400 shrink-0" />{d}
+                      </li>
+                    ))}
+                  </ul>
+                </button>
+
+                <button type="button" onClick={() => setPlano('KIT_PREMIUM')}
+                  className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
+                    plano === 'KIT_PREMIUM'
+                      ? 'border-violet-500/60 bg-violet-500/10'
+                      : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                  }`}>
+                  <div className="absolute -top-2.5 right-3 bg-violet-500 text-white text-[0.6rem] font-bold px-2 py-0.5 rounded-full">
+                    Recomendado
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold text-white">Kit Premium</span>
+                    <span className="text-lg font-black text-white">R$97</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {['Tudo do Kit Completo (5 docs)', 'Petição Inicial JEC', 'Fundamentação legal completa', 'Cálculo de dano moral', 'Processe sem advogado'].map((d) => (
+                      <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
+                        <CheckCircle className="w-3 h-3 text-violet-400 shrink-0" />{d}
+                      </li>
+                    ))}
+                  </ul>
+                </button>
+              </div>
+
+              {plano === 'KIT_PREMIUM' && (
+                <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-3 flex items-start gap-3 mt-4">
+                  <Scale className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                  <p className="text-xs text-white/60">
+                    <strong className="text-white">Banco negou a devolução?</strong> O Kit Premium inclui a Petição Inicial para o Juizado Especial Cível — gratuito para causas até 20 salários mínimos, sem advogado.
+                  </p>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-2 justify-center mt-4">
+                {['Documentos jurídicos prontos', 'Guia passo a passo', 'Melhoria com IA', 'Garantia 7 dias'].map((t) => (
+                  <span key={t} className="text-[0.65rem] px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                    <CheckCircle className="w-3 h-3 inline mr-1" />{t}
                   </span>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* ── Campos dinâmicos ── */}
-          {config && (
-            <>
+            <div className="flex gap-3">
+              <button type="button" onClick={() => setStep(1)}
+                className="btn-secondary justify-center py-3 px-6 rounded-xl text-sm">
+                Voltar
+              </button>
+              <button type="button" onClick={() => handleNextStep(3)}
+                className={`flex-1 justify-center py-4 text-base font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                  plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+                }`}>
+                Continuar — R${plano === 'KIT_PREMIUM' ? '97' : '47'}
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ════════════════════════════════════════════════════════════════════════
+            STEP 3: Dados pessoais + detalhes + pagamento
+           ════════════════════════════════════════════════════════════════════════ */}
+        {step === 3 && config && (
+          <div className="space-y-6">
+            <div className="card border-orange-500/20">
+              <h2 className="font-bold text-white text-lg mb-5 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-orange-400" />
+                Seus dados para gerar os documentos
+              </h2>
+
+              {/* ── Seus dados ── */}
+              <div className="space-y-4 mb-6">
+                <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Seus dados</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label">Nome completo *</label>
+                    <input {...register('nome')} className="input" placeholder="Nome completo" />
+                    {errors.nome && <p className="text-red-400 text-xs mt-1">{errors.nome.message}</p>}
+                  </div>
+                  <div>
+                    <label className="label">CPF *</label>
+                    <input {...register('cpf')} className="input" placeholder="000.000.000-00" />
+                    {errors.cpf && <p className="text-red-400 text-xs mt-1">{errors.cpf.message}</p>}
+                  </div>
+                  <div>
+                    <label className="label">E-mail *</label>
+                    <input {...register('email')} type="email" className="input" placeholder="seu@email.com" />
+                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+                  </div>
+                  <div>
+                    <label className="label">Telefone *</label>
+                    <input {...register('telefone')} className="input" placeholder="(11) 99999-9999" />
+                    {errors.telefone && <p className="text-red-400 text-xs mt-1">{errors.telefone.message}</p>}
+                  </div>
+                </div>
+                <div>
+                  <label className="label">Endereço completo (opcional — para o BO)</label>
+                  <input {...register('endereco')} className="input" placeholder="Rua, número, bairro, cidade — UF" />
+                </div>
+              </div>
+
+              {/* ── Dados bancários (dinâmico) ── */}
               {config.showBanco && (
                 <div className="space-y-4 mb-6">
                   <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Dados bancários</h3>
@@ -442,21 +600,9 @@ export default function PacoteCompleto() {
                 </div>
               )}
 
+              {/* ── Detalhes da ocorrência ── */}
               <div className="space-y-4 mb-6">
                 <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Detalhes da ocorrência</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {config.showValor && (
-                    <div>
-                      <label className="label">{config.valorLabel}</label>
-                      <input value={valorDisplay} onChange={handleValorChange} inputMode="numeric" className="input" placeholder="0,00" />
-                    </div>
-                  )}
-                  <div>
-                    <label className="label">Data da ocorrência *</label>
-                    <input {...register('dataOcorrencia')} type="date" className="input" />
-                    {errors.dataOcorrencia && <p className="text-red-400 text-xs mt-1">{errors.dataOcorrencia.message}</p>}
-                  </div>
-                </div>
                 {isPix && (
                   <div>
                     <label className="label">Chave Pix do golpista *</label>
@@ -488,80 +634,23 @@ export default function PacoteCompleto() {
                   <input {...register('numeroBo')} className="input" placeholder="Opcional" />
                 </div>
               </div>
-            </>
-          )}
-        </div>
-
-        {/* ── Seleção de plano ── */}
-        {config && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
-                className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
-                  plano === 'PACOTE_EMERGENCIA'
-                    ? 'border-green-500/60 bg-green-500/10'
-                    : 'border-white/10 bg-white/[0.03] hover:border-white/20'
-                }`}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold text-white">Kit Completo</span>
-                  <span className="text-lg font-black text-white">R$47</span>
-                </div>
-                <ul className="space-y-1">
-                  {['BO', 'Contestação MED', 'Notificação Bancária', 'Reclamação BACEN', 'Reclamação Procon'].map((d) => (
-                    <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
-                      <CheckCircle className="w-3 h-3 text-green-400 shrink-0" />{d}
-                    </li>
-                  ))}
-                </ul>
-              </button>
-
-              <button type="button" onClick={() => setPlano('KIT_PREMIUM')}
-                className={`relative rounded-2xl p-4 text-left transition-all border-2 ${
-                  plano === 'KIT_PREMIUM'
-                    ? 'border-violet-500/60 bg-violet-500/10'
-                    : 'border-white/10 bg-white/[0.03] hover:border-white/20'
-                }`}>
-                <div className="absolute -top-2.5 right-3 bg-violet-500 text-white text-[0.6rem] font-bold px-2 py-0.5 rounded-full">
-                  Recomendado
-                </div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold text-white">Kit Premium</span>
-                  <span className="text-lg font-black text-white">R$97</span>
-                </div>
-                <ul className="space-y-1">
-                  {['Tudo do Kit Completo (5 docs)', 'Petição Inicial JEC', 'Fundamentação legal completa', 'Cálculo de dano moral', 'Processe sem advogado'].map((d) => (
-                    <li key={d} className="flex items-center gap-1.5 text-xs text-white/50">
-                      <CheckCircle className="w-3 h-3 text-violet-400 shrink-0" />{d}
-                    </li>
-                  ))}
-                </ul>
-              </button>
             </div>
 
-            {plano === 'KIT_PREMIUM' && (
-              <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-3 flex items-start gap-3">
-                <Scale className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                <p className="text-xs text-white/60">
-                  <strong className="text-white">Banco negou a devolução?</strong> O Kit Premium inclui a Petição Inicial para o Juizado Especial Cível — gratuito para causas até 20 salários mínimos, sem advogado.
-                </p>
-              </div>
-            )}
-
-            <div className="flex flex-wrap gap-2 justify-center">
-              {['Documentos jurídicos prontos', 'Guia passo a passo', 'Melhoria com IA', 'Garantia 7 dias'].map((t) => (
-                <span key={t} className="text-[0.65rem] px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
-                  <CheckCircle className="w-3 h-3 inline mr-1" />{t}
-                </span>
-              ))}
+            {/* ── Botão de pagamento ── */}
+            <div className="flex gap-3">
+              <button type="button" onClick={() => setStep(2)}
+                className="btn-secondary justify-center py-3 px-6 rounded-xl text-sm">
+                Voltar
+              </button>
+              <button type="submit" disabled={paying}
+                className={`flex-1 justify-center py-4 text-base disabled:opacity-60 font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                  plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+                }`}>
+                {paying
+                  ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
+                  : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} — gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''}</>}
+              </button>
             </div>
-            <button type="submit" disabled={paying}
-              className={`w-full justify-center py-4 text-base disabled:opacity-60 font-semibold rounded-xl transition-all flex items-center gap-2 ${
-                plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
-              }`}>
-              {paying
-                ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
-                : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} — gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''}</>}
-            </button>
             <p className="text-xs text-white/30 text-center">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
           </div>
         )}
@@ -575,6 +664,7 @@ export default function PacoteCompleto() {
             produto={`Kit ${config?.docs.length ?? 0} Documento${(config?.docs.length ?? 0) > 1 ? 's' : ''}`}
             onPaid={() => {
               trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+              if (docs) salvarDocsNoBanco(payment.paymentId, docs);
               setPaid(true);
               setPayment(null);
             }}
@@ -660,6 +750,7 @@ export default function PacoteCompleto() {
             produto={`Kit ${docCount} Documento${docCount > 1 ? 's' : ''}`}
             onPaid={() => {
               trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+              if (docs) salvarDocsNoBanco(payment.paymentId, docs);
               setPaid(true);
               setPayment(null);
             }}

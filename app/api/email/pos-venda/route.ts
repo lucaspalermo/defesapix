@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { email, nome, tipo, produto, paymentId } = await req.json();
+    const { email, nome, tipo, produto, paymentId, accessUrl } = await req.json();
     if (!email || !nome || !tipo) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 });
     }
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         await transporter.sendMail({
           from, to: email,
           subject: `Seus documentos estão prontos, ${nomeSafe}!`,
-          html: templateDocumentosEntregues(nomeSafe),
+          html: templateDocumentosEntregues(nomeSafe, accessUrl),
         });
         break;
 

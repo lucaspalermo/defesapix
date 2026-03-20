@@ -95,6 +95,10 @@ export default function GeradorMEDPage() {
             </div>
           </div>
 
+          {/* Disclaimer — compliance Google Ads */}
+          <p className="text-xs text-white/25 leading-relaxed text-center mt-8 max-w-2xl mx-auto">
+            Os documentos gerados são modelos orientativos baseados na Resolução BCB nº 93/2021 e não substituem aconselhamento jurídico profissional. A DefesaPix não é um escritório de advocacia. Resultados podem variar conforme cada caso.
+          </p>
         </div>
       </section>
     </>

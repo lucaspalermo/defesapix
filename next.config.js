@@ -38,7 +38,8 @@ const nextConfig = {
   async redirects() {
     return [
       // SEO redirects for common misspellings
-      { source: '/golpe-pix', destination: '/golpe-pix-o-que-fazer', permanent: true },
+      { source: '/golpe-pix', destination: '/golpes/golpe-pix', permanent: true },
+      { source: '/golpe-pix-o-que-fazer', destination: '/golpes/golpe-pix', permanent: true },
       { source: '/med', destination: '/calculadora-med', permanent: true },
       { source: '/diagnostico', destination: '/ferramentas/diagnostico', permanent: true },
     ];

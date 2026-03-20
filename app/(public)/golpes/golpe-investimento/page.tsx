@@ -71,7 +71,7 @@ export default function GolpeInvestimentoPage() {
           </div>
           <h1 className="font-heading font-black text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.06] tracking-[-0.02em] text-white mb-4">
             Golpe de Investimento:<br />
-            <span className="gradient-text">O Que Fazer em 2025</span>
+            <span className="gradient-text">O Que Fazer em 2026</span>
           </h1>
           <p className="text-xl text-white/70 mb-8">
             Pirâmides financeiras, criptomoedas falsas e investimentos fraudulentos.

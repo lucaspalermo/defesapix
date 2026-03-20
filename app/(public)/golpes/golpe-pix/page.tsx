@@ -6,9 +6,9 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe via Pix: O Que Fazer? Guia Completo 2025',
+  title: 'Golpe via Pix: O Que Fazer? Guia Completo 2026',
   description:
-    'Caiu num golpe via Pix? Saiba exatamente o que fazer em 2025. MED, Boletim de Ocorrência, notificação bancária — tudo explicado passo a passo. Recupere seu dinheiro.',
+    'Caiu num golpe via Pix? Saiba exatamente o que fazer em 2026. MED, Boletim de Ocorrência, notificação bancária — tudo explicado passo a passo. Recupere seu dinheiro.',
   keywords: [
     'golpe pix o que fazer',
     'recuperar dinheiro golpe pix',
@@ -19,6 +19,14 @@ export const metadata: Metadata = {
     'prazo contestacao pix',
   ],
   alternates: { canonical: 'https://defesapix.com.br/golpes/golpe-pix' },
+  openGraph: {
+    title: 'Golpe via Pix: O Que Fazer? Guia Completo 2026',
+    description: 'Saiba exatamente o que fazer após cair num golpe Pix. MED, BO, notificação bancária — guia passo a passo para recuperar seu dinheiro.',
+    url: 'https://defesapix.com.br/golpes/golpe-pix',
+    siteName: 'DefesaPix',
+    type: 'article',
+    locale: 'pt_BR',
+  },
 };
 
 const faqItems = [
@@ -51,7 +59,7 @@ const faqItems = [
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Golpe via Pix: O Que Fazer? Guia Completo 2025',
+  headline: 'Golpe via Pix: O Que Fazer? Guia Completo 2026',
   description: 'Guia completo sobre como agir após cair em golpe via Pix. MED, BO, notificação bancária e mais.',
   author: { '@type': 'Organization', name: 'DefesaPix' },
   publisher: { '@type': 'Organization', name: 'DefesaPix' },
@@ -106,7 +114,7 @@ export default function GolpePixPage() {
 
           <h1 className="font-heading font-black text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.06] tracking-[-0.02em] text-white mb-4">
             Golpe via Pix: O Que Fazer?<br />
-            <span className="gradient-text">Guia Completo 2025</span>
+            <span className="gradient-text">Guia Completo 2026</span>
           </h1>
 
           <p className="text-xl text-white/70 mb-8 leading-relaxed">
@@ -314,7 +322,7 @@ export default function GolpePixPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { titulo: 'MED: O que é e como acionar o Mecanismo Especial de Devolução', href: '/blog/med-mecanismo-especial-devolucao-pix' },
-              { titulo: 'Como recuperar dinheiro de golpe Pix em 2025', href: '/blog/como-recuperar-dinheiro-golpe-pix-2025' },
+              { titulo: 'Como recuperar dinheiro de golpe Pix em 2026', href: '/blog/como-recuperar-dinheiro-golpe-pix-2025' },
               { titulo: 'Golpe do QR Code Pix: como funciona e como evitar', href: '/blog/golpe-qr-code-pix-como-funciona' },
               { titulo: 'O banco é responsável pelos golpes digitais? O que diz o STJ', href: '/blog/banco-responsavel-golpe-digital-stj' },
             ].map((item) => (

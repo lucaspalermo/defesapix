@@ -35,16 +35,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/ferramentas/checklist`, priority: 0.8, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/ferramentas/pacote-completo`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/calculadora-med`, priority: 0.9, changeFrequency: 'monthly' as const },
-    { url: `${BASE_URL}/golpe-pix-o-que-fazer`, priority: 0.95, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/assinar`, priority: 0.7, changeFrequency: 'monthly' as const },
     { url: `${BASE_URL}/blog`, priority: 0.7, changeFrequency: 'daily' as const },
     { url: `${BASE_URL}/educacao`, priority: 0.7, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/parceiros`, priority: 0.6, changeFrequency: 'weekly' as const },
     { url: `${BASE_URL}/sobre`, priority: 0.5, changeFrequency: 'monthly' as const },
-    { url: `${BASE_URL}/termos`, priority: 0.3, changeFrequency: 'yearly' as const },
-    { url: `${BASE_URL}/privacidade`, priority: 0.3, changeFrequency: 'yearly' as const },
-    { url: `${BASE_URL}/lgpd`, priority: 0.3, changeFrequency: 'yearly' as const },
-    { url: `${BASE_URL}/cookies`, priority: 0.3, changeFrequency: 'yearly' as const },
+    // /termos, /privacidade, /lgpd, /cookies removidas — têm robots noindex
   ];
 
   // Static blog articles
@@ -61,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'lei-14155-2021-fraude-digital-penas',
     'juizado-especial-civel-golpe-digital',
     'golpe-marketplace-olx-mercado-livre',
-    'como-recuperar-dinheiro-golpe-pix-2025',
+    'como-recuperar-dinheiro-golpe-pix-2025', // slug mantido para não quebrar links existentes
     'golpe-qr-code-pix-como-funciona',
     'seguro-celular-vale-a-pena',
     'direitos-consumidor-banco-digital',
@@ -69,6 +65,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'como-bloquear-celular-roubado-imei',
     'engenharia-social-o-que-e-como-se-proteger',
     'conta-laranja-pix-consequencias-legais',
+    'golpe-instagram-como-identificar-2026',
+    'golpe-emprestimo-falso-como-evitar',
+    'como-saber-se-e-golpe-checklist',
+    'golpe-tinder-romance-online',
+    'cai-em-um-golpe-o-que-fazer-primeiro',
+    'golpe-nubank-inter-c6-banco-digital',
+    'como-denunciar-golpe-internet-2026',
+    'pix-para-pessoa-errada-como-recuperar',
+    'golpe-telegram-grupo-investimento',
+    'direitos-vitima-golpe-digital-2026',
   ];
 
   const staticBlogPages = BLOG_SLUGS.map((slug) => ({

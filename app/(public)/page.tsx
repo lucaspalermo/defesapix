@@ -17,10 +17,18 @@ import ReviewSchema from '@/components/seo/ReviewSchema';
 import MedCalculator from '@/components/home/MedCalculator';
 
 export const metadata: Metadata = {
-  title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro',
+  title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro | DefesaPix',
   description:
     'Caiu num golpe via Pix? Diagnóstico gratuito em 30s + Kit Completo com 5 documentos jurídicos por R$47. Contestação MED, BO, notificação bancária. Prazo MED: 72h — aja agora.',
   alternates: { canonical: 'https://defesapix.com.br' },
+  openGraph: {
+    title: 'Golpe Pix: O Que Fazer? Recupere seu Dinheiro | DefesaPix',
+    description: 'Diagnóstico gratuito em 30s + Kit Completo com 5 documentos jurídicos por R$47. Contestação MED, BO, notificação bancária.',
+    url: 'https://defesapix.com.br',
+    siteName: 'DefesaPix',
+    type: 'website',
+    locale: 'pt_BR',
+  },
 };
 
 const GOLPE_TYPES = [
@@ -99,7 +107,7 @@ export default function HomePage() {
                 <span className="text-white/50 font-bold text-[0.72em]">Recupere seu dinheiro.</span>
               </h1>
 
-              <p className="text-lg text-white/40 leading-relaxed mb-8 max-w-xl">
+              <p className="text-lg text-white/60 leading-relaxed mb-8 max-w-xl">
                 A maior plataforma brasileira para recuperação após golpes digitais. Documentos jurídicos em minutos, plano de ação personalizado e rede de especialistas.
               </p>
 
@@ -114,7 +122,7 @@ export default function HomePage() {
                 </TrackedLink>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/30">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/50">
                 {['Sem advogado necessário', 'Documentos em 15 min', 'R$47 pagamento único'].map((t) => (
                   <span key={t} className="flex items-center gap-1.5">
                     <CheckCircle className="w-3.5 h-3.5 text-green-500" />
@@ -312,7 +320,7 @@ export default function HomePage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-white leading-tight">Golpe Pix — Agir agora</p>
-                <p className="text-xs text-white/40 mt-0.5">3 documentos em 15 minutos</p>
+                <p className="text-xs text-white/40 mt-0.5">5 documentos em 15 minutos</p>
               </div>
               <ArrowRight className="w-4 h-4 text-ember-400/40 shrink-0 group-hover:translate-x-0.5 transition-transform" />
             </Link>
@@ -605,9 +613,9 @@ export default function HomePage() {
             O MED tem janela de 72 horas. Gere seus documentos agora e dê o primeiro passo para recuperar seu dinheiro.
           </p>
 
-          <Link href="/ferramentas" className="btn-primary inline-flex text-lg px-10 py-5">
+          <Link href="/ferramentas/pacote-completo" className="btn-primary inline-flex text-lg px-10 py-5">
             <Shield className="w-5 h-5" />
-            Criar meu plano de defesa — grátis
+            Gerar 5 documentos — R$47
             <ArrowRight className="w-5 h-5" />
           </Link>
 

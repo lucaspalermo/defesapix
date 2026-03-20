@@ -9,7 +9,7 @@ const PLANS = [
     priceLabel: '',
     desc: 'Para começar sua defesa agora',
     cta: 'Começar grátis',
-    ctaHref: '/ferramentas',
+    ctaHref: '/ferramentas/pacote-completo',
     highlight: false,
     features: [
       { text: 'Classificação de golpe por IA', included: true },
@@ -29,7 +29,7 @@ const PLANS = [
     price: 47,
     priceLabel: 'pagamento único',
     desc: '5 documentos prontos em 15 minutos',
-    cta: 'Gerar documentos agora',
+    cta: 'Gerar 5 documentos — R$47',
     ctaHref: '/ferramentas/pacote-completo',
     highlight: true,
     badge: 'Mais popular',

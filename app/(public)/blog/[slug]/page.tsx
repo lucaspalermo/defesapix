@@ -892,6 +892,440 @@ Se você descobriu que sua conta foi usada para receber valores de golpes, preci
 Na **DefesaPix**, gere os documentos necessários em 15 minutos por **R$47**. Proteja-se legalmente. Acesse **defesapix.com.br**.
     `,
   },
+  'golpe-instagram-como-identificar-2026': {
+    titulo: 'Golpe no Instagram em 2026: Como Identificar e O Que Fazer',
+    resumo: 'Perfis falsos, promoções fraudulentas, lojas fake e golpe do investimento no Instagram. Saiba como identificar e proteger seu dinheiro.',
+    categoria: 'Golpes',
+    tags: ['Instagram', 'Golpe', 'Redes Sociais', '2026'],
+    tempoLeitura: 7,
+    publishedAt: '2026-03-15',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Golpes no Instagram explodiram em 2026
+
+O Instagram se tornou o terreno favorito dos golpistas. Perfis clonados, lojas falsas, sorteios inexistentes e promessas de investimento multiplicam as vítimas todos os dias. Se você caiu em um golpe pelo Instagram, saiba que **não está sozinho** — e que existe um caminho para agir.
+
+## Os golpes mais comuns no Instagram
+
+### 1. Perfil clonado pedindo Pix
+O golpista copia foto e nome de um amigo ou familiar e envia mensagem pedindo dinheiro urgente. A vítima, achando que está ajudando alguém próximo, transfere via Pix.
+
+### 2. Loja falsa com preços irresistíveis
+Perfis com milhares de seguidores (comprados), fotos profissionais de produtos e preços 70% abaixo do mercado. Após o pagamento, o produto nunca chega e o perfil desaparece.
+
+### 3. Golpe do investimento
+Stories de "renda extra", "robô do Pix", "multiplicador de dinheiro". Prometem retorno de 200-500% em dias. É pirâmide financeira — o dinheiro nunca volta.
+
+### 4. Sorteio falso
+Perfis que imitam grandes marcas anunciam sorteios. Para "participar", pedem dados pessoais, CPF ou até pagamento de "taxa de envio".
+
+## Os sinais de que é golpe
+
+- Preço muito abaixo do mercado
+- Perfil criado recentemente
+- Poucos posts mas muitos seguidores
+- Só aceita Pix (sem cartão ou boleto)
+- Pressão para decidir rápido ("últimas unidades!")
+- Não tem CNPJ ou endereço verificável
+
+## O que fazer se caiu no golpe
+
+Você precisa agir rápido. O **MED (Mecanismo Especial de Devolução)** tem prazo de **72 horas** para ser acionado. Além disso, um Boletim de Ocorrência, notificação bancária e reclamações nos órgãos competentes são fundamentais.
+
+Montar esses documentos sozinho pode levar dias e conter erros que comprometem sua chance de recuperação. Com o **Kit Completo da DefesaPix**, você gera os **5 documentos jurídicos necessários em 15 minutos por apenas R$47** — com linguagem profissional e citações legais corretas.
+
+**Acesse agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+
+Não sabe se tem chance de recuperar? Faça nosso **Diagnóstico Gratuito** em 30 segundos: [defesapix.com.br/ferramentas/diagnostico](https://defesapix.com.br/ferramentas/diagnostico)
+    `,
+  },
+  'golpe-emprestimo-falso-como-evitar': {
+    titulo: 'Golpe do Empréstimo Falso: Como Funciona e O Que Fazer',
+    resumo: 'Pagou taxa antecipada para liberar empréstimo? Descubra como funciona o golpe do crédito falso e como recuperar seu dinheiro.',
+    categoria: 'Golpes',
+    tags: ['Empréstimo', 'Golpe', 'Crédito', 'Taxa Antecipada'],
+    tempoLeitura: 6,
+    publishedAt: '2026-03-14',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## O golpe do empréstimo que mais cresce no Brasil
+
+O golpe do empréstimo falso é um dos que mais crescem em 2026. Funciona assim: a vítima procura crédito (geralmente com nome negativado), encontra uma "financeira" que aprova na hora e cobra uma **taxa antecipada via Pix** para liberar o valor. Após o pagamento, o empréstimo nunca é liberado e o golpista desaparece.
+
+## Como o golpe funciona
+
+1. **Anúncio atrativo**: "Empréstimo para negativados, aprovação imediata, sem consulta ao SPC"
+2. **Contato por WhatsApp**: Um "consultor" pede seus dados e simula uma análise
+3. **Aprovação garantida**: Diz que seu crédito foi aprovado (valores altos, parcelas baixas)
+4. **Taxa antecipada**: Pede Pix de R$200 a R$2.000 como "taxa de seguro", "taxa de abertura" ou "IOF antecipado"
+5. **Sumiço**: Após o pagamento, bloqueiam seu número
+
+## Sinais de alerta
+
+- Empréstimo aprovado sem análise de crédito real
+- Cobrança de qualquer valor ANTES da liberação do crédito
+- Contato apenas por WhatsApp (sem agência física)
+- CNPJ inexistente ou inválido
+- Juros muito abaixo do mercado
+
+**Importante**: Nenhuma instituição financeira legítima cobra taxa antecipada para liberar empréstimo. Isso é proibido pelo Banco Central.
+
+## Caiu nesse golpe? Aja agora
+
+O dinheiro enviado via Pix pode ser recuperado pelo **MED**, mas o prazo é de **apenas 72 horas**. Você precisa de um Boletim de Ocorrência detalhado, contestação MED e notificação bancária — tudo com fundamentação legal.
+
+O **Kit Completo da DefesaPix** gera todos esses documentos automaticamente por **R$47**. Em 15 minutos você tem tudo pronto para agir.
+
+**Gere seus documentos agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'como-saber-se-e-golpe-checklist': {
+    titulo: 'Como Saber se é Golpe: Checklist Definitivo para 2026',
+    resumo: 'Recebeu uma oferta suspeita? Use nosso checklist com 15 sinais para identificar golpes digitais antes de perder dinheiro.',
+    categoria: 'Prevenção',
+    tags: ['Prevenção', 'Checklist', 'Golpe', 'Dicas', '2026'],
+    tempoLeitura: 5,
+    publishedAt: '2026-03-13',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## 15 sinais de que você está prestes a cair num golpe
+
+Antes de fazer qualquer Pix, transferência ou pagamento, passe pela lista abaixo. Se 3 ou mais itens se aplicam, **pare imediatamente**.
+
+### Sinais financeiros
+1. **Preço muito abaixo do mercado** (50-80% de desconto)
+2. **Só aceita Pix** — sem opção de cartão ou boleto
+3. **Cobram taxa antecipada** para liberar algo (empréstimo, prêmio, produto)
+4. **Prometem retorno financeiro garantido** (investimento, robô do Pix)
+5. **Pix para pessoa física** em vez de CNPJ da empresa
+
+### Sinais de comunicação
+6. **Urgência extrema** ("só hoje", "últimas vagas", "expira em 1 hora")
+7. **Contato apenas por WhatsApp** ou Telegram
+8. **Português com erros** ou linguagem genérica
+9. **Pedem dados sensíveis** (senha, código SMS, token)
+10. **Link com domínio estranho** (letras trocadas, .xyz, .top)
+
+### Sinais de identidade
+11. **Perfil/site criado recentemente**
+12. **CNPJ inexistente** ou de outra empresa quando consultado
+13. **Sem endereço físico** verificável
+14. **Avaliações fake** (todas 5 estrelas, textos genéricos)
+15. **Se passam por banco, governo ou marca** famosa
+
+## Já caiu? Não espere
+
+Se você já transferiu dinheiro e se deu conta de que é golpe, o tempo é seu maior aliado. O MED tem prazo de **72 horas** e cada minuto que passa diminui sua chance de recuperação.
+
+O **Kit Completo da DefesaPix** gera todos os documentos necessários (BO, MED, notificações) em **15 minutos por R$47**. Sem advogado, sem complicação.
+
+**Aja agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'golpe-tinder-romance-online': {
+    titulo: 'Golpe do Tinder e Apps de Relacionamento: Como Se Proteger',
+    resumo: 'Conheceu alguém online que pediu dinheiro? Entenda como funciona o golpe do romance digital e o que fazer se for vítima.',
+    categoria: 'Golpes',
+    tags: ['Tinder', 'Romance', 'Golpe', 'App de Namoro'],
+    tempoLeitura: 7,
+    publishedAt: '2026-03-12',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## O golpe do amor que custa caro
+
+O golpe do romance é um dos mais devastadores — financeira e emocionalmente. Funciona em apps como Tinder, Bumble, Happn e até Instagram. O golpista cria um perfil atraente, desenvolve um relacionamento ao longo de semanas ou meses, e começa a pedir dinheiro.
+
+## Como funciona
+
+1. **Perfil perfeito**: Fotos atraentes (roubadas da internet), profissão de prestígio (médico, militar, engenheiro no exterior)
+2. **Conexão emocional**: Semanas de conversa diária, mensagens carinhosas, planos futuros juntos
+3. **A emergência**: Surge um problema: doença, acidente, conta bloqueada, passagem para "finalmente se encontrarem"
+4. **O pedido**: "Preciso de ajuda urgente, vou devolver assim que puder"
+5. **Escalada**: Os pedidos aumentam. A vítima, já emocionalmente envolvida, continua enviando dinheiro
+6. **O sumiço**: Eventualmente o golpista desaparece ou inventa outra emergência
+
+## Valores perdidos
+
+Vítimas de golpe do romance no Brasil perdem em média **R$15.000 a R$50.000** ao longo de meses. Algumas perdem economias de uma vida inteira.
+
+## Sinais de alerta
+
+- Nunca aceita videochamada (ou inventa desculpas)
+- Sempre tem uma "emergência" que requer Pix
+- Relacionamento evolui muito rápido emocionalmente
+- Mora "no exterior" ou "viaja muito a trabalho"
+- Perfil com poucas fotos e sem amigos/interações reais
+
+## Caiu no golpe do romance?
+
+Sabemos que é difícil aceitar. Mas cada dia que você demora para agir, menor a chance de recuperação. O **MED tem prazo de 72 horas** para os Pix mais recentes, e um B.O. detalhado é essencial para qualquer processo.
+
+O **Kit Completo da DefesaPix** gera os 5 documentos jurídicos que você precisa em **15 minutos por R$47**. Aja com discrição e rapidez.
+
+**Comece agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'cai-em-um-golpe-o-que-fazer-primeiro': {
+    titulo: 'Caí em um Golpe: O Que Fazer Primeiro? Guia de Emergência 2026',
+    resumo: 'Acabou de cair em um golpe? Veja os primeiros passos urgentes para maximizar suas chances de recuperar o dinheiro.',
+    categoria: 'Tutoriais',
+    tags: ['Golpe', 'Emergência', 'Primeiro Passo', 'Recuperação', '2026'],
+    tempoLeitura: 5,
+    publishedAt: '2026-03-11',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Você acabou de cair em um golpe. E agora?
+
+Respire fundo. Você não é a primeira pessoa — e infelizmente não será a última. O mais importante agora é **agir rápido**. As primeiras horas são decisivas para recuperar seu dinheiro.
+
+## A janela de oportunidade
+
+- **Primeiras 72 horas**: MED (Mecanismo Especial de Devolução) pode bloquear o dinheiro na conta do golpista
+- **Primeiras 24 horas**: Maior chance de os valores ainda estarem na conta
+- **Após 72 horas**: MED ainda pode ser tentado (até 80 dias), mas a chance de recuperação cai drasticamente
+
+## O que você NÃO deve fazer
+
+- Não entre em pânico e tome decisões precipitadas
+- Não tente negociar com o golpista
+- Não envie mais dinheiro (mesmo que ameacem)
+- Não apague conversas ou comprovantes
+- Não espere "para ver se resolve sozinho"
+
+## O que você PRECISA fazer
+
+Você precisa de **5 documentos específicos** para maximizar suas chances:
+
+1. **Boletim de Ocorrência** detalhado com todas as evidências
+2. **Contestação MED** com fundamentação na Resolução BCB 93/2021
+3. **Notificação Bancária** citando o CDC e a responsabilidade do banco
+4. **Reclamação no Banco Central** via MeuBC
+5. **Reclamação no Procon** via consumidor.gov.br
+
+Cada documento precisa de **linguagem jurídica correta** e **citações legais específicas**. Um erro pode comprometer todo o processo.
+
+## A solução mais rápida
+
+O **Kit Completo da DefesaPix** gera todos os 5 documentos automaticamente em **15 minutos**, personalizados com seus dados, por apenas **R$47**. É 10x mais barato que um advogado e fica pronto na hora.
+
+Quanto mais rápido você agir, maior a chance de recuperação. **Não espere até amanhã.**
+
+**Gere seus documentos agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'golpe-nubank-inter-c6-banco-digital': {
+    titulo: 'Golpe em Banco Digital: Nubank, Inter, C6 — O Que Fazer',
+    resumo: 'Teve sua conta Nubank, Inter ou C6 invadida? Saiba como agir quando o golpe acontece em banco digital.',
+    categoria: 'Golpes',
+    tags: ['Nubank', 'Inter', 'C6', 'Banco Digital', 'Golpe'],
+    tempoLeitura: 6,
+    publishedAt: '2026-03-10',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Golpes em bancos digitais: por que são tão comuns?
+
+Bancos digitais como Nubank, Inter, C6 Bank, PicPay e PagBank concentram a maioria dos golpes Pix no Brasil. Não porque são inseguros — mas porque são os mais usados. Isso os torna alvo preferencial dos golpistas.
+
+## Tipos de golpe mais comuns em bancos digitais
+
+### Acesso remoto ao app
+Golpista liga se passando por "suporte do banco", convence a vítima a instalar app de acesso remoto (AnyDesk, TeamViewer) e faz transferências diretamente do celular.
+
+### Roubo de celular + app desbloqueado
+Com o celular roubado e o app bancário logado, o criminoso transfere todo o saldo via Pix em minutos.
+
+### SIM Swap (troca de chip)
+Golpista clona seu número de celular, recebe o código SMS de verificação e acessa sua conta bancária.
+
+### Phishing
+Email ou SMS falso imitando o banco: "Seu cartão foi bloqueado, clique aqui". O link leva a um site falso que captura seus dados.
+
+## O banco é responsável?
+
+A jurisprudência brasileira (Súmula 479 do STJ) determina que **instituições financeiras respondem objetivamente por falhas de segurança**. Isso significa que, se o banco falhou em proteger sua conta, ele pode ser obrigado a devolver o dinheiro.
+
+## O que você precisa para responsabilizar o banco
+
+Documentos com fundamentação legal adequada — citando o CDC, a Súmula 479 do STJ e a Resolução BCB 93/2021. Um simples email de reclamação não é suficiente.
+
+O **Kit Completo da DefesaPix** gera automaticamente todos os documentos com as citações legais corretas, personalizados para o seu caso, em **15 minutos por R$47**.
+
+**Recupere seu dinheiro: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'como-denunciar-golpe-internet-2026': {
+    titulo: 'Como Denunciar Golpe na Internet em 2026: Todos os Canais',
+    resumo: 'Guia com todos os canais de denúncia para golpes digitais no Brasil: polícia, BACEN, Procon, CVM e mais.',
+    categoria: 'Tutoriais',
+    tags: ['Denúncia', 'Golpe', 'Delegacia', 'BACEN', '2026'],
+    tempoLeitura: 6,
+    publishedAt: '2026-03-09',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Por que denunciar é essencial
+
+Denunciar não é só uma questão de justiça — é uma **estratégia de recuperação**. Cada órgão que você aciona cria pressão sobre o banco e sobre o golpista, aumentando significativamente suas chances de receber o dinheiro de volta.
+
+## Os 5 canais de denúncia
+
+### 1. Boletim de Ocorrência (Polícia)
+Documento base para qualquer processo. Sem B.O., você não consegue acionar MED, processar o banco ou fazer reclamação formal.
+
+### 2. Contestação MED (Banco)
+O Mecanismo Especial de Devolução é a via mais rápida para bloquear e recuperar valores transferidos via Pix. Prazo: **72 horas** para máxima eficácia.
+
+### 3. Banco Central (MeuBC)
+Reclamação formal que o banco é obrigado a responder em 10 dias. Cria registro oficial e pressão institucional.
+
+### 4. Procon (consumidor.gov.br)
+Gratuito e sem necessidade de advogado. O banco precisa responder publicamente, o que gera pressão reputacional.
+
+### 5. CVM (para golpes de investimento)
+Se o golpe envolveu criptomoedas, ações ou investimentos, a CVM pode investigar e punir os responsáveis.
+
+## O problema: cada canal exige um documento diferente
+
+Cada órgão tem requisitos específicos de formato, informações e fundamentação legal. Um B.O. mal redigido pode prejudicar todo o processo. Uma contestação MED sem as citações legais corretas pode ser negada pelo banco.
+
+## A solução
+
+O **Kit Completo da DefesaPix** gera **todos os 5 documentos de uma vez**, com a fundamentação legal correta para cada órgão, personalizados com os dados do seu caso. Tudo em **15 minutos por R$47**.
+
+Você preenche um único formulário e recebe tudo pronto — com um guia passo a passo de onde entregar cada documento.
+
+**Comece agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'pix-para-pessoa-errada-como-recuperar': {
+    titulo: 'Fiz Pix para Pessoa Errada: Como Recuperar o Dinheiro',
+    resumo: 'Enviou Pix para conta errada por engano? Veja o que fazer para conseguir o dinheiro de volta.',
+    categoria: 'Pix & MED',
+    tags: ['Pix', 'Erro', 'Recuperação', 'Devolução'],
+    tempoLeitura: 5,
+    publishedAt: '2026-03-08',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Pix errado: o dinheiro pode voltar
+
+Enviou um Pix para a chave errada? Calma — existe um processo de devolução. Mas a pessoa que recebeu **não é obrigada a devolver voluntariamente**, e você pode precisar de medidas legais.
+
+## A diferença entre erro e golpe
+
+- **Pix por engano**: Você digitou a chave errada ou confundiu o destinatário
+- **Golpe do Pix**: Alguém te enganou para transferir (MED se aplica, prazo de 72h)
+
+Para Pix por engano, o processo é diferente do MED, mas igualmente documentado.
+
+## O que a lei diz
+
+O Código Civil (Art. 884) determina que **enriquecimento sem causa é ilegal**. Quem recebe um Pix por engano e se recusa a devolver está cometendo **apropriação indébita** (Art. 169 do Código Penal), com pena de 1 mês a 1 ano de detenção.
+
+## O que fazer
+
+1. **Contate seu banco** imediatamente e informe o erro
+2. **Tente contato** com o destinatário (se possível)
+3. **Se recusar a devolver**: você precisará de documentação formal
+
+## Quando a pessoa se recusa a devolver
+
+É mais comum do que parece. Nesse caso, você precisa de uma **notificação extrajudicial** formal, com fundamentação no Código Civil e no Código Penal, para pressionar a devolução. Se não funcionar, o próximo passo é o Juizado Especial (sem advogado, sem custo).
+
+O **Kit Completo da DefesaPix** gera a notificação bancária e todos os documentos necessários por **R$47**, prontos para usar imediatamente.
+
+**Recupere seu Pix: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'golpe-telegram-grupo-investimento': {
+    titulo: 'Golpe no Telegram: Grupos de Investimento e Sinais Falsos',
+    resumo: 'Entrou num grupo de investimento no Telegram e perdeu dinheiro? Entenda como funciona e o que fazer.',
+    categoria: 'Golpes',
+    tags: ['Telegram', 'Investimento', 'Golpe', 'Sinais'],
+    tempoLeitura: 6,
+    publishedAt: '2026-03-07',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## O Telegram virou o WhatsApp dos golpistas
+
+Grupos de Telegram prometendo "sinais de investimento", "robô do Pix" e "renda passiva" multiplicaram em 2026. A promessa é sempre a mesma: deposite um valor e receba 200-500% de retorno.
+
+## Como funciona o golpe
+
+### Fase 1: Recrutamento
+Anúncios no Instagram, TikTok ou YouTube com prints de "lucros" e depoimentos falsos. Direcionam para um grupo no Telegram.
+
+### Fase 2: Grupo VIP
+No grupo, um "mentor" posta prints de ganhos e depoimentos de outros membros (que são cúmplices ou bots). Cria senso de comunidade e urgência.
+
+### Fase 3: Primeiro depósito
+Pedem depósito via Pix (R$100 a R$5.000) em uma "plataforma de investimento" ou diretamente para uma conta.
+
+### Fase 4: O retorno falso
+Alguns golpes mostram um "saldo" crescendo na plataforma. Você acha que está lucrando, mas é só um número na tela. Quando tenta sacar, descobrem que precisa "depositar mais para liberar o saque".
+
+### Fase 5: O colapso
+O grupo é deletado, o "mentor" desaparece, a plataforma sai do ar.
+
+## Quanto as pessoas perdem
+
+O valor médio perdido em golpes de grupo de investimento no Telegram varia de **R$500 a R$20.000**. Alguns investem tudo que têm após ver "lucros" iniciais (que eram falsos).
+
+## Caiu nesse golpe?
+
+Você tem direito de buscar recuperação. O primeiro passo é documentar tudo corretamente — prints, comprovantes de Pix, dados do grupo — e formalizar a denúncia nos órgãos corretos.
+
+O **Kit Completo da DefesaPix** gera automaticamente o B.O., contestação MED, notificação bancária e reclamações formais — tudo em **15 minutos por R$47**.
+
+**Aja agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
+  'direitos-vitima-golpe-digital-2026': {
+    titulo: 'Seus Direitos Como Vítima de Golpe Digital em 2026',
+    resumo: 'Conheça todos os seus direitos legais após cair em um golpe digital. CDC, MED, Lei 14.155 e mais.',
+    categoria: 'Direito Digital',
+    tags: ['Direitos', 'CDC', 'Lei', 'Vítima', '2026'],
+    tempoLeitura: 8,
+    publishedAt: '2026-03-06',
+    autorNome: 'Equipe DefesaPix',
+    conteudo: `
+## Você tem mais direitos do que imagina
+
+Muitas vítimas de golpes digitais acham que "não tem mais jeito" ou que "a culpa foi minha". A verdade é que a legislação brasileira protege fortemente o consumidor, e os bancos têm responsabilidades que muitos desconhecem.
+
+## Seus direitos garantidos por lei
+
+### CDC — Código de Defesa do Consumidor
+- **Art. 14**: O banco responde objetivamente por falhas de segurança. Não importa se foi "culpa" sua — se o banco falhou em proteger a transação, ele é responsável.
+- **Art. 42**: Você não pode ser ameaçado ou constrangido pelo banco ao buscar seus direitos.
+
+### Súmula 479 do STJ
+"As instituições financeiras respondem objetivamente pelos danos gerados por fortuito interno relativo a fraudes e delitos praticados por terceiros."
+
+Traduzindo: **o banco é responsável** por golpes que exploram falhas nos sistemas dele.
+
+### Lei 14.155/2021
+Aumentou as penas para fraudes digitais:
+- Estelionato digital: **4 a 8 anos de reclusão**
+- Se cometido contra idoso ou vulnerável: pena aumentada em 1/3 a 2/3
+
+### Resolução BCB 93/2021 — MED
+Criou o Mecanismo Especial de Devolução para Pix. O banco é **obrigado** a acionar o MED quando solicitado pela vítima.
+
+### Juizado Especial Cível (JEC)
+Para causas de até 20 salários mínimos, você pode processar o banco **sem advogado e sem custas judiciais**.
+
+## O problema: conhecer seus direitos não é suficiente
+
+Saber que você tem direitos é importante. Mas para exercê-los, você precisa de **documentos formais com a fundamentação legal correta**. Um B.O. genérico, uma contestação sem citações legais ou uma notificação sem prazo não produzem resultado.
+
+## A solução profissional por R$47
+
+O **Kit Completo da DefesaPix** gera 5 documentos jurídicos personalizados — cada um com as citações legais exatas para o seu tipo de golpe. Linguagem profissional, formatação correta, fundamentação sólida. Tudo em 15 minutos.
+
+É o equivalente a pagar 10x menos que um advogado, com resultado imediato.
+
+**Exerça seus direitos agora: [defesapix.com.br/ferramentas/pacote-completo](https://defesapix.com.br/ferramentas/pacote-completo)**
+    `,
+  },
 };
 
 export async function generateStaticParams() {

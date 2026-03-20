@@ -11,9 +11,9 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
-  // Rate limit: 60 polls por 5 min por IP
+  // Rate limit: 150 polls por 10 min por IP (polling a cada 3s = até 10min de espera)
   const ip = getClientIp(req);
-  const rl = rateLimit(`asaas-status:${ip}`, { max: 60, windowSec: 300 });
+  const rl = rateLimit(`asaas-status:${ip}`, { max: 150, windowSec: 600 });
   if (!rl.allowed) {
     return NextResponse.json({ error: 'Rate limit', status: 'PENDING', pago: false }, { status: 429 });
   }

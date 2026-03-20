@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   description:
     'Veja como a DefesaPix funciona: diagnóstico gratuito com IA, geração de 5 documentos jurídicos personalizados e guia passo a passo para recuperar seu dinheiro após golpe digital.',
   alternates: { canonical: 'https://defesapix.com.br/como-funciona' },
+  openGraph: {
+    title: 'Como Funciona a DefesaPix — Recupere seu Dinheiro em 4 Passos',
+    description: 'Diagnóstico gratuito com IA + 5 documentos jurídicos personalizados. Veja como recuperar seu dinheiro após golpe digital.',
+    url: 'https://defesapix.com.br/como-funciona',
+    siteName: 'DefesaPix',
+    type: 'website',
+    locale: 'pt_BR',
+  },
 };
 
 const STEPS = [

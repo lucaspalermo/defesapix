@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import HowToSchema from '@/components/seo/HowToSchema';
 
 export const metadata: Metadata = {
-  title: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025',
+  title: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2026',
   description:
     'Seu WhatsApp foi clonado ou você recebeu pedido de dinheiro via número clonado? Saiba o que fazer, como denunciar e como se proteger de responsabilidade.',
   keywords: ['clonagem whatsapp', 'golpe whatsapp o que fazer', 'numero clonado whatsapp', 'golpe whatsapp como denunciar'],
@@ -36,7 +36,7 @@ const faqItems = [
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2025',
+  headline: 'Golpe do WhatsApp e Clonagem: O Que Fazer? Guia 2026',
   description: 'Seu WhatsApp foi clonado ou você recebeu pedido de dinheiro via número clonado? Saiba o que fazer, como denunciar e como se proteger de responsabilidade.',
   author: { '@type': 'Organization', name: 'DefesaPix', url: 'https://defesapix.com.br' },
   publisher: {

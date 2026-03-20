@@ -107,7 +107,9 @@ export function templateLembrete24h(nome: string, tipo: string): string {
 </html>`;
 }
 
-export function templateDocumentosEntregues(nome: string): string {
+export function templateDocumentosEntregues(nome: string, accessUrl?: string): string {
+  const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://defesapix.com.br';
+  const linkAcesso = accessUrl ? `${BASE}${accessUrl}` : '';
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><title>Seus documentos — DefesaPix</title></head>
@@ -131,6 +133,17 @@ export function templateDocumentosEntregues(nome: string): string {
         <li><strong style="color:#fff">Reclamação Procon</strong> — Registre em consumidor.gov.br</li>
       </ol>
     </div>
+    ${linkAcesso ? `
+    <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:20px;margin:0 0 24px;text-align:center">
+      <p style="color:#10B981;margin:0 0 12px;font-weight:bold;font-size:15px">Acesse seus documentos a qualquer momento:</p>
+      <a href="${linkAcesso}" style="display:inline-block;background:#10B981;color:#fff;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:bold;font-size:14px">
+        Acessar meus documentos
+      </a>
+      <p style="color:rgba(255,255,255,0.4);margin:12px 0 0;font-size:11px">
+        Salve este link — você pode baixar os PDFs e copiar os textos quando quiser.
+      </p>
+    </div>
+    ` : ''}
     <div style="background:#1a2332;border:1px solid #2563eb;border-radius:12px;padding:16px;margin:0 0 24px">
       <p style="color:#93c5fd;margin:0;font-weight:bold;font-size:14px">Dica: Comece pelo MED e pelo BO — são os mais urgentes.</p>
       <p style="color:rgba(255,255,255,0.6);margin:8px 0 0;font-size:13px">

@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   description:
     'Gere de uma só vez: Contestação MED, Boletim de Ocorrência, Notificação Bancária, Reclamação BACEN e Reclamação Procon. Preencha uma vez, receba tudo. R$47 — sem mensalidade.',
   alternates: { canonical: 'https://defesapix.com.br/ferramentas/pacote-completo' },
+  openGraph: {
+    title: 'Kit Completo de Recuperação — Documentos Jurídicos em 15 min | R$47',
+    description: 'Contestação MED, BO, Notificação Bancária, Reclamação BACEN e Procon. Preencha uma vez, receba tudo pronto. R$47.',
+    url: 'https://defesapix.com.br/ferramentas/pacote-completo',
+    siteName: 'DefesaPix',
+    type: 'website',
+    locale: 'pt_BR',
+  },
 };
 
 const BENEFICIOS = [
@@ -84,9 +92,9 @@ export default function PacoteCompletoPage() {
           <PacoteCompleto />
 
           {/* Disclaimer — compliance Google Ads */}
-          <p className="text-[0.65rem] text-white/20 leading-relaxed text-center mt-8 max-w-2xl mx-auto">
+          <p className="text-xs text-white/25 leading-relaxed text-center mt-8 max-w-2xl mx-auto">
             Os documentos gerados são modelos orientativos baseados na legislação vigente (CDC, Resolução BCB 93/2021, Lei 14.155/2021)
-            e não substituem aconselhamento jurídico profissional. Resultados podem variar. Garantia de 7 dias para reembolso integral.
+            e não substituem aconselhamento jurídico profissional. A DefesaPix não é um escritório de advocacia. Resultados podem variar conforme cada caso. Garantia de 7 dias para reembolso integral.
           </p>
         </div>
       </section>

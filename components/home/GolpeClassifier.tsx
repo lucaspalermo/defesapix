@@ -179,7 +179,7 @@ export default function GolpeClassifier() {
                             </span>
                             {acao.documentoGerado && (
                               <Link
-                                href={DOC_LINKS[acao.documentoGerado] || '/ferramentas'}
+                                href={DOC_LINKS[acao.documentoGerado] || '/ferramentas/pacote-completo'}
                                 className="flex items-center gap-1 text-xs text-green-400 hover:text-green-300 font-medium"
                               >
                                 <FileText className="w-3 h-3" />
@@ -197,7 +197,7 @@ export default function GolpeClassifier() {
 
               {/* CTA */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <Link href="/ferramentas" className="btn-primary justify-center">
+                <Link href="/ferramentas/pacote-completo" className="btn-primary justify-center">
                   <FileText className="w-4 h-4" />
                   Gerar todos os documentos
                 </Link>

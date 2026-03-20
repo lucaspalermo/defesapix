@@ -83,7 +83,7 @@ export default function CalculadoraMedPage() {
           <h2 className="text-lg font-bold text-white mb-4">Leia também</h2>
           <div className="flex flex-wrap gap-3">
             <Link href="/blog/med-mecanismo-especial-devolucao-pix" className="text-sm text-green-400 hover:text-green-300 transition-colors">O que é o MED? Guia completo</Link>
-            <Link href="/blog/como-recuperar-dinheiro-golpe-pix-2025" className="text-sm text-green-400 hover:text-green-300 transition-colors">Como recuperar dinheiro de golpe Pix em 2025</Link>
+            <Link href="/blog/como-recuperar-dinheiro-golpe-pix-2025" className="text-sm text-green-400 hover:text-green-300 transition-colors">Como recuperar dinheiro de golpe Pix em 2026</Link>
             <Link href="/golpes/golpe-pix" className="text-sm text-green-400 hover:text-green-300 transition-colors">Golpe Pix: guia completo</Link>
             <Link href="/ferramentas/gerador-contestacao-med" className="text-sm text-green-400 hover:text-green-300 transition-colors">Gerar Contestação MED</Link>
             <Link href="/ferramentas/diagnostico" className="text-sm text-white/50 hover:text-white transition-colors">Diagnóstico gratuito</Link>

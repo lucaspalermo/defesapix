@@ -164,10 +164,11 @@ export default function Footer() {
 
         {/* Disclaimer — visível para compliance Google Ads */}
         <div className="mt-6 border-t border-white/[0.04] pt-5">
-          <p className="text-[0.7rem] text-white/25 leading-relaxed text-center max-w-3xl mx-auto">
-            <strong className="text-white/35">Aviso importante:</strong> A DefesaPix não é um escritório de advocacia e não presta serviços jurídicos.
+          <p className="text-xs text-white/30 leading-relaxed text-center max-w-3xl mx-auto">
+            <strong className="text-white/40">Aviso importante:</strong> A DefesaPix não é um escritório de advocacia e não presta serviços jurídicos.
             Os documentos gerados são modelos orientativos baseados na legislação vigente e não substituem aconselhamento jurídico profissional.
             Os resultados podem variar conforme cada caso. Garantia de 7 dias para reembolso integral.
+            DefesaPix é uma plataforma de tecnologia e conteúdo educativo — CNPJ e informações da empresa disponíveis na página <a href="/sobre" className="underline hover:text-white/50 transition-colors">Sobre Nós</a>.
           </p>
         </div>
       </div>

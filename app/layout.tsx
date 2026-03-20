@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import CookieBanner from '@/components/layout/CookieBanner';
 
 import LeadCapturePopup from '@/components/home/LeadCapturePopup';
+import Chatbot from '@/components/layout/Chatbot';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -123,17 +124,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Google Ads Conversion ID — configurar via env */}
         {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
-          <meta name="google-ads-conversion" content={`${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/purchase`} />
+          <meta name="google-ads-conversion" content="AW-18009766174/YXheCOne84YcEJ7y3ItD" />
         )}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN5PQZYBCD" />
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer=window.dataLayer||[];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+          function gtag(){window.dataLayer.push(arguments);}
+          window.gtag=gtag;
+          gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
           gtag('js',new Date());
           gtag('config','G-VN5PQZYBCD',{anonymize_ip:true});
           ${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ? `gtag('config','${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');` : ''}
+          var cc=localStorage.getItem('cookie_consent');
+          if(cc==='accepted'){gtag('consent','update',{analytics_storage:'granted',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});}
         `}} />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN5PQZYBCD" />
         {/* Meta Pixel */}
         <script dangerouslySetInnerHTML={{ __html: `
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -150,6 +154,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
 
         <LeadCapturePopup />
+        <Chatbot />
         <CookieBanner />
         <Toaster
           position="top-right"

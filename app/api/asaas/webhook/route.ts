@@ -24,7 +24,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://defesapix.com.br';
  * - 5 dias: "Indique um amigo"
  * - 7 dias: "Como foi sua experiência?" (review)
  */
-async function dispararEmailsPosVenda(paymentId: string, produto: string) {
+async function dispararEmailsPosVenda(paymentId: string, produto: string, accessUrl?: string) {
   try {
     // Buscar dados do pagamento no Asaas para obter customer email
     const paymentData = await verificarPagamento(paymentId) as any;
@@ -54,11 +54,11 @@ async function dispararEmailsPosVenda(paymentId: string, produto: string) {
       'x-internal-token': process.env.ASAAS_WEBHOOK_TOKEN!,
     };
 
-    // Email imediato: documentos entregues
+    // Email imediato: documentos entregues (com link de acesso)
     await fetch(`${BASE_URL}/api/email/pos-venda`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ ...emailPayload, tipo: 'imediato' }),
+      body: JSON.stringify({ ...emailPayload, tipo: 'imediato', accessUrl }),
     }).catch(() => {});
 
     // Agendar emails futuros via eventos no banco (cron-like)
@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        await prisma.payment.upsert({
+        const paymentRecord = await prisma.payment.upsert({
           where: { gatewayId: payment.id },
           create: {
             gatewayId: payment.id,
@@ -231,7 +231,8 @@ export async function POST(req: NextRequest) {
         // Disparar sequência de emails pós-venda para o cliente
         // Buscar email do cliente via Asaas payment customer
         if (produto !== 'PLANO_MENSAL') {
-          dispararEmailsPosVenda(payment.id, produto).catch(() => {});
+          const accessUrl = `/acesso/${paymentRecord.id}`;
+          dispararEmailsPosVenda(payment.id, produto, accessUrl).catch(() => {});
         }
       } catch (dbError) {
         console.error('[WEBHOOK] Erro no banco de dados');
