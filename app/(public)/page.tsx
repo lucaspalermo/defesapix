@@ -116,7 +116,7 @@ export default function HomePage() {
                   <Shield className="w-5 h-5" />
                   Diagnosticar meu caso grátis
                 </TrackedLink>
-                <TrackedLink trackLabel="hero_kit_completo" href="/ferramentas/pacote-completo" className="btn-secondary text-base px-8 py-4">
+                <TrackedLink trackLabel="hero_kit_completo" href="/ferramentas/diagnostico" className="btn-secondary text-base px-8 py-4">
                   <Zap className="w-4 h-4" />
                   Kit Completo — R$47
                 </TrackedLink>
@@ -312,7 +312,7 @@ export default function HomePage() {
             </Link>
 
             <Link
-              href="/ferramentas/pacote-completo"
+              href="/ferramentas/diagnostico"
               className="group flex items-center gap-3 p-4 rounded-2xl bg-ember-500/10 border border-ember-500/25 hover:bg-ember-500/20 hover:border-ember-500/50 transition-all duration-200"
             >
               <div className="w-9 h-9 rounded-xl bg-ember-500/20 border border-ember-500/30 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -613,7 +613,7 @@ export default function HomePage() {
             O MED tem janela de 72 horas. Gere seus documentos agora e dê o primeiro passo para recuperar seu dinheiro.
           </p>
 
-          <Link href="/ferramentas/pacote-completo" className="btn-primary inline-flex text-lg px-10 py-5">
+          <Link href="/ferramentas/diagnostico" className="btn-primary inline-flex text-lg px-10 py-5">
             <Shield className="w-5 h-5" />
             Gerar 5 documentos — R$47
             <ArrowRight className="w-5 h-5" />
