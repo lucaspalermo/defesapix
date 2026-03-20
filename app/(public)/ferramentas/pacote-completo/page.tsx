@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { Zap, Shield, FileText, Bell, Clock, Scale, Building2, CheckCircle } from 'lucide-react';
 import PacoteCompleto from '@/components/tools/PacoteCompleto';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
@@ -89,7 +90,9 @@ export default function PacoteCompletoPage() {
 
       <section className="section">
         <div className="container max-w-3xl">
-          <PacoteCompleto />
+          <Suspense fallback={<div className="text-center py-12 text-white/40">Carregando...</div>}>
+            <PacoteCompleto />
+          </Suspense>
 
           {/* Disclaimer — compliance Google Ads */}
           <p className="text-xs text-white/25 leading-relaxed text-center mt-8 max-w-2xl mx-auto">

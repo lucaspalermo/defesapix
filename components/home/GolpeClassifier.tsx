@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { AlertTriangle, Zap, ChevronRight, Clock, FileText, CheckCircle, TrendingUp, Shield } from 'lucide-react';
+import { AlertTriangle, Zap, ChevronRight, Clock, FileText, CheckCircle, TrendingUp, Shield, Lock, Loader2 } from 'lucide-react';
 import { classifyGolpe, type ClassificationResult } from '@/lib/golpe-classifier';
 import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
+import PaymentModal from '@/components/tools/PaymentModal';
+import toast from 'react-hot-toast';
+import { track, trackCheckoutStart, trackPurchase } from '@/lib/track';
 
 const URGENCIA_CONFIG = {
   CRITICA: { label: 'URGÊNCIA CRÍTICA', color: 'text-red-400', bg: 'bg-red-500/20 border-red-500/40' },
@@ -21,11 +24,23 @@ const DOC_LINKS: Record<string, string> = {
   NOTIFICACAO_PROCON: '/ferramentas/notificacao-banco',
 };
 
+interface PaymentData { paymentId: string; pixQrCode: string; pixCopiaECola: string; valor: number; }
+
 export default function GolpeClassifier() {
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Quick checkout state
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [plano, setPlano] = useState<'PACOTE_EMERGENCIA' | 'KIT_PREMIUM'>('PACOTE_EMERGENCIA');
+  const [paying, setPaying] = useState(false);
+  const [payment, setPayment] = useState<PaymentData | null>(null);
+  const [paid, setPaid] = useState(false);
 
   const handleClassify = async () => {
     if (!descricao.trim() || descricao.length < 20) return;
@@ -34,6 +49,38 @@ export default function GolpeClassifier() {
     const valorNum = parseFloat(valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     setResult(classifyGolpe(descricao, valorNum));
     setLoading(false);
+  };
+
+  const handleQuickPay = async () => {
+    if (!nome.trim() || nome.length < 3) { toast.error('Informe seu nome completo'); return; }
+    if (!email.trim() || !email.includes('@')) { toast.error('Informe um e-mail válido'); return; }
+    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) { toast.error('Informe um CPF válido'); return; }
+
+    setPaying(true);
+    const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
+    trackCheckoutStart(plano, valorProduto);
+    track('pagamento_iniciado_diagnostico', { plano });
+
+    try {
+      const res = await fetch('/api/asaas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ produto: plano, nome, email, cpf: cpf.replace(/\D/g, '') }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
+      setPayment({ paymentId: data.paymentId, pixQrCode: data.pixQrCode, pixCopiaECola: data.pixCopiaECola, valor: data.valor });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao iniciar pagamento');
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  const handlePaid = () => {
+    if (payment) trackPurchase(plano, plano === 'KIT_PREMIUM' ? 97 : 47, payment.paymentId);
+    setPaid(true);
+    setPayment(null);
   };
 
   const urgConfig = result ? URGENCIA_CONFIG[result.urgencia] : null;
@@ -195,23 +242,120 @@ export default function GolpeClassifier() {
                 </div>
               </div>
 
-              {/* CTA */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <Link href="/ferramentas/pacote-completo" className="btn-primary justify-center">
-                  <FileText className="w-4 h-4" />
-                  Gerar todos os documentos
-                </Link>
-                <button
-                  onClick={() => setResult(null)}
-                  className="btn-secondary justify-center"
-                >
-                  Nova análise
-                </button>
-              </div>
+              {/* CTA — Quick Checkout */}
+              {!showCheckout && !paid ? (
+                <div className="space-y-3 pt-2">
+                  <div className="border-2 border-green-500/30 bg-green-500/5 rounded-2xl p-5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <h4 className="font-bold text-white">Seu caso tem solução!</h4>
+                    </div>
+                    <p className="text-sm text-white/60 mb-4">
+                      Gere todos os documentos jurídicos necessários para recuperar seu dinheiro. Pague agora e preencha os dados depois.
+                    </p>
+                    <button
+                      onClick={() => setShowCheckout(true)}
+                      className="btn-primary w-full justify-center py-4 text-base font-semibold"
+                    >
+                      <Lock className="w-5 h-5" />
+                      Gerar documentos — R$47
+                    </button>
+                    <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+                      <span className="text-[0.65rem] text-green-400/60">✓ Garantia 7 dias</span>
+                      <span className="text-[0.65rem] text-white/30">✓ Pagamento único</span>
+                      <span className="text-[0.65rem] text-white/30">✓ Documentos em 15 min</span>
+                    </div>
+                  </div>
+                  <button onClick={() => setResult(null)} className="btn-secondary w-full justify-center">
+                    Nova análise
+                  </button>
+                </div>
+              ) : paid ? (
+                <div className="space-y-4 pt-2">
+                  <div className="border-2 border-green-500/30 bg-green-500/10 rounded-2xl p-5 text-center">
+                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                    <h4 className="font-bold text-white text-lg mb-2">Pagamento confirmado!</h4>
+                    <p className="text-sm text-white/60 mb-4">
+                      Agora preencha seus dados para gerar os documentos personalizados.
+                    </p>
+                    <Link
+                      href={`/ferramentas/pacote-completo?pago=1&plano=${plano}&email=${encodeURIComponent(email)}&nome=${encodeURIComponent(nome)}&cpf=${encodeURIComponent(cpf)}`}
+                      className="btn-primary w-full justify-center py-4 text-base font-semibold"
+                    >
+                      <FileText className="w-5 h-5" />
+                      Preencher dados e gerar documentos
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4 pt-2">
+                  <div className="border border-white/10 bg-white/[0.03] rounded-2xl p-5">
+                    <h4 className="font-bold text-white mb-4 flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-green-400" />
+                      Dados para pagamento
+                    </h4>
 
-              <p className="text-xs text-white/30 text-center">
-                Confusão? Conte com nossa rede de parceiros jurídicos para uma análise aprofundada do seu caso.
-              </p>
+                    {/* Plan selection */}
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
+                        className={`rounded-xl p-3 text-left transition-all border-2 ${
+                          plano === 'PACOTE_EMERGENCIA'
+                            ? 'border-green-500/60 bg-green-500/10'
+                            : 'border-white/10 bg-white/[0.03]'
+                        }`}>
+                        <span className="text-xs text-white/60 block">Kit Completo</span>
+                        <span className="text-lg font-black text-white">R$47</span>
+                        <span className="text-[0.6rem] text-white/40 block">5 documentos</span>
+                      </button>
+                      <button type="button" onClick={() => setPlano('KIT_PREMIUM')}
+                        className={`rounded-xl p-3 text-left transition-all border-2 relative ${
+                          plano === 'KIT_PREMIUM'
+                            ? 'border-violet-500/60 bg-violet-500/10'
+                            : 'border-white/10 bg-white/[0.03]'
+                        }`}>
+                        <span className="absolute -top-2 right-2 bg-violet-500 text-white text-[0.5rem] font-bold px-1.5 py-0.5 rounded-full">Recomendado</span>
+                        <span className="text-xs text-white/60 block">Kit Premium</span>
+                        <span className="text-lg font-black text-white">R$97</span>
+                        <span className="text-[0.6rem] text-white/40 block">5 docs + petição JEC</span>
+                      </button>
+                    </div>
+
+                    {/* Minimal form */}
+                    <div className="space-y-3">
+                      <input value={nome} onChange={(e) => setNome(e.target.value)} className="input" placeholder="Nome completo *" />
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="input" placeholder="E-mail *" />
+                      <input value={cpf} onChange={(e) => setCpf(e.target.value)} className="input" placeholder="CPF *" />
+                    </div>
+
+                    <button onClick={handleQuickPay} disabled={paying}
+                      className={`w-full mt-4 justify-center py-4 text-base font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                        plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+                      }`}>
+                      {paying
+                        ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
+                        : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} via Pix</>}
+                    </button>
+
+                    <p className="text-xs text-white/25 text-center mt-2">Pagamento seguro via Pix (Asaas). Garantia de 7 dias.</p>
+
+                    <button onClick={() => setShowCheckout(false)} className="text-xs text-white/30 hover:text-white/50 w-full text-center mt-2">
+                      Voltar
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {payment && (
+                <PaymentModal
+                  paymentId={payment.paymentId}
+                  pixQrCode={payment.pixQrCode}
+                  pixCopiaECola={payment.pixCopiaECola}
+                  valor={payment.valor}
+                  produto={plano === 'KIT_PREMIUM' ? 'Kit Premium' : 'Kit Completo'}
+                  onPaid={handlePaid}
+                  onClose={() => setPayment(null)}
+                />
+              )}
             </div>
           </>
         )}

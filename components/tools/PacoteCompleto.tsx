@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -179,14 +180,18 @@ interface Docs {
 }
 
 export default function PacoteCompleto() {
+  const searchParams = useSearchParams();
+  const prePaymentDone = searchParams.get('pago') === '1';
+
   const [docs, setDocs] = useState<Docs | null>(null);
   const [paid, setPaid] = useState(false);
   const [paying, setPaying] = useState(false);
   const [payment, setPayment] = useState<PaymentData | null>(null);
   const [valorDisplay, setValorDisplay] = useState('');
   const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
-  const [plano, setPlano] = useState<PlanoKit>('PACOTE_EMERGENCIA');
+  const [plano, setPlano] = useState<PlanoKit>((searchParams.get('plano') as PlanoKit) || 'PACOTE_EMERGENCIA');
   const [step, setStep] = useState(1);
+  const [alreadyPaid, setAlreadyPaid] = useState(prePaymentDone);
 
   const [formStarted, setFormStarted] = useState(false);
 
@@ -194,6 +199,18 @@ export default function PacoteCompleto() {
     resolver: zodResolver(schema),
     mode: 'onBlur',
   });
+
+  // Pre-fill from query params (coming from diagnostico quick pay)
+  useEffect(() => {
+    if (prePaymentDone) {
+      const nome = searchParams.get('nome');
+      const email = searchParams.get('email');
+      const cpf = searchParams.get('cpf');
+      if (nome) setValue('nome', nome);
+      if (email) setValue('email', email);
+      if (cpf) setValue('cpf', cpf);
+    }
+  }, [prePaymentDone, searchParams, setValue]);
 
   // Track quando o usuário começa a preencher o form
   const handleFormInteraction = () => {
@@ -340,6 +357,14 @@ export default function PacoteCompleto() {
   const onSubmit = async (data: FormData) => {
     const newDocs = gerarDocs(data);
     setDocs(newDocs);
+
+    // Se já pagou pelo diagnóstico, pular pagamento e ir direto para os docs
+    if (alreadyPaid) {
+      track('docs_gerados_pos_pagamento', { golpe: data.tipoGolpe, docs: newDocs.docList.length });
+      setPaid(true);
+      return;
+    }
+
     const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
     trackCheckoutStart(plano, valorProduto);
     track('pagamento_iniciado', { golpe: data.tipoGolpe, docs: newDocs.docList.length });
@@ -361,6 +386,16 @@ export default function PacoteCompleto() {
 
     return (
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" onFocus={handleFormInteraction}>
+        {alreadyPaid && (
+          <div className="border border-green-500/30 bg-green-500/10 rounded-xl p-4 flex items-center gap-3">
+            <CheckCircle className="w-6 h-6 text-green-400 shrink-0" />
+            <div>
+              <p className="font-bold text-green-400 text-sm">Pagamento confirmado!</p>
+              <p className="text-xs text-white/50">Preencha os dados abaixo para gerar seus documentos personalizados.</p>
+            </div>
+          </div>
+        )}
+
         {isPix && dataOcorrencia && <CountdownMED dataOcorrencia={dataOcorrencia} />}
 
         {/* ── Progress bar ── */}
@@ -644,11 +679,13 @@ export default function PacoteCompleto() {
               </button>
               <button type="submit" disabled={paying}
                 className={`flex-1 justify-center py-4 text-base disabled:opacity-60 font-semibold rounded-xl transition-all flex items-center gap-2 ${
-                  plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
+                  alreadyPaid ? 'bg-green-600 hover:bg-green-500 text-white' : plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
                 }`}>
                 {paying
                   ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
-                  : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} — gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''}</>}
+                  : alreadyPaid
+                    ? <><FileText className="w-5 h-5" /> Gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''} agora</>
+                    : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} — gerar {plano === 'KIT_PREMIUM' ? docCount + 1 : docCount} documento{(plano === 'KIT_PREMIUM' ? docCount + 1 : docCount) > 1 ? 's' : ''}</>}
               </button>
             </div>
             <p className="text-xs text-white/30 text-center">Pagamento seguro via PIX (Asaas). Garantia de 7 dias.</p>
