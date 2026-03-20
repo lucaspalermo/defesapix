@@ -44,6 +44,10 @@ export default function GolpeClassifier() {
 
   const handleClassify = async () => {
     if (!descricao.trim() || descricao.length < 20) return;
+    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) {
+      toast.error('Informe seu CPF para continuar');
+      return;
+    }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
     const valorNum = parseFloat(valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
@@ -52,11 +56,6 @@ export default function GolpeClassifier() {
   };
 
   const handleQuickPay = async () => {
-    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) {
-      toast.error('Informe seu CPF para gerar o Pix');
-      return;
-    }
-
     setPaying(true);
     const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
     trackCheckoutStart(plano, valorProduto);
@@ -122,6 +121,18 @@ export default function GolpeClassifier() {
                   onChange={(e) => setValor(e.target.value)}
                   placeholder="Ex: 3.000,00"
                   className="input"
+                />
+              </div>
+
+              <div>
+                <label className="label">Seu CPF (necessario para gerar o Pix)</label>
+                <input
+                  type="text"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  placeholder="000.000.000-00"
+                  className="input"
+                  inputMode="numeric"
                 />
               </div>
 
@@ -279,14 +290,6 @@ export default function GolpeClassifier() {
                         <span className="text-[0.6rem] text-white/40 block">5 docs + peticao JEC</span>
                       </button>
                     </div>
-
-                    <input
-                      value={cpf}
-                      onChange={(e) => setCpf(e.target.value)}
-                      className="input mb-3"
-                      placeholder="Seu CPF (obrigatorio para Pix) *"
-                      inputMode="numeric"
-                    />
 
                     <button
                       onClick={handleQuickPay}
