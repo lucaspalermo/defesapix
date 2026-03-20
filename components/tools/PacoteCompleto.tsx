@@ -191,7 +191,7 @@ export default function PacoteCompleto() {
   const [melhorandoDescricao, setMelhorandoDescricao] = useState(false);
   const [plano, setPlano] = useState<PlanoKit>((searchParams.get('plano') as PlanoKit) || 'PACOTE_EMERGENCIA');
   const [step, setStep] = useState(1);
-  const [alreadyPaid, setAlreadyPaid] = useState(prePaymentDone);
+  const [alreadyPaid] = useState(prePaymentDone);
 
   const [formStarted, setFormStarted] = useState(false);
 
@@ -376,7 +376,9 @@ export default function PacoteCompleto() {
       const valid = await trigger(['tipoGolpe', 'dataOcorrencia']);
       if (!valid) return;
     }
-    setStep(nextStep);
+    // Skip step 2 (plan selection) if already paid from diagnostico
+    const actualNext = (nextStep === 2 && alreadyPaid) ? 3 : nextStep;
+    setStep(actualNext);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -400,12 +402,12 @@ export default function PacoteCompleto() {
 
         {/* ── Progress bar ── */}
         <div className="flex items-center gap-2 mb-2">
-          {[1, 2, 3].map((s) => (
+          {(alreadyPaid ? [1, 3] : [1, 2, 3]).map((s) => (
             <div key={s} className="flex-1 flex items-center gap-2">
               <div className={`h-1.5 rounded-full flex-1 transition-all ${s <= step ? 'bg-orange-500' : 'bg-white/10'}`} />
             </div>
           ))}
-          <span className="text-xs text-white/40 ml-1">Passo {step}/3</span>
+          <span className="text-xs text-white/40 ml-1">Passo {alreadyPaid ? (step === 1 ? 1 : 2) : step}/{alreadyPaid ? 2 : 3}</span>
         </div>
 
         {/* ════════════════════════════════════════════════════════════════════════
@@ -455,7 +457,7 @@ export default function PacoteCompleto() {
             {config && (
               <button type="button" onClick={() => handleNextStep(2)}
                 className="w-full mt-6 btn-primary justify-center py-4 text-base font-semibold rounded-xl flex items-center gap-2">
-                Ver preço e continuar
+                {alreadyPaid ? 'Preencher dados da ocorrência' : 'Ver preço e continuar'}
                 <ExternalLink className="w-4 h-4" />
               </button>
             )}
@@ -673,7 +675,7 @@ export default function PacoteCompleto() {
 
             {/* ── Botão de pagamento ── */}
             <div className="flex gap-3">
-              <button type="button" onClick={() => setStep(2)}
+              <button type="button" onClick={() => setStep(alreadyPaid ? 1 : 2)}
                 className="btn-secondary justify-center py-3 px-6 rounded-xl text-sm">
                 Voltar
               </button>

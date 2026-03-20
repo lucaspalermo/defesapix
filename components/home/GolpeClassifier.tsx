@@ -52,9 +52,10 @@ export default function GolpeClassifier() {
   };
 
   const handleQuickPay = async () => {
-    if (!nome.trim() || nome.length < 3) { toast.error('Informe seu nome completo'); return; }
-    if (!email.trim() || !email.includes('@')) { toast.error('Informe um e-mail válido'); return; }
-    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) { toast.error('Informe um CPF válido'); return; }
+    if (!cpf.trim() || cpf.replace(/\D/g, '').length < 11) {
+      toast.error('Informe seu CPF para gerar o Pix');
+      return;
+    }
 
     setPaying(true);
     const valorProduto = plano === 'KIT_PREMIUM' ? 97 : 47;
@@ -65,7 +66,7 @@ export default function GolpeClassifier() {
       const res = await fetch('/api/asaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produto: plano, nome, email, cpf: cpf.replace(/\D/g, '') }),
+        body: JSON.stringify({ produto: plano, nome: 'Cliente DefesaPix', cpf: cpf.replace(/\D/g, '') }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Erro ao criar pagamento');
@@ -242,60 +243,19 @@ export default function GolpeClassifier() {
                 </div>
               </div>
 
-              {/* CTA — Quick Checkout */}
-              {!showCheckout && !paid ? (
+              {/* CTA — Direct Payment */}
+              {!paid ? (
                 <div className="space-y-3 pt-2">
                   <div className="border-2 border-green-500/30 bg-green-500/5 rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-2">
                       <CheckCircle className="w-5 h-5 text-green-400" />
-                      <h4 className="font-bold text-white">Seu caso tem solução!</h4>
+                      <h4 className="font-bold text-white">Seu caso tem solucao!</h4>
                     </div>
-                    <p className="text-sm text-white/60 mb-4">
-                      Gere todos os documentos jurídicos necessários para recuperar seu dinheiro. Pague agora e preencha os dados depois.
+                    <p className="text-sm text-white/60 mb-3">
+                      Gere todos os documentos juridicos para recuperar seu dinheiro.
                     </p>
-                    <button
-                      onClick={() => setShowCheckout(true)}
-                      className="btn-primary w-full justify-center py-4 text-base font-semibold"
-                    >
-                      <Lock className="w-5 h-5" />
-                      Gerar documentos — R$47
-                    </button>
-                    <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
-                      <span className="text-[0.65rem] text-green-400/60">✓ Garantia 7 dias</span>
-                      <span className="text-[0.65rem] text-white/30">✓ Pagamento único</span>
-                      <span className="text-[0.65rem] text-white/30">✓ Documentos em 15 min</span>
-                    </div>
-                  </div>
-                  <button onClick={() => setResult(null)} className="btn-secondary w-full justify-center">
-                    Nova análise
-                  </button>
-                </div>
-              ) : paid ? (
-                <div className="space-y-4 pt-2">
-                  <div className="border-2 border-green-500/30 bg-green-500/10 rounded-2xl p-5 text-center">
-                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
-                    <h4 className="font-bold text-white text-lg mb-2">Pagamento confirmado!</h4>
-                    <p className="text-sm text-white/60 mb-4">
-                      Agora preencha seus dados para gerar os documentos personalizados.
-                    </p>
-                    <Link
-                      href={`/ferramentas/pacote-completo?pago=1&plano=${plano}&email=${encodeURIComponent(email)}&nome=${encodeURIComponent(nome)}&cpf=${encodeURIComponent(cpf)}`}
-                      className="btn-primary w-full justify-center py-4 text-base font-semibold"
-                    >
-                      <FileText className="w-5 h-5" />
-                      Preencher dados e gerar documentos
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4 pt-2">
-                  <div className="border border-white/10 bg-white/[0.03] rounded-2xl p-5">
-                    <h4 className="font-bold text-white mb-4 flex items-center gap-2">
-                      <Lock className="w-4 h-4 text-green-400" />
-                      Dados para pagamento
-                    </h4>
 
-                    {/* Plan selection */}
+                    {/* Plan selection inline */}
                     <div className="grid grid-cols-2 gap-2 mb-4">
                       <button type="button" onClick={() => setPlano('PACOTE_EMERGENCIA')}
                         className={`rounded-xl p-3 text-left transition-all border-2 ${
@@ -316,31 +276,54 @@ export default function GolpeClassifier() {
                         <span className="absolute -top-2 right-2 bg-violet-500 text-white text-[0.5rem] font-bold px-1.5 py-0.5 rounded-full">Recomendado</span>
                         <span className="text-xs text-white/60 block">Kit Premium</span>
                         <span className="text-lg font-black text-white">R$97</span>
-                        <span className="text-[0.6rem] text-white/40 block">5 docs + petição JEC</span>
+                        <span className="text-[0.6rem] text-white/40 block">5 docs + peticao JEC</span>
                       </button>
                     </div>
 
-                    {/* Minimal form */}
-                    <div className="space-y-3">
-                      <input value={nome} onChange={(e) => setNome(e.target.value)} className="input" placeholder="Nome completo *" />
-                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="input" placeholder="E-mail *" />
-                      <input value={cpf} onChange={(e) => setCpf(e.target.value)} className="input" placeholder="CPF *" />
-                    </div>
+                    <input
+                      value={cpf}
+                      onChange={(e) => setCpf(e.target.value)}
+                      className="input mb-3"
+                      placeholder="Seu CPF (obrigatorio para Pix) *"
+                      inputMode="numeric"
+                    />
 
-                    <button onClick={handleQuickPay} disabled={paying}
-                      className={`w-full mt-4 justify-center py-4 text-base font-semibold rounded-xl transition-all flex items-center gap-2 ${
+                    <button
+                      onClick={handleQuickPay}
+                      disabled={paying}
+                      className={`w-full justify-center py-4 text-base font-semibold rounded-xl transition-all flex items-center gap-2 ${
                         plano === 'KIT_PREMIUM' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'btn-primary'
-                      }`}>
+                      }`}
+                    >
                       {paying
-                        ? <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
+                        ? <><Loader2 className="w-5 h-5 animate-spin" /> Gerando QR Code...</>
                         : <><Lock className="w-5 h-5" /> Pagar R${plano === 'KIT_PREMIUM' ? '97' : '47'} via Pix</>}
                     </button>
-
-                    <p className="text-xs text-white/25 text-center mt-2">Pagamento seguro via Pix (Asaas). Garantia de 7 dias.</p>
-
-                    <button onClick={() => setShowCheckout(false)} className="text-xs text-white/30 hover:text-white/50 w-full text-center mt-2">
-                      Voltar
-                    </button>
+                    <div className="flex items-center justify-center gap-4 mt-3 flex-wrap">
+                      <span className="text-[0.65rem] text-green-400/60">Garantia 7 dias</span>
+                      <span className="text-[0.65rem] text-white/30">Pagamento unico</span>
+                      <span className="text-[0.65rem] text-white/30">Documentos em 15 min</span>
+                    </div>
+                  </div>
+                  <button onClick={() => setResult(null)} className="btn-secondary w-full justify-center">
+                    Nova analise
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4 pt-2">
+                  <div className="border-2 border-green-500/30 bg-green-500/10 rounded-2xl p-5 text-center">
+                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                    <h4 className="font-bold text-white text-lg mb-2">Pagamento confirmado!</h4>
+                    <p className="text-sm text-white/60 mb-4">
+                      Agora preencha seus dados para gerar os documentos personalizados.
+                    </p>
+                    <Link
+                      href={`/ferramentas/pacote-completo?pago=1&plano=${plano}`}
+                      className="btn-primary w-full justify-center py-4 text-base font-semibold"
+                    >
+                      <FileText className="w-5 h-5" />
+                      Preencher dados e gerar documentos
+                    </Link>
                   </div>
                 </div>
               )}
