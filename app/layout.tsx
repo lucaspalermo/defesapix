@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import CookieBanner from '@/components/layout/CookieBanner';
@@ -122,24 +123,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${inter.variable} ${heading.variable}`}>
       <head>
-        {/* Google Ads Conversion ID — configurar via env */}
-        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
-          <meta name="google-ads-conversion" content="AW-18009766174/YXheCOne84YcEJ7y3ItD" />
-        )}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN5PQZYBCD" />
-        <script dangerouslySetInnerHTML={{ __html: `
+        {/* Google Ads Conversion ID */}
+        <meta name="google-ads-conversion" content="AW-18009766174/YXheCOne84YcEJ7y3ItD" />
+
+        {/* Google tag (gtag.js) — carrega com AW- ID para conversões Google Ads */}
+        <Script
+          id="gtag-js"
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18009766174"
+        />
+        <Script id="gtag-init" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           window.dataLayer=window.dataLayer||[];
           function gtag(){window.dataLayer.push(arguments);}
           window.gtag=gtag;
-          gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
+          gtag('consent','default',{
+            analytics_storage:'denied',
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'denied',
+            wait_for_update:500
+          });
           gtag('js',new Date());
+          gtag('config','AW-18009766174');
           gtag('config','G-VN5PQZYBCD',{anonymize_ip:true});
-          ${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ? `gtag('config','${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');` : ''}
           var cc=localStorage.getItem('cookie_consent');
-          if(cc==='accepted'){gtag('consent','update',{analytics_storage:'granted',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});}
+          if(cc==='accepted'){
+            gtag('consent','update',{analytics_storage:'granted',ad_personalization:'granted'});
+          }
         `}} />
+
         {/* Meta Pixel */}
-        <script dangerouslySetInnerHTML={{ __html: `
+        <Script id="meta-pixel" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
           n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -147,6 +161,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           document,'script','https://connect.facebook.net/en_US/fbevents.js');
           ${process.env.NEXT_PUBLIC_META_PIXEL_ID ? `fbq('init','${process.env.NEXT_PUBLIC_META_PIXEL_ID}');fbq('track','PageView');` : '// Meta Pixel ID não configurado'}
         `}} />
+
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>

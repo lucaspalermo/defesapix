@@ -54,12 +54,15 @@ export function trackPurchase(produto: string, valor: number, paymentId?: string
   // Google Ads conversion — compra
   if (typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
     const gtag = (window as unknown as Record<string, unknown>).gtag as (...args: unknown[]) => void;
+    // GA4 purchase event
     gtag('event', 'purchase', { transaction_id: paymentId, currency: 'BRL', value: valor, items: [{ item_name: produto }] });
-    // Conversão Google Ads (ID será configurado na env)
-    const adsConversionId = (typeof document !== 'undefined' && document.querySelector('meta[name="google-ads-conversion"]')?.getAttribute('content')) || '';
-    if (adsConversionId) {
-      gtag('event', 'conversion', { send_to: adsConversionId, value: valor, currency: 'BRL', transaction_id: paymentId });
-    }
+    // Google Ads conversion — SEMPRE dispara com send_to hardcoded
+    gtag('event', 'conversion', {
+      send_to: 'AW-18009766174/YXheCOne84YcEJ7y3ItD',
+      value: valor,
+      currency: 'BRL',
+      transaction_id: paymentId || '',
+    });
   }
   // Meta Pixel — Purchase
   if (typeof (window as unknown as Record<string, unknown>).fbq === 'function') {
