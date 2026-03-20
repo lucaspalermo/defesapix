@@ -56,10 +56,10 @@ export default function LeadCapturePopup() {
             Prazo MED: 72 horas
           </div>
           <h3 className="font-heading text-xl font-bold text-white mb-2">
-            Caiu num golpe? O tempo esta contra voce.
+            Caiu num golpe? O tempo está contra você.
           </h3>
           <p className="text-white/45 text-sm leading-relaxed">
-            Gere Contestacao MED, Boletim de Ocorrencia e Notificacao Bancaria em 15 minutos. 5 documentos prontos para usar.
+            Gere Contestação MED, Boletim de Ocorrência e Notificação Bancária em 15 minutos. 5 documentos prontos para usar.
           </p>
         </div>
 
@@ -77,11 +77,11 @@ export default function LeadCapturePopup() {
             onClick={dismiss}
             className="btn-secondary w-full justify-center py-2.5 text-sm"
           >
-            Fazer diagnostico primeiro
+            Fazer diagnóstico primeiro
           </Link>
         </div>
 
-        <p className="text-white/20 text-xs mt-3 text-center">Pagamento unico via Pix. Sem mensalidade.</p>
+        <p className="text-white/20 text-xs mt-3 text-center">Pagamento único via Pix. Sem mensalidade.</p>
       </div>
     </div>
   );

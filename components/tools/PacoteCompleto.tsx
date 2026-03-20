@@ -35,7 +35,7 @@ const schema = z.object({
   dataOcorrencia: z.string().min(1, 'Informe a data'),
   chavePixDestinatario: z.string().optional(),
   tipoGolpe: z.string().min(1, 'Selecione o tipo de golpe'),
-  descricao: z.string().min(80, 'Descreva com mais detalhes (mín. 80 caracteres)'),
+  descricao: z.string().min(30, 'Descreva o que aconteceu (mín. 30 caracteres)'),
   numeroBo: z.string().optional(),
   dadosInfrator: z.string().optional(),
 });
@@ -620,7 +620,7 @@ export default function PacoteCompleto() {
                     placeholder={config.descPlaceholder} />
                   {errors.descricao && <p className="text-red-400 text-xs mt-1">{errors.descricao.message}</p>}
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-xs text-white/30">{watch('descricao')?.length || 0} / mín. 80 caracteres</p>
+                    <p className="text-xs text-white/30">{watch('descricao')?.length || 0} / mín. 30 caracteres</p>
                     <button type="button" onClick={handleMelhorarDescricao} disabled={melhorandoDescricao}
                       className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 transition-colors">
                       {melhorandoDescricao

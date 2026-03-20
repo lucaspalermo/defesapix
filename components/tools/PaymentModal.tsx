@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { CheckCircle, Copy, Clock, X, Loader2, AlertTriangle, QrCode } from 'lucide-react';
+import { CheckCircle, Copy, Clock, X, Loader2, AlertTriangle, QrCode, Shield, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { track, trackPaymentModalShown, trackPixCopied } from '@/lib/track';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const POLL_INTERVAL = 3000;  // 3 segundos
-const EXPIRY_SECS   = 10 * 60; // 10 minutos
+const EXPIRY_SECS   = 15 * 60; // 15 minutos (mais tempo para o usuário pagar)
 
 export default function PaymentModal({
   paymentId, pixQrCode, pixCopiaECola, valor, produto, onPaid, onClose,
@@ -24,6 +24,7 @@ export default function PaymentModal({
   const [paidState, setPaidState]   = useState<'pending' | 'paid' | 'expired'>('pending');
   const [copied, setCopied]         = useState(false);
   const [timeLeft, setTimeLeft]     = useState(EXPIRY_SECS);
+  const [pollErrors, setPollErrors] = useState(0);
   const calledOnPaid                = useRef(false);
 
   /* ── Track modal shown ── */
@@ -51,17 +52,21 @@ export default function PaymentModal({
     try {
       const res  = await fetch(`/api/asaas/status?id=${paymentId}`);
       const data = await res.json() as { pago?: boolean; status?: string };
+      setPollErrors(0);
       if (data.pago && !calledOnPaid.current) {
         calledOnPaid.current = true;
         setPaidState('paid');
         track('pagamento_confirmado', { produto, valor });
         setTimeout(onPaid, 1800);
       }
-    } catch { /* ignora erros de rede durante polling */ }
-  }, [paymentId, onPaid]);
+    } catch {
+      setPollErrors((prev) => prev + 1);
+    }
+  }, [paymentId, onPaid, produto, valor]);
 
   useEffect(() => {
-    if (paidState !== 'pending') return;
+    // Continua polling mesmo após expirar (o pagamento pode ter sido feito nos últimos segundos)
+    if (paidState === 'paid') return;
     const poll = setInterval(checkStatus, POLL_INTERVAL);
     return () => clearInterval(poll);
   }, [paidState, checkStatus]);
@@ -168,8 +173,17 @@ export default function PaymentModal({
 
               {/* Polling indicator */}
               <div className="flex items-center justify-center gap-2 text-xs text-white/25">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                Aguardando confirmação do pagamento...
+                {pollErrors >= 3 ? (
+                  <button onClick={checkStatus} className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors">
+                    <RefreshCw className="w-3 h-3" />
+                    Erro de conexão — clique para tentar novamente
+                  </button>
+                ) : (
+                  <>
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                    Aguardando confirmação do pagamento...
+                  </>
+                )}
               </div>
             </>
           )}
@@ -197,11 +211,15 @@ export default function PaymentModal({
                 <AlertTriangle className="w-8 h-8 text-amber-400" />
               </div>
               <h3 className="font-black text-xl text-white mb-2">QR Code expirado</h3>
-              <p className="text-white/50 text-sm mb-6">
-                O código PIX venceu. Gere um novo pagamento para continuar.
+              <p className="text-white/50 text-sm mb-2">
+                O código PIX venceu, mas se você já pagou, aguarde — estamos verificando.
               </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-white/30 mb-6">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                Ainda verificando pagamentos pendentes...
+              </div>
               <button onClick={onClose} className="btn-primary w-full justify-center">
-                Tentar novamente
+                Gerar novo QR Code
               </button>
             </div>
           )}
@@ -209,10 +227,20 @@ export default function PaymentModal({
 
         {/* ── Footer ────────────────────────────────── */}
         {paidState === 'pending' && (
-          <div className="px-6 pb-5">
-            <p className="text-center text-[0.65rem] text-white/20 leading-relaxed">
-              Pagamento processado via Asaas • Transação segura e criptografada<br />
-              O documento é liberado automaticamente após a confirmação do PIX.
+          <div className="px-6 pb-5 space-y-3">
+            <div className="flex items-center justify-center gap-4 flex-wrap">
+              <span className="flex items-center gap-1 text-[0.6rem] text-green-400/70 font-semibold">
+                <Shield className="w-3 h-3" /> Garantia 7 dias
+              </span>
+              <span className="flex items-center gap-1 text-[0.6rem] text-white/30 font-semibold">
+                🔒 SSL 256-bit
+              </span>
+              <span className="flex items-center gap-1 text-[0.6rem] text-white/30 font-semibold">
+                ✓ Pagamento via Asaas
+              </span>
+            </div>
+            <p className="text-center text-[0.6rem] text-white/15 leading-relaxed">
+              Documento liberado automaticamente após confirmação do PIX. Se não receber, envie e-mail para contato@defesapix.com.br
             </p>
           </div>
         )}
